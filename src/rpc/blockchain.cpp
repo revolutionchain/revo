@@ -959,6 +959,49 @@ static UniValue getaccountinfo(const JSONRPCRequest& request)
     return result;
 }
 
+static UniValue getcontractcode(const JSONRPCRequest& request)
+{
+    RPCHelpMan{
+        "getcontractcode",
+        "\nGet contract code.\n",
+        {
+            {"address", RPCArg::Type::STR_HEX, RPCArg::Optional::NO, "The contract address"},
+            {"blockNum", RPCArg::Type::NUM, /* default */ "latest", "Number of block to get state from."},
+        },
+        RPCResult{
+            RPCResult::Type::STR, "", "(string)  code of the contract\n"},
+        RPCExamples{
+            HelpExampleCli("getcontractcode", "eb23c0b3e6042821da281a2e2364feb22dd543e3") + HelpExampleRpc("getcontractcode", "eb23c0b3e6042821da281a2e2364feb22dd543e3")},
+    }.Check(request);
+
+    LOCK(cs_main);
+
+    std::string strAddr = request.params[0].get_str();
+    if (strAddr.size() != 40 || !CheckHex(strAddr))
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Incorrect address");
+
+    TemporaryState ts(globalState);
+    if (request.params.size() > 1) {
+        if (request.params[1].isNum()) {
+            auto blockNum = request.params[1].get_int();
+            if (blockNum < 0 || blockNum > ::ChainActive().Height())
+                throw JSONRPCError(RPC_INVALID_PARAMS, "Incorrect block number");
+            auto pblockindex = ::ChainActive()[blockNum];
+            ts.SetRoot(uintToh256(pblockindex->hashStateRoot), uintToh256(pblockindex->hashUTXORoot));
+        } else {
+            throw JSONRPCError(RPC_INVALID_PARAMS, "Incorrect block number");
+        }
+    }
+
+    dev::Address addrAccount(strAddr);
+    if (!globalState->addressInUse(addrAccount))
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Address does not exist");
+
+    std::vector<uint8_t> code(globalState->code(addrAccount));
+
+    return HexStr(code.begin(), code.end());
+}
+
 static UniValue getstorage(const JSONRPCRequest& request)
 {
             RPCHelpMan{"getstorage",
@@ -3614,6 +3657,7 @@ static const CRPCCommand commands[] =
     { "blockchain",         "savemempool",            &savemempool,            {} },
     { "blockchain",         "verifychain",            &verifychain,            {"checklevel","nblocks"} },
     { "blockchain",         "getaccountinfo",         &getaccountinfo,         {"contract_address"} },
+    { "blockchain",         "getcontractcode",        &getcontractcode,        {"address", "blockNum"} },
     { "blockchain",         "getstorage",             &getstorage,             {"address, index, blockNum"} },
 
     { "blockchain",         "preciousblock",          &preciousblock,          {"blockhash"} },
