@@ -324,6 +324,19 @@ UniValue transactionReceiptToJSON(const QtumTransactionReceipt& txRec)
     result.pushKV("utxoRoot", txRec.utxoRoot().hex());
     result.pushKV("gasUsed", CAmount(txRec.cumulativeGasUsed()));
     result.pushKV("bloom", txRec.bloom().hex());
+    UniValue createdContracts(UniValue::VARR);
+    for (const auto& item: txRec.createdContracts()) {
+        UniValue contractItem(UniValue::VOBJ);
+        contractItem.pushKV("address", item.first.hex());
+        contractItem.pushKV("code", HexStr(item.second));
+        createdContracts.push_back(contractItem);
+    }
+    result.pushKV("createdContracts", createdContracts);
+    UniValue destructedContracts(UniValue::VARR);
+    for (const dev::Address& contract: txRec.destructedContracts()) {
+        destructedContracts.push_back(contract.hex());
+    }
+    result.pushKV("destructedContracts", destructedContracts);
     UniValue logEntries(UniValue::VARR);
     dev::eth::LogEntries logs = txRec.log();
     for(dev::eth::LogEntry log : logs){
@@ -1409,6 +1422,19 @@ void assignJSON(UniValue& entry, const TransactionReceiptInfo& resExec) {
     entry.pushKV("bloom", resExec.bloom.hex());
     entry.pushKV("stateRoot", resExec.stateRoot.hex());
     entry.pushKV("utxoRoot", resExec.utxoRoot.hex());
+    UniValue createdContracts(UniValue::VARR);
+    for (const auto& item: resExec.createdContracts) {
+        UniValue contractItem(UniValue::VOBJ);
+        contractItem.pushKV("address", item.first.hex());
+        contractItem.pushKV("code", HexStr(item.second));
+        createdContracts.push_back(contractItem);
+    }
+    entry.pushKV("createdContracts", createdContracts);
+    UniValue destructedContracts(UniValue::VARR);
+    for (const dev::Address& contract : resExec.destructedContracts) {
+        destructedContracts.push_back(contract.hex());
+    }
+    entry.pushKV("destructedContracts", destructedContracts);
 }
 
 void assignJSON(UniValue& logEntry, const dev::eth::LogEntry& log,
@@ -1974,25 +2000,25 @@ UniValue gettransactionreceipt(const JSONRPCRequest& request)
 
 UniValue getdelegationinfoforaddress(const JSONRPCRequest& request)
 {
-            RPCHelpMan{"getdelegationinfoforaddress",
-                "\nGet delegation information for an address.\n",
-                {
-                    {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "The qtum address string"},
-                },
-                RPCResult{
-                    RPCResult::Type::OBJ, "", "",
-                    {
-                        {RPCResult::Type::STR, "staker", "The staker address"},
-                        {RPCResult::Type::NUM, "fee", "The percentage of the reward"},
-                        {RPCResult::Type::NUM, "blockHeight", "The block height"},
-                        {RPCResult::Type::STR_HEX, "PoD", "The proof of delegation"},
-                        {RPCResult::Type::BOOL, "verified", "Verify delegation"},
-                    }},
-                RPCExamples{
-                    HelpExampleCli("getdelegationinfoforaddress", "QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd")
-            + HelpExampleRpc("getdelegationinfoforaddress", "QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd")
-                },
-            }.Check(request);
+    RPCHelpMan{
+        "getdelegationinfoforaddress",
+        "\nGet delegation information for an address.\n",
+        {
+            {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "The qtum address string"},
+        },
+        RPCResult{
+            RPCResult::Type::OBJ, "", "",
+            {
+                {RPCResult::Type::STR, "staker", "The staker address"},
+                {RPCResult::Type::NUM, "fee", "The percentage of the reward"},
+                {RPCResult::Type::NUM, "blockHeight", "The block height"},
+                {RPCResult::Type::STR_HEX, "PoD", "The proof of delegation"},
+                {RPCResult::Type::BOOL, "verified", "Verify delegation"},
+            }},
+        RPCExamples{
+            HelpExampleCli("getdelegationinfoforaddress", "QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd") + HelpExampleRpc("getdelegationinfoforaddress", "QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd")},
+    }
+        .Check(request);
 
     LOCK(cs_main);
 
@@ -2004,7 +2030,7 @@ UniValue getdelegationinfoforaddress(const JSONRPCRequest& request)
         throw JSONRPCError(RPC_TYPE_ERROR, "Invalid address");
     }
 
-    const PKHash *pkhash = boost::get<PKHash>(&dest);
+    const PKHash* pkhash = boost::get<PKHash>(&dest);
     if (!pkhash) {
         throw JSONRPCError(RPC_TYPE_ERROR, "Address does not refer to public key hash");
     }
@@ -2013,7 +2039,7 @@ UniValue getdelegationinfoforaddress(const JSONRPCRequest& request)
     QtumDelegation qtumDelegation;
     Delegation delegation;
     uint160 address = uint160(*pkhash);
-    if(!qtumDelegation.GetDelegation(address, delegation)) {
+    if (!qtumDelegation.GetDelegation(address, delegation)) {
         throw JSONRPCError(RPC_INTERNAL_ERROR, "Failed to get delegation");
     }
     bool verified = qtumDelegation.VerifyDelegation(address, delegation);
@@ -2033,9 +2059,9 @@ UniValue getdelegationinfoforaddress(const JSONRPCRequest& request)
 class DelegationsStakerFilter : public IDelegationFilter
 {
 public:
-    DelegationsStakerFilter(const uint160& _address):
-        address(_address)
-    {}
+    DelegationsStakerFilter(const uint160& _address) : address(_address)
+    {
+    }
 
     bool Match(const DelegationEvent& event) const
     {
@@ -2066,30 +2092,28 @@ uint64_t getDelegateWeight(const uint160& keyid, const std::map<COutPoint, uint3
 
 UniValue getdelegationsforstaker(const JSONRPCRequest& request)
 {
-            RPCHelpMan{"getdelegationsforstaker",
-                "requires -logevents to be enabled\n"
-                "\nGet the current list of delegates for a super staker.\n",
-                {
-                    {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "The qtum address string for staker"},
-                },
-               RPCResult{
+    RPCHelpMan{
+        "getdelegationsforstaker",
+        "requires -logevents to be enabled\n"
+        "\nGet the current list of delegates for a super staker.\n",
+        {
+            {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "The qtum address string for staker"},
+        },
+        RPCResult{
             RPCResult::Type::ARR, "", "",
+            {{RPCResult::Type::OBJ, "", "",
                 {
-                    {RPCResult::Type::OBJ, "", "",
-                        {
-                            {RPCResult::Type::STR, "delegate", "The delegate address"},
-                            {RPCResult::Type::STR, "staker", "The staker address"},
-                            {RPCResult::Type::NUM, "fee", "The percentage of the reward"},
-                            {RPCResult::Type::NUM, "blockHeight", "The block height"},
-                            {RPCResult::Type::NUM, "weight", "Delegate weight, displayed when address index is enabled"},
-                            {RPCResult::Type::STR_HEX, "PoD", "The proof of delegation"},
-                        }}
-                }},
-                RPCExamples{
-                    HelpExampleCli("getdelegationsforstaker", "QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd")
-            + HelpExampleRpc("getdelegationsforstaker", "QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd")
-                },
-            }.Check(request);
+                    {RPCResult::Type::STR, "delegate", "The delegate address"},
+                    {RPCResult::Type::STR, "staker", "The staker address"},
+                    {RPCResult::Type::NUM, "fee", "The percentage of the reward"},
+                    {RPCResult::Type::NUM, "blockHeight", "The block height"},
+                    {RPCResult::Type::NUM, "weight", "Delegate weight, displayed when address index is enabled"},
+                    {RPCResult::Type::STR_HEX, "PoD", "The proof of delegation"},
+                }}}},
+        RPCExamples{
+            HelpExampleCli("getdelegationsforstaker", "QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd") + HelpExampleRpc("getdelegationsforstaker", "QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd")},
+    }
+        .Check(request);
 
     if (!fLogEvents)
         throw JSONRPCError(RPC_INTERNAL_ERROR, "Events indexing disabled");
@@ -2104,7 +2128,7 @@ UniValue getdelegationsforstaker(const JSONRPCRequest& request)
         throw JSONRPCError(RPC_TYPE_ERROR, "Invalid address");
     }
 
-    const PKHash *pkhash = boost::get<PKHash>(&dest);
+    const PKHash* pkhash = boost::get<PKHash>(&dest);
     if (!pkhash) {
         throw JSONRPCError(RPC_TYPE_ERROR, "Address does not refer to public key hash");
     }
@@ -2114,7 +2138,7 @@ UniValue getdelegationsforstaker(const JSONRPCRequest& request)
     std::vector<DelegationEvent> events;
     uint160 address = uint160(*pkhash);
     DelegationsStakerFilter filter(address);
-    if(!qtumDelegation.FilterDelegationEvents(events, filter)) {
+    if (!qtumDelegation.FilterDelegationEvents(events, filter)) {
         throw JSONRPCError(RPC_INTERNAL_ERROR, "Failed to get delegations for staker");
     }
     std::map<uint160, Delegation> delegations = qtumDelegation.DelegationsFromEvents(events);
@@ -2125,14 +2149,13 @@ UniValue getdelegationsforstaker(const JSONRPCRequest& request)
 
     // Fill the json object with information
     UniValue result(UniValue::VARR);
-    for (std::map<uint160, Delegation>::iterator it=delegations.begin(); it!=delegations.end(); it++){
+    for (std::map<uint160, Delegation>::iterator it = delegations.begin(); it != delegations.end(); it++) {
         UniValue delegation(UniValue::VOBJ);
         delegation.pushKV("delegate", EncodeDestination(PKHash(it->first)));
         delegation.pushKV("staker", EncodeDestination(PKHash(it->second.staker)));
         delegation.pushKV("fee", (int64_t)it->second.fee);
         delegation.pushKV("blockHeight", (int64_t)it->second.blockHeight);
-        if(fAddressIndex)
-        {
+        if (fAddressIndex) {
             delegation.pushKV("weight", getDelegateWeight(it->first, immatureStakes, height));
         }
         delegation.pushKV("PoD", HexStr(it->second.PoD));
@@ -2196,6 +2219,75 @@ UniValue listcontracts(const JSONRPCRequest& request)
 	}
 
 	return result;
+}
+
+UniValue getblocktransactionreceipts(const JSONRPCRequest& request)
+{
+    RPCHelpMan{
+        "getblocktransactionreceipts",
+        "\nGet the transaction receipt.\n",
+        {
+            {"hash", RPCArg::Type::STR_HEX, RPCArg::Optional::NO, "The block hash"},
+        },
+        RPCResult{
+            RPCResult::Type::ARR, "", "",
+            {{RPCResult::Type::OBJ, "", "",
+                {
+                    {RPCResult::Type::STR_HEX, "blockHash", "The block hash"},
+                    {RPCResult::Type::NUM, "blockNumber", "The block number"},
+                    {RPCResult::Type::STR_HEX, "transactionHash", "The transaction hash"},
+                    {RPCResult::Type::NUM, "transactionIndex", "The transaction index"},
+                    {RPCResult::Type::STR, "from", "The from address"},
+                    {RPCResult::Type::STR, "to", "The to address"},
+                    {RPCResult::Type::NUM, "cumulativeGasUsed", "The cumulative gas used"},
+                    {RPCResult::Type::NUM, "gasUsed", "The gas used"},
+                    {RPCResult::Type::STR_HEX, "contractAddress", "The contract address"},
+                    {RPCResult::Type::STR, "excepted", "The thrown exception"},
+                    {RPCResult::Type::STR_HEX, "bloom", "Bloom filter for light clients to quickly retrieve related logs"},
+                    {RPCResult::Type::ARR, "log", "The logs from the receipt",
+                        {
+                            {RPCResult::Type::STR, "address", "The contract address"},
+                            {RPCResult::Type::ARR, "topics", "The topic",
+                                {{RPCResult::Type::STR_HEX, "topic", "The topic"}}},
+                            {RPCResult::Type::STR_HEX, "data", "The logged data"},
+                        }},
+                }}}},
+        RPCExamples{
+            HelpExampleCli("getblocktransactionreceipts", "3b04bc73afbbcf02cfef2ca1127b60fb0baf5f8946a42df67f1659671a2ec53c")},
+    }
+        .Check(request);
+
+    if (!fLogEvents)
+        throw JSONRPCError(RPC_INTERNAL_ERROR, "Events indexing disabled");
+
+    LOCK(cs_main);
+
+    std::string hashTemp = request.params[0].get_str();
+    if (hashTemp.size() != 64) {
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Incorrect hash");
+    }
+
+    uint256 hash(uint256S(hashTemp));
+
+    const CBlockIndex* pblockindex = LookupBlockIndex(hash);
+    if (!pblockindex) {
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Block not found");
+    }
+    const CBlock block = GetBlockChecked(pblockindex);
+
+    UniValue result(UniValue::VARR);
+    for (const auto& tx : block.vtx) {
+        if (tx->HasCreateOrCall()) {
+            const std::vector<TransactionReceiptInfo> transactionReceiptInfo = pstorageresult->getResult(uintToh256(tx->GetHash()));
+            for (const TransactionReceiptInfo& t : transactionReceiptInfo) {
+                UniValue tri(UniValue::VOBJ);
+                transactionReceiptInfoToJSON(t, tri);
+                result.push_back(tri);
+            }
+        }
+    }
+
+    return result;
 }
 
 static UniValue pruneblockchain(const JSONRPCRequest& request)
@@ -3689,6 +3781,7 @@ static const CRPCCommand commands[] =
     { "hidden",             "dumptxoutset",           &dumptxoutset,           {"path"} },
     { "blockchain",         "listcontracts",          &listcontracts,          {"start", "maxDisplay"} },
     { "blockchain",         "gettransactionreceipt",  &gettransactionreceipt,  {"hash"} },
+    { "blockchain",         "getblocktransactionreceipts",  &getblocktransactionreceipts,  {"hash"} },
     { "blockchain",         "searchlogs",             &searchlogs,             {"fromBlock", "toBlock", "address", "topics"} },
 
     { "blockchain",         "waitforlogs",            &waitforlogs,            {"fromBlock", "nblocks", "address", "topics"} },
