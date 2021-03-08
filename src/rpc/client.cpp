@@ -202,6 +202,7 @@ static const CRPCConvertParam vRPCConvertParams[] =
     { "setsuperstakervaluesforaddress", 0, "params" },
     { "callcontract", 3, "gasLimit" },
     { "callcontract", 4, "amount" },
+    { "callcontract", 5, "blockNum" },
     { "reservebalance", 0, "reserve"},
     { "reservebalance", 1, "amount"},
     { "listcontracts", 0, "start" },

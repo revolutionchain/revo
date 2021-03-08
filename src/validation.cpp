@@ -2391,10 +2391,19 @@ bool CheckSenderScript(const CCoinsViewCache& view, const CTransaction& tx){
 }
 
 std::vector<ResultExecute> CallContract(const dev::Address& addrContract, std::vector<unsigned char> opcode, const dev::Address& sender, uint64_t gasLimit, CAmount nAmount){
+    CBlockIndex* pblockindex = ::BlockIndex()[::ChainActive().Tip()->GetBlockHash()];
+    return CallContract(addrContract, opcode, pblockindex, sender, gasLimit, nAmount);
+}
+
+std::vector<ResultExecute> CallContract(const dev::Address& addrContract, std::vector<unsigned char> opcode, int blockHeight, const dev::Address& sender, uint64_t gasLimit, CAmount nAmount) {
+    CBlockIndex* pblockindex = ::BlockIndex()[::ChainActive()[blockHeight]->GetBlockHash()];
+    return CallContract(addrContract, opcode, pblockindex, sender, gasLimit, nAmount);
+}
+
+std::vector<ResultExecute> CallContract(const dev::Address& addrContract, std::vector<unsigned char> opcode, CBlockIndex* pblockindex, const dev::Address& sender, uint64_t gasLimit, CAmount nAmount) {
     CBlock block;
     CMutableTransaction tx;
 
-    CBlockIndex* pblockindex = ::BlockIndex()[::ChainActive().Tip()->GetBlockHash()];
     ReadBlockFromDisk(block, pblockindex, Params().GetConsensus());
     block.nTime = GetAdjustedTime();
 
@@ -2404,7 +2413,7 @@ std::vector<ResultExecute> CallContract(const dev::Address& addrContract, std::v
     	block.vtx.erase(block.vtx.begin()+1,block.vtx.end());
 
     QtumDGP qtumDGP(globalState.get(), fGettingValuesDGP);
-    uint64_t blockGasLimit = qtumDGP.getBlockGasLimit(::ChainActive().Tip()->nHeight + 1);
+    uint64_t blockGasLimit = qtumDGP.getBlockGasLimit(pblockindex->nHeight + 1);
 
     if(gasLimit == 0){
         gasLimit = blockGasLimit - 1;

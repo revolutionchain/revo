@@ -1281,6 +1281,7 @@ UniValue callcontract(const JSONRPCRequest& request)
                     {"senderAddress", RPCArg::Type::STR, RPCArg::Optional::OMITTED_NAMED_ARG, "The sender address string"},
                     {"gasLimit", RPCArg::Type::NUM, RPCArg::Optional::OMITTED_NAMED_ARG, "The gas limit for executing the contract."},
                     {"amount", RPCArg::Type::AMOUNT, RPCArg::Optional::OMITTED_NAMED_ARG, "The amount in " + CURRENCY_UNIT + " to send. eg 0.1, default: 0"},
+                    {"blockNum", RPCArg::Type::NUM, "latest", "Block height"},
                 },
                 RPCResult{
                     RPCResult::Type::OBJ, "", "",
@@ -1327,17 +1328,6 @@ UniValue callcontract(const JSONRPCRequest& request)
 
     if(data.size() % 2 != 0 || !CheckHex(data))
         throw JSONRPCError(RPC_TYPE_ERROR, "Invalid data (data not hex)");
-
-    dev::Address addrAccount;
-    if(strAddr.size() > 0)
-    {
-        if(strAddr.size() != 40 || !CheckHex(strAddr))
-            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Incorrect address");
-
-        addrAccount = dev::Address(strAddr);
-        if(!globalState->addressInUse(addrAccount))
-            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Address does not exist");
-    }
     
     dev::Address senderAddress;
     if(request.params.size() >= 3){
@@ -1362,8 +1352,32 @@ UniValue callcontract(const JSONRPCRequest& request)
             throw JSONRPCError(RPC_TYPE_ERROR, "Invalid amount for send");
     }
 
+    TemporaryState ts(globalState);
+    int blockNum;
+    if (request.params.size() >= 6) {
+        if (request.params[5].isNum()) {
+            blockNum = request.params[5].get_int();
+            if (blockNum < 0 || blockNum > ::ChainActive().Height())
+                throw JSONRPCError(RPC_INVALID_PARAMS, "Incorrect block number");
+            ts.SetRoot(uintToh256(::ChainActive()[blockNum]->hashStateRoot), uintToh256(::ChainActive()[blockNum]->hashUTXORoot));
+        } else {
+            throw JSONRPCError(RPC_INVALID_PARAMS, "Incorrect block number");
+        }
+    } else {
+        blockNum = latestblock.height;
+    }
 
-    std::vector<ResultExecute> execResults = CallContract(addrAccount, ParseHex(data), senderAddress, gasLimit, nAmount);
+    dev::Address addrAccount;
+    if (strAddr.size() > 0) {
+        if (strAddr.size() != 40 || !CheckHex(strAddr))
+            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Incorrect address");
+
+        addrAccount = dev::Address(strAddr);
+        if (!globalState->addressInUse(addrAccount))
+            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Address does not exist");
+    }
+
+    std::vector<ResultExecute> execResults = CallContract(addrAccount, ParseHex(data), blockNum, senderAddress, gasLimit, nAmount);
 
     if(fRecordLogOpcodes){
         writeVMlog(execResults);
@@ -3664,7 +3678,7 @@ static const CRPCCommand commands[] =
     { "blockchain",         "scantxoutset",           &scantxoutset,           {"action", "scanobjects"} },
     { "blockchain",         "getblockfilter",         &getblockfilter,         {"blockhash", "filtertype"} },
 
-    { "blockchain",         "callcontract",           &callcontract,           {"address","data", "senderAddress", "gasLimit", "amount"} },
+    { "blockchain",         "callcontract",           &callcontract,           {"address","data", "senderAddress", "gasLimit", "amount", "blockNum"} },
     /* Not shown in help */
     { "hidden",             "invalidateblock",        &invalidateblock,        {"blockhash"} },
     { "hidden",             "reconsiderblock",        &reconsiderblock,        {"blockhash"} },
