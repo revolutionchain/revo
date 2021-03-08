@@ -758,7 +758,7 @@ bool MemPoolAccept::PreChecks(ATMPArgs& args, Workspace& ws)
 
         dev::u256 sumGas = dev::u256(0);
         dev::u256 gasAllTxs = dev::u256(0);
-        for(QtumTransaction qtumTransaction : qtumTransactions){
+        for(const QtumTransaction& qtumTransaction : qtumTransactions){
             sumGas += qtumTransaction.gas() * qtumTransaction.gasPrice();
 
             if(sumGas > dev::u256(INT64_MAX)) {
@@ -2593,7 +2593,7 @@ UniValue vmLogToJSON(const ResultExecute& execRes, const CTransaction& tx, const
     }
     UniValue logEntries(UniValue::VARR);
     dev::eth::LogEntries logs = execRes.txRec.log();
-    for(dev::eth::LogEntry log : logs){
+    for(const dev::eth::LogEntry& log : logs){
         UniValue logEntrie(UniValue::VOBJ);
         logEntrie.pushKV("address", log.address.hex());
         UniValue topics(UniValue::VARR);
@@ -3422,7 +3422,7 @@ bool CChainState::ConnectBlock(const CBlock& block, BlockValidationState& state,
             if(blockGasUsed > blockGasLimit){
                 return state.Invalid(BlockValidationResult::BLOCK_CONSENSUS, "bad-blk-gaslimit", "ConnectBlock(): Block exceeds gas limit");
             }
-            for(CTxOut refundVout : bcer.refundOutputs){
+            for(const CTxOut& refundVout : bcer.refundOutputs){
                 gasRefunds += refundVout.nValue;
             }
             checkVouts.insert(checkVouts.end(), bcer.refundOutputs.begin(), bcer.refundOutputs.end());
