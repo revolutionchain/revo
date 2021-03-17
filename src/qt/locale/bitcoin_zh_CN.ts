@@ -716,7 +716,7 @@
     </message>
     <message>
         <source>Qtum</source>
-        <translation type="unfinished">QTUM</translation>
+        <translation type="unfinished">REVO</translation>
     </message>
     <message>
         <source>Error</source>
@@ -1321,7 +1321,7 @@
         <translation type="unfinished">Gas Limit。默认 = %1，最高 = %2.</translation>
     </message>
     <message>
-        <source>Gas price: QTUM price per gas unit. Default = %1, Min = %2</source>
+        <source>Gas price: REVO price per gas unit. Default = %1, Min = %2</source>
         <translation type="unfinished">Gas Price：每个Gas单位的QTUM价格。默认 = %1， 最低 = %2.</translation>
     </message>
 </context>
@@ -1556,7 +1556,7 @@
     </message>
     <message>
         <source>Qtum</source>
-        <translation>QTUM</translation>
+        <translation>REVO</translation>
     </message>
     <message>
         <source>At least %1 GB of data will be stored in this directory, and it will grow over time.</source>
@@ -2525,7 +2525,7 @@ Please make sure to keep an updated antivirus and operating system. We can not r
     </message>
     <message>
         <source>Qtum</source>
-        <translation type="vanished">QTUM</translation>
+        <translation type="vanished">REVO</translation>
     </message>
     <message>
         <source>&amp;Send</source>
@@ -3909,7 +3909,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation type="unfinished">接收资金与数据的合约地址</translation>
     </message>
     <message>
-        <source>The amount in QTUM to send. Default = 0.</source>
+        <source>The amount in REVO to send. Default = 0.</source>
         <translation type="unfinished">要发送的QTUM数量。默认为0。</translation>
     </message>
     <message>
@@ -3949,7 +3949,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation type="unfinished">Gas Limit。默认 = %1，最高 = %2</translation>
     </message>
     <message>
-        <source>Gas price: QTUM price per gas unit. Default = %1, Min = %2</source>
+        <source>Gas price: REVO price per gas unit. Default = %1, Min = %2</source>
         <translation type="unfinished">Gas Price：每个Gas单位的QTUM价格。默认 = %1， 最低 = %2.</translation>
     </message>
 </context>
@@ -4008,7 +4008,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation type="unfinished">Gas Limit。默认 = %1，最高 = %2</translation>
     </message>
     <message>
-        <source>Gas price: QTUM price per gas unit. Default = %1, Min = %2</source>
+        <source>Gas price: REVO price per gas unit. Default = %1, Min = %2</source>
         <translation type="unfinished">Gas Price：每个Gas单位的QTUM价格。默认 = %1， 最低 = %2.</translation>
     </message>
     <message>
@@ -4220,7 +4220,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation type="unfinished">Stake</translation>
     </message>
     <message>
-        <source>0.000 000 00 QTUM</source>
+        <source>0.000 000 00 REVO</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4240,7 +4240,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation type="unfinished">区块奖励</translation>
     </message>
     <message>
-        <source>4 QTUM/Block</source>
+        <source>4 REVO/Block</source>
         <translation type="unfinished">4QTUM/块</translation>
     </message>
     <message>

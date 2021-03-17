@@ -14,11 +14,11 @@ AC_CONFIG_HEADERS([src/config/bitcoin-config.h])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([build-aux/m4])
 
-BITCOIN_DAEMON_NAME=qtumd
-BITCOIN_GUI_NAME=qtum-qt
-BITCOIN_CLI_NAME=qtum-cli
-BITCOIN_TX_NAME=qtum-tx
-BITCOIN_WALLET_TOOL_NAME=qtum-wallet
+BITCOIN_DAEMON_NAME=revod
+BITCOIN_GUI_NAME=revo-qt
+BITCOIN_CLI_NAME=revo-cli
+BITCOIN_TX_NAME=revo-tx
+BITCOIN_WALLET_TOOL_NAME=revo-wallet
 
 dnl Unless the user specified ARFLAGS, force it to be cr
 AC_ARG_VAR(ARFLAGS, [Flags for the archiver, defaults to <cr> if not set])

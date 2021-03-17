@@ -148,7 +148,7 @@
     </message>
     <message>
         <source>These are your Qtum addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>송금이 가능한 QTUM 주소입니다. 송금 전에 반드시 주소와 금액이 정확한지 확인해주세요. </translation>
+        <translation>송금이 가능한 REVO 주소입니다. 송금 전에 반드시 주소와 금액이 정확한지 확인해주세요. </translation>
     </message>
     <message>
         <source>These are your Qtum addresses for receiving payments. Use the 'Create new receiving address' button in the receive tab to create new addresses.</source>
@@ -364,7 +364,7 @@
     </message>
     <message>
         <source>Send coins to a Qtum address</source>
-        <translation type="unfinished">QTUM 주소로 QTUM 코인 보내기</translation>
+        <translation type="unfinished">REVO 주소로 REVO 코인 보내기</translation>
     </message>
     <message>
         <source>&amp;Receive</source>
@@ -520,7 +520,7 @@
     </message>
     <message>
         <source>Sign messages with your Qtum addresses to prove you own them</source>
-        <translation type="unfinished">소유하고 있는 QTUM 주소의 키로 메시지 서명을 하여 해당 QTUM 주소의 소유권을 증명하세요. </translation>
+        <translation type="unfinished">소유하고 있는 REVO 주소의 키로 메시지 서명을 하여 해당 REVO 주소의 소유권을 증명하세요. </translation>
     </message>
     <message>
         <source>&amp;Verify message...</source>
@@ -720,7 +720,7 @@
     </message>
     <message>
         <source>Qtum</source>
-        <translation type="unfinished">QTUM</translation>
+        <translation type="unfinished">REVO</translation>
     </message>
     <message>
         <source>Error</source>
@@ -1375,8 +1375,8 @@
         <translation type="unfinished">가스 상한액. 디폴트 = %1, 최고 = %2.</translation>
     </message>
     <message>
-        <source>Gas price: QTUM price per gas unit. Default = %1, Min = %2</source>
-        <translation type="unfinished">가스 단가: 가스 유닛에 대한 QTUM 가격. 디폴트 = %1, 최저 = %2.</translation>
+        <source>Gas price: REVO price per gas unit. Default = %1, Min = %2</source>
+        <translation type="unfinished">가스 단가: 가스 유닛에 대한 REVO 가격. 디폴트 = %1, 최저 = %2.</translation>
     </message>
 </context>
 <context>
@@ -1415,7 +1415,7 @@
     </message>
     <message>
         <source>The entered address &quot;%1&quot; is not a valid Qtum address.</source>
-        <translation>입력한 주소 %1는 유효한 QTUM 주소가 아닙니다. </translation>
+        <translation>입력한 주소 %1는 유효한 REVO 주소가 아닙니다. </translation>
     </message>
     <message>
         <source>Address &quot;%1&quot; already exists as a receiving address with label &quot;%2&quot; and so cannot be added as a sending address.</source>
@@ -1552,7 +1552,7 @@
     </message>
     <message>
         <source>Qtum</source>
-        <translation>QTUM</translation>
+        <translation>REVO</translation>
     </message>
     <message>
         <source>At least %1 GB of data will be stored in this directory, and it will grow over time.</source>
@@ -1564,7 +1564,7 @@
     </message>
     <message>
         <source>%1 will download and store a copy of the Qtum block chain.</source>
-        <translation>%1이 QTUM 블록체인을 다운로드 및 저장할 예정입니다. </translation>
+        <translation>%1이 REVO 블록체인을 다운로드 및 저장할 예정입니다. </translation>
     </message>
     <message>
         <source>The wallet will also be stored in this directory.</source>
@@ -1611,7 +1611,7 @@
     </message>
     <message>
         <source>Attempting to spend qtums that are affected by not-yet-displayed transactions will not be accepted by the network.</source>
-        <translation>네트워크는 미확인된 거래에 속한 QTUM 사용을 승인하지 않습니다 </translation>
+        <translation>네트워크는 미확인된 거래에 속한 REVO 사용을 승인하지 않습니다 </translation>
     </message>
     <message>
         <source>Number of blocks left</source>
@@ -1675,7 +1675,7 @@ Please make sure to keep an updated antivirus and operating system. We can not r
     <name>OpenURIDialog</name>
     <message>
         <source>Open qtum URI</source>
-        <translation>QTUM URI 열기</translation>
+        <translation>REVO URI 열기</translation>
     </message>
     <message>
         <source>URI:</source>
@@ -1837,7 +1837,7 @@ Please make sure to keep an updated antivirus and operating system. We can not r
     </message>
     <message>
         <source>Connect to the Qtum network through a SOCKS5 proxy.</source>
-        <translation type="vanished">SOCKS5 프록시를 통해 QTUM 네트워크 연결</translation>
+        <translation type="vanished">SOCKS5 프록시를 통해 REVO 네트워크 연결</translation>
     </message>
     <message>
         <source>&amp;Connect through SOCKS5 proxy (default proxy):</source>
@@ -2001,15 +2001,15 @@ Please make sure to keep an updated antivirus and operating system. We can not r
     </message>
     <message>
         <source>Automatically open the Qtum client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation type="unfinished">라우터에서 자동으로 QTUM 클라이언트 실행하기. 해당 기능은 라우터에 UPnP 옵션이 활성화되어 있을 경우에만 유효합니다. </translation>
+        <translation type="unfinished">라우터에서 자동으로 REVO 클라이언트 실행하기. 해당 기능은 라우터에 UPnP 옵션이 활성화되어 있을 경우에만 유효합니다. </translation>
     </message>
     <message>
         <source>Connect to the Qtum network through a SOCKS5 proxy.</source>
-        <translation type="unfinished">SOCKS5 프록시를 통해 QTUM 네트워크 연결</translation>
+        <translation type="unfinished">SOCKS5 프록시를 통해 REVO 네트워크 연결</translation>
     </message>
     <message>
         <source>Connect to the Qtum network through a separate SOCKS5 proxy for Tor hidden services.</source>
-        <translation type="unfinished">Tor 히든 서비스에서 별도의 SOCKS5 프록시를 통해 QTUM 네트워크 연결</translation>
+        <translation type="unfinished">Tor 히든 서비스에서 별도의 SOCKS5 프록시를 통해 REVO 네트워크 연결</translation>
     </message>
     <message>
         <source>User Interface &amp;style:</source>
@@ -2240,7 +2240,7 @@ Please make sure to keep an updated antivirus and operating system. We can not r
     </message>
     <message>
         <source>Enter a Qtum address (e.g. %1)</source>
-        <translation>QTUM 주소를 입력해주세요 (예시, %1)</translation>
+        <translation>REVO 주소를 입력해주세요 (예시, %1)</translation>
     </message>
     <message>
         <source>%1 d</source>
@@ -2548,7 +2548,7 @@ Please make sure to keep an updated antivirus and operating system. We can not r
     </message>
     <message>
         <source>Send coins to a Qtum address</source>
-        <translation type="vanished">QTUM 주소로 QTUM 코인 보내기</translation>
+        <translation type="vanished">REVO 주소로 REVO 코인 보내기</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -2564,7 +2564,7 @@ Please make sure to keep an updated antivirus and operating system. We can not r
     </message>
     <message>
         <source>Qtum</source>
-        <translation type="vanished">QTUM</translation>
+        <translation type="vanished">REVO</translation>
     </message>
     <message>
         <source>&amp;Send</source>
@@ -2588,7 +2588,7 @@ Please make sure to keep an updated antivirus and operating system. We can not r
     </message>
     <message>
         <source>Sign messages with your Qtum addresses to prove you own them</source>
-        <translation type="vanished">소유하고 있는 QTUM 주소의 키로 메시지 서명을 하여 해당 QTUM 주소의 소유권을 증명하세요. </translation>
+        <translation type="vanished">소유하고 있는 REVO 주소의 키로 메시지 서명을 하여 해당 REVO 주소의 소유권을 증명하세요. </translation>
     </message>
     <message>
         <source>Verify messages to ensure they were signed with specified Qtum addresses</source>
@@ -3731,7 +3731,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     </message>
     <message>
         <source>Warning: Invalid Qtum address</source>
-        <translation>경고: 무효한 QTUM 주소</translation>
+        <translation>경고: 무효한 REVO 주소</translation>
     </message>
     <message>
         <source>Warning: Unknown change address</source>
@@ -3920,8 +3920,8 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation type="unfinished">자금과 데이터를 받을 컨트랙트 주소</translation>
     </message>
     <message>
-        <source>The amount in QTUM to send. Default = 0.</source>
-        <translation type="unfinished">보낼 QTUM 개수. 디폴트는 0</translation>
+        <source>The amount in REVO to send. Default = 0.</source>
+        <translation type="unfinished">보낼 REVO 개수. 디폴트는 0</translation>
     </message>
     <message>
         <source>The qtum address that will be used as sender.</source>
@@ -3960,8 +3960,8 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation type="unfinished">가스 상한액. 디폴트 = %1, 최고 = %2.</translation>
     </message>
     <message>
-        <source>Gas price: QTUM price per gas unit. Default = %1, Min = %2</source>
-        <translation type="unfinished">가스 단가: 가스 유닛에 대한 QTUM 가격. 디폴트 = %1, 최저 = %2.</translation>
+        <source>Gas price: REVO price per gas unit. Default = %1, Min = %2</source>
+        <translation type="unfinished">가스 단가: 가스 유닛에 대한 REVO 가격. 디폴트 = %1, 최저 = %2.</translation>
     </message>
 </context>
 <context>
@@ -4019,8 +4019,8 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation type="unfinished">가스 상한액. 디폴트 = %1, 최고 = %2.</translation>
     </message>
     <message>
-        <source>Gas price: QTUM price per gas unit. Default = %1, Min = %2</source>
-        <translation type="unfinished">가스 단가: 가스 유닛에 대한 QTUM 가격. 디폴트 = %1, 최저 = %2.</translation>
+        <source>Gas price: REVO price per gas unit. Default = %1, Min = %2</source>
+        <translation type="unfinished">가스 단가: 가스 유닛에 대한 REVO 가격. 디폴트 = %1, 최저 = %2.</translation>
     </message>
     <message>
         <source>Are you sure you want to send? &lt;br /&gt;&lt;br /&gt;</source>
@@ -4223,8 +4223,8 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation type="unfinished">스테이킹</translation>
     </message>
     <message>
-        <source>0.000 000 00 QTUM</source>
-        <translation type="unfinished">0.000 000 00 QTUM</translation>
+        <source>0.000 000 00 REVO</source>
+        <translation type="unfinished">0.000 000 00 REVO</translation>
     </message>
     <message>
         <source>Staking</source>
@@ -4243,8 +4243,8 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation type="unfinished">블록 보상</translation>
     </message>
     <message>
-        <source>4 QTUM/Block</source>
-        <translation type="unfinished">4 QTUM / 블록</translation>
+        <source>4 REVO/Block</source>
+        <translation type="unfinished">4 REVO / 블록</translation>
     </message>
     <message>
         <source>Network weight:</source>
