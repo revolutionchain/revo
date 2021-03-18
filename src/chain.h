@@ -182,14 +182,14 @@ public:
     uint32_t nTime{0};
     uint32_t nBits{0};
     uint32_t nNonce{0};
-    uint256 hashStateRoot{}; // qtum
-    uint256 hashUTXORoot{}; // qtum
+    uint256 hashStateRoot{}; // revo
+    uint256 hashUTXORoot{}; // revo
     // block signature - proof-of-stake protect the block by signing the block using a stake holder private key
     std::vector<unsigned char> vchBlockSigDlgt{};
     uint256 nStakeModifier{};
     // proof-of-stake specific fields
     COutPoint prevoutStake{};
-    uint256 hashProof{}; // qtum
+    uint256 hashProof{}; // revo
     uint64_t nMoneySupply{0};
 
     //! (memory only) Sequential id assigned to distinguish order in which blocks are received.
@@ -243,8 +243,8 @@ public:
         block.nTime          = nTime;
         block.nBits          = nBits;
         block.nNonce         = nNonce;
-        block.hashStateRoot  = hashStateRoot; // qtum
-        block.hashUTXORoot   = hashUTXORoot; // qtum
+        block.hashStateRoot  = hashStateRoot; // revo
+        block.hashUTXORoot   = hashUTXORoot; // revo
         block.vchBlockSigDlgt    = vchBlockSigDlgt;
         block.prevoutStake   = prevoutStake;
         return block;
@@ -290,7 +290,7 @@ public:
         return pbegin[(pend - pbegin)/2];
     }
 
-    bool IsProofOfWork() const // qtum
+    bool IsProofOfWork() const // revo
     {
         return !IsProofOfStake();
     }
@@ -386,12 +386,12 @@ public:
         READWRITE(obj.nTime);
         READWRITE(obj.nBits);
         READWRITE(obj.nNonce);
-        READWRITE(obj.hashStateRoot); // qtum
-        READWRITE(obj.hashUTXORoot); // qtum
+        READWRITE(obj.hashStateRoot); // revo
+        READWRITE(obj.hashUTXORoot); // revo
         READWRITE(obj.nStakeModifier);
         READWRITE(obj.prevoutStake);
         READWRITE(obj.hashProof);
-        READWRITE(obj.vchBlockSigDlgt); // qtum
+        READWRITE(obj.vchBlockSigDlgt); // revo
     }
 
     uint256 GetBlockHash() const
@@ -403,8 +403,8 @@ public:
         block.nTime           = nTime;
         block.nBits           = nBits;
         block.nNonce          = nNonce;
-        block.hashStateRoot   = hashStateRoot; // qtum
-        block.hashUTXORoot    = hashUTXORoot; // qtum
+        block.hashStateRoot   = hashStateRoot; // revo
+        block.hashUTXORoot    = hashUTXORoot; // revo
         block.vchBlockSigDlgt     = vchBlockSigDlgt;
         block.prevoutStake    = prevoutStake;
         return block.GetHash();

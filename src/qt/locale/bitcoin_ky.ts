@@ -28,7 +28,7 @@
     <name>BanTableModel</name>
     </context>
 <context>
-    <name>QtumGUI</name>
+    <name>RevoGUI</name>
     <message>
         <source>&amp;Transactions</source>
         <translation>&amp;Транзакциялар</translation>
@@ -103,8 +103,8 @@
 <context>
     <name>Intro</name>
     <message>
-        <source>Qtum</source>
-        <translation>Qtum</translation>
+        <source>Revo</source>
+        <translation>Revo</translation>
     </message>
     <message>
         <source>Error</source>
@@ -337,6 +337,6 @@
     <name>WalletView</name>
     </context>
 <context>
-    <name>qtum-core</name>
+    <name>revo-core</name>
     </context>
 </TS>

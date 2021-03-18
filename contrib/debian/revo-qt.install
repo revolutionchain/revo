@@ -1,0 +1,6 @@
+usr/local/bin/revo-qt usr/bin
+share/pixmaps/revo32.xpm usr/share/pixmaps
+share/pixmaps/revo16.xpm usr/share/pixmaps
+share/pixmaps/revo128.png usr/share/pixmaps
+debian/revo-qt.desktop usr/share/applications
+debian/revo-qt.protocol usr/share/kde4/services/

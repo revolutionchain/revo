@@ -64,7 +64,7 @@
     </message>
 </context>
 <context>
-    <name>QtumGUI</name>
+    <name>RevoGUI</name>
     <message>
         <source>E&amp;xit</source>
         <translation>Buda</translation>
@@ -155,8 +155,8 @@
 <context>
     <name>Intro</name>
     <message>
-        <source>Qtum</source>
-        <translation>Qtum</translation>
+        <source>Revo</source>
+        <translation>Revo</translation>
     </message>
     </context>
 <context>
@@ -187,8 +187,8 @@
         <translation>Marii</translation>
     </message>
     <message>
-        <source>Enter a Qtum address (e.g. %1)</source>
-        <translation>Nyora kero ye Qtum (sekuti %1)</translation>
+        <source>Enter a Revo address (e.g. %1)</source>
+        <translation>Nyora kero ye Revo (sekuti %1)</translation>
     </message>
     <message>
         <source>%1 d</source>
@@ -341,6 +341,6 @@
     <name>WalletView</name>
     </context>
 <context>
-    <name>qtum-core</name>
+    <name>revo-core</name>
     </context>
 </TS>

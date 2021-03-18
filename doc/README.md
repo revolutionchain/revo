@@ -1,30 +1,30 @@
-Qtum Core
+Revo Core
 =============
 
 Setup
 ---------------------
-Qtum Core is the original Qtum client and it builds the backbone of the network. It downloads and, by default, stores the entire history of Qtum transactions (which is currently several GBs); depending on the speed of your computer and network connection, the synchronization process can take anywhere from a few hours to a day or more.
+Revo Core is the original Revo client and it builds the backbone of the network. It downloads and, by default, stores the entire history of Revo transactions (which is currently several GBs); depending on the speed of your computer and network connection, the synchronization process can take anywhere from a few hours to a day or more.
 
-To download Qtum Core, visit [qtumcore.org](https://www.qtumcore.org/).
+To download Revo Core, visit [revocore.org](https://www.revocore.org/).
 
 Running
 ---------------------
-The following are some helpful notes on how to run Qtum Core on your native platform.
+The following are some helpful notes on how to run Revo Core on your native platform.
 
 ### Unix
 
 Unpack the files into a directory and run:
 
-- `bin/qtum-qt` (GUI) or
-- `bin/qtumd` (headless)
+- `bin/revo-qt` (GUI) or
+- `bin/revod` (headless)
 
 ### Windows
 
-Unpack the files into a directory, and then run qtum-qt.exe.
+Unpack the files into a directory, and then run revo-qt.exe.
 
 ### macOS
 
-Drag Qtum Core to your applications folder, and then run Qtum Core.
+Drag Revo Core to your applications folder, and then run Revo Core.
 
 ### Need Help?
 

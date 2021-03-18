@@ -11,7 +11,7 @@ from test_framework.util import (
     assert_equal,
 )
 from test_framework.key import ECPubKey
-from test_framework.qtumconfig import COINBASE_MATURITY, INITIAL_BLOCK_REWARD
+from test_framework.revoconfig import COINBASE_MATURITY, INITIAL_BLOCK_REWARD
 
 import binascii
 import decimal

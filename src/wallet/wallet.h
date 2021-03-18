@@ -26,7 +26,7 @@
 #include <wallet/walletutil.h>
 #include <consensus/params.h>
 #include <pos.h>
-#include <qtum/qtumdelegation.h>
+#include <revo/revodelegation.h>
 
 #include <algorithm>
 #include <atomic>
@@ -751,7 +751,7 @@ private:
      * Wallet staking coins.
      */
     boost::thread_group* stakeThread = nullptr;
-    void StakeQtums(bool fStake, CConnman* connman);
+    void StakeRevos(bool fStake, CConnman* connman);
 
     bool CreateCoinStakeFromMine(interfaces::Chain::Lock& locked_chain, const FillableSigningProvider &keystore, unsigned int nBits, const CAmount& nTotalFees, uint32_t nTimeBlock, CMutableTransaction& tx, CKey& key, std::set<std::pair<const CWalletTx*,unsigned int> >& setCoins, COutPoint& headerPrevout);
     bool CreateCoinStakeFromDelegate(interfaces::Chain::Lock& locked_chain, const FillableSigningProvider &keystore, unsigned int nBits, const CAmount& nTotalFees, uint32_t nTimeBlock, CMutableTransaction& tx, CKey& key, std::set<std::pair<const CWalletTx*,unsigned int> >& setCoins, std::vector<COutPoint>& setDelegateCoins, std::vector<unsigned char>& vchPoD, COutPoint& headerPrevout);
@@ -1387,10 +1387,10 @@ public:
     /* Remove super staker entry from the wallet */
     bool RemoveSuperStakerEntry(const uint256& superStakerHash, bool fFlushOnClose=true);
 
-    /* Start staking qtums */
+    /* Start staking revos */
     void StartStake(CConnman* connman = CWallet::defaultConnman);
 
-    /* Stop staking qtums */
+    /* Stop staking revos */
     void StopStake();
 
     /* Is staking closing */

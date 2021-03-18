@@ -145,10 +145,10 @@
     </message>
 </context>
 <context>
-    <name>QtumGUI</name>
+    <name>RevoGUI</name>
     <message>
-        <source>Send coins to a Qtum address</source>
-        <translation>ផ្ញើកាក់ទៅកាន់ អាសយដ្ឋាន Qtum មួយ</translation>
+        <source>Send coins to a Revo address</source>
+        <translation>ផ្ញើកាក់ទៅកាន់ អាសយដ្ឋាន Revo មួយ</translation>
     </message>
     </context>
 <context>
@@ -310,6 +310,6 @@
     </message>
     </context>
 <context>
-    <name>qtum-core</name>
+    <name>revo-core</name>
     </context>
 </TS>

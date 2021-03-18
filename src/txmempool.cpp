@@ -1141,7 +1141,7 @@ CTxMemPool::EpochGuard::~EpochGuard()
 
 SaltedTxidHasher::SaltedTxidHasher() : k0(GetRand(std::numeric_limits<uint64_t>::max())), k1(GetRand(std::numeric_limits<uint64_t>::max())) {}
 
-/////////////////////////////////////////////////////// // qtum
+/////////////////////////////////////////////////////// // revo
 void CTxMemPool::addAddressIndex(const CTxMemPoolEntry &entry, const CCoinsViewCache &view)
 {
     LOCK(cs);

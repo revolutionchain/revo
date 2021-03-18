@@ -151,7 +151,7 @@ QT_MOC_CPP = \
   qt/moc_transactionview.cpp \
   qt/moc_utilitydialog.cpp \
   qt/moc_walletcontroller.cpp \
-  qt/moc_qtumversionchecker.cpp \
+  qt/moc_revoversionchecker.cpp \
   qt/moc_walletframe.cpp \
   qt/moc_walletmodel.cpp \
   qt/moc_walletview.cpp
@@ -286,13 +286,13 @@ BITCOIN_QT_H = \
   qt/transactionview.h \
   qt/utilitydialog.h \
   qt/walletcontroller.h \
-  qt/qtumversionchecker.h \
+  qt/revoversionchecker.h \
   qt/walletframe.h \
   qt/walletmodel.h \
   qt/walletmodeltransaction.h \
   qt/walletview.h \
   qt/winshutdownmonitor.h \
-  qt/qtumpushbutton.h
+  qt/revopushbutton.h
 
 RES_ICONS = \
   qt/res/icons/add.png \
@@ -406,8 +406,8 @@ BITCOIN_QT_BASE_CPP = \
   qt/superstakeritemmodel.cpp \
   qt/trafficgraphwidget.cpp \
   qt/utilitydialog.cpp\
-  qt/qtumversionchecker.cpp \
-  qt/qtumpushbutton.cpp
+  qt/revoversionchecker.cpp \
+  qt/revopushbutton.cpp
 
 BITCOIN_QT_WINDOWS_CPP = qt/winshutdownmonitor.cpp
 

@@ -14,7 +14,7 @@ from test_framework.util import (
     disconnect_nodes,
     hex_str_to_bytes,
 )
-from test_framework.qtumconfig import *
+from test_framework.revoconfig import *
 
 # Linux allow all characters other than \x00
 # Windows disallow control characters (0-31) and /\?%:|"<>

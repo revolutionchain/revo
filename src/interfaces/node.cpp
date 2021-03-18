@@ -285,9 +285,9 @@ public:
     {
         LOCK(::cs_main);
 
-        QtumDGP qtumDGP(globalState.get(), fGettingValuesDGP);
-        blockGasLimit = qtumDGP.getBlockGasLimit(::ChainActive().Height());
-        minGasPrice = CAmount(qtumDGP.getMinGasPrice(::ChainActive().Height()));
+        RevoDGP revoDGP(globalState.get(), fGettingValuesDGP);
+        blockGasLimit = revoDGP.getBlockGasLimit(::ChainActive().Height());
+        minGasPrice = CAmount(revoDGP.getMinGasPrice(::ChainActive().Height()));
         nGasPrice = (minGasPrice>DEFAULT_GAS_PRICE)?minGasPrice:DEFAULT_GAS_PRICE;
     }
     void getSyncInfo(int& numBlocks, bool& isSyncing) override

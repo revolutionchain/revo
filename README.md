@@ -9,7 +9,7 @@ Welcome to the Revo Testnet Network. This is the main testnet where the data hol
 
 The major features of the Revo network include:
 
-1. Compatibility with the Ethereum Virtual Machine, which allows for compatibility with most existing Solidity based smart contracts. No special solidity compiler is required to deploy your smart contract to Revo (based on Qtum codebase). 
+1. Compatibility with the Ethereum Virtual Machine, which allows for compatibility with most existing Solidity based smart contracts. No special solidity compiler is required to deploy your smart contract to Revo (based on Revo codebase). 
 2. A Proof of Authority consensus system which is optimized for Revo's contract model. Dedicated seedondes help to secure the network. 
 3. The Decentralized Governance Protocol is completely implemented and functional, which allows certain network parameters to be modified without a fork or other network disruption. This currently controls parameters like block size, gas prices, etc. 
 4. Uses the UTXO transaction model and is compatible with Bitcoin, allowing for existing tooling and workflows to be used with Revo. This allows for the infamous SPV protocol to be used which is ideal for light wallets on mobile phones and IoT devices.

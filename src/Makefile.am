@@ -6,7 +6,7 @@ DIST_SUBDIRS = secp256k1 univalue
 
 AM_LDFLAGS = $(PTHREAD_CFLAGS) $(LIBTOOL_LDFLAGS) $(HARDENED_LDFLAGS) $(GPROF_LDFLAGS) $(SANITIZER_LDFLAGS)
 AM_CXXFLAGS = $(DEBUG_CXXFLAGS) $(HARDENED_CXXFLAGS) $(WARN_CXXFLAGS) $(NOWARN_CXXFLAGS) $(ERROR_CXXFLAGS) $(GPROF_CXXFLAGS) $(SANITIZER_CXXFLAGS) -DETH_FATDB=1
-AM_CPPFLAGS = $(DEBUG_CPPFLAGS) $(HARDENED_CPPFLAGS) -DQTUM_BUILD
+AM_CPPFLAGS = $(DEBUG_CPPFLAGS) $(HARDENED_CPPFLAGS) -DRVO_BUILD
 AM_LIBTOOLFLAGS = --preserve-dup-deps
 EXTRA_LIBRARIES =
 
@@ -269,12 +269,12 @@ BITCOIN_CORE_H = \
   zmq/zmqnotificationinterface.h \
   zmq/zmqpublishnotifier.h \
   zmq/zmqrpc.h \
-  qtum/qtumstate.h \
-  qtum/qtumtransaction.h \
-  qtum/qtumDGP.h \
-  qtum/storageresults.h \
-  qtum/qtumutils.h \
-  qtum/qtumdelegation.h
+  revo/revostate.h \
+  revo/revotransaction.h \
+  revo/revoDGP.h \
+  revo/storageresults.h \
+  revo/revoutils.h \
+  revo/revodelegation.h
 
 obj/build.h: FORCE
 	@$(MKDIR_P) $(builddir)/obj
@@ -338,11 +338,11 @@ libbitcoin_server_a_SOURCES = \
   validation.cpp \
   validationinterface.cpp \
   versionbits.cpp \
-  qtum/qtumstate.cpp \
-  qtum/qtumtransaction.cpp \
+  revo/revostate.cpp \
+  revo/revotransaction.cpp \
   consensus/consensus.cpp \
-  qtum/storageresults.cpp \
-  qtum/qtumdelegation.cpp \
+  revo/storageresults.cpp \
+  revo/revodelegation.cpp \
   $(BITCOIN_CORE_H)
 
 if ENABLE_WALLET
@@ -496,7 +496,7 @@ libbitcoin_consensus_a_SOURCES = \
   version.h
 
 # common: shared between bitcoind, and bitcoin-qt and non-server tools
-libbitcoin_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) -DQTUM_BUILD
+libbitcoin_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) -DRVO_BUILD
 libbitcoin_common_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libbitcoin_common_a_CFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS) -std=c99
 libbitcoin_common_a_SOURCES = \
@@ -528,8 +528,8 @@ libbitcoin_common_a_SOURCES = \
   script/standard.cpp \
   versionbitsinfo.cpp \
   warnings.cpp \
-  qtum/qtumutils.cpp \
-  qtum/qtumDGP.cpp \
+  revo/revoutils.cpp \
+  revo/revoDGP.cpp \
   util/contractabi.cpp \
   cpp-ethereum/aleth/buildinfo.c \
   cpp-ethereum/aleth/buildinfo.h \
@@ -688,9 +688,9 @@ libbitcoin_common_a_SOURCES = \
   cpp-ethereum/libethcore/CommonJS.h \
   cpp-ethereum/libdevcrypto/Exceptions.h \
   cpp-ethereum/libethashseal/genesis/mainNetwork.cpp \
-  cpp-ethereum/libethashseal/genesis/qtumMainNetwork.cpp \
+  cpp-ethereum/libethashseal/genesis/revoMainNetwork.cpp \
   cpp-ethereum/libethashseal/genesis/ropsten.cpp \
-  cpp-ethereum/libethashseal/genesis/test/qtumTestNetwork.cpp \
+  cpp-ethereum/libethashseal/genesis/test/revoTestNetwork.cpp \
   cpp-ethereum/libethashseal/genesis/test/transitionnetTest.cpp \
   cpp-ethereum/libethashseal/genesis/test/mainNetworkTest.cpp \
   cpp-ethereum/libethashseal/genesis/test/mainNetworkNoProofTest.cpp \
