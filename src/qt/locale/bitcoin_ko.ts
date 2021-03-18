@@ -4224,7 +4224,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     </message>
     <message>
         <source>0.000 000 00 REVO</source>
-        <translation type="unfinished">0.000 000 00 REVO</translation>
+        <translation type="unfinished">0.000 000 00 RVO</translation>
     </message>
     <message>
         <source>Staking</source>

@@ -4240,7 +4240,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation type="unfinished">区块奖励</translation>
     </message>
     <message>
-        <source>4 REVO/Block</source>
+        <source>4 RVO/Block</source>
         <translation type="unfinished">4QTUM/块</translation>
     </message>
     <message>

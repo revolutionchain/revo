@@ -71,7 +71,7 @@ void SuperStakerConfigDialog::setModel(WalletModel *_model)
         d->recommended = m_model->wallet().getSuperStakerRecommendedConfig();
     }
 
-    // update the display unit, to not use the default ("REVO")
+    // update the display unit, to not use the default ("RVO")
     updateDisplayUnit();
 }
 
