@@ -324,7 +324,7 @@ if test x$use_sanitizers != x; then
     ]],[[]])])
 fi
 
-CPPFLAGS="$CPPFLAGS -DRVO_BUILD"
+CPPFLAGS="$CPPFLAGS -DREVO_BUILD"
 
 ERROR_CXXFLAGS=
 if test "x$enable_werror" = "xyes"; then
