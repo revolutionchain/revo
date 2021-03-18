@@ -1,5 +1,5 @@
-#ifndef RVODGP_H
-#define RVODGP_H
+#ifndef REVODGP_H
+#define REVODGP_H
 
 #include <revo/revostate.h>
 #include <primitives/block.h>

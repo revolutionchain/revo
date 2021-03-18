@@ -1,5 +1,5 @@
-#ifndef RVO_QT_STAKEPAGE_H
-#define RVO_QT_STAKEPAGE_H
+#ifndef REVO_QT_STAKEPAGE_H
+#define REVO_QT_STAKEPAGE_H
 
 #include <interfaces/wallet.h>
 
@@ -62,4 +62,4 @@ private:
     void updateAnnualROI();
 };
 
-#endif // RVO_QT_STAKEPAGE_H
+#endif // REVO_QT_STAKEPAGE_H

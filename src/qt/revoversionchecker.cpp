@@ -29,7 +29,7 @@ bool RevoVersionChecker::newVersionAvailable()
 QList<Version> RevoVersionChecker::getVersions()
 {
     QNetworkAccessManager manager;
-    QNetworkReply *response = manager.get(QNetworkRequest(QUrl(RVO_RELEASES)));
+    QNetworkReply *response = manager.get(QNetworkRequest(QUrl(REVO_RELEASES)));
     QEventLoop event;
     connect(response, &QNetworkReply::finished, &event, &QEventLoop::quit);
     event.exec();

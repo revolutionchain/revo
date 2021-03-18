@@ -62,7 +62,7 @@ class RevoDGPGasPriceLingeringMempoolTxTest(BitcoinTestFramework):
         # until they connect later on
         self.stop_node(1)
         self.start_node(1)
-        self.nodes[1].createcontract("00", 1000000, RVO_MIN_GAS_PRICE_STR)
+        self.nodes[1].createcontract("00", 1000000, REVO_MIN_GAS_PRICE_STR)
 
         # Set the minimum gas price to 100
         self.create_proposal_contract(100)

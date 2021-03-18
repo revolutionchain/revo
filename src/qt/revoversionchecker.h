@@ -1,9 +1,9 @@
-#ifndef RVOVERSIONCHECKER_H
-#define RVOVERSIONCHECKER_H
+#ifndef REVOVERSIONCHECKER_H
+#define REVOVERSIONCHECKER_H
 
 #include <QObject>
 
-#define RVO_RELEASES "https://github.com/revolutionchain/revo/releases"
+#define REVO_RELEASES "https://github.com/revolutionchain/revo/releases"
 
 class Version {
 
@@ -95,4 +95,4 @@ private:
     Version currentVersion;
 };
 
-#endif // RVOVERSIONCHECKER_H
+#endif // REVOVERSIONCHECKER_H

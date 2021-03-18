@@ -1,5 +1,5 @@
-#ifndef RVOPUSHBUTTON_H
-#define RVOPUSHBUTTON_H
+#ifndef REVOPUSHBUTTON_H
+#define REVOPUSHBUTTON_H
 #include <QPushButton>
 #include <QStyleOptionButton>
 #include <QIcon>
@@ -21,4 +21,4 @@ private:
     QIcon m_downIcon;
 };
 
-#endif // RVOPUSHBUTTON_H
+#endif // REVOPUSHBUTTON_H

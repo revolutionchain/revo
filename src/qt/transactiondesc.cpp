@@ -75,11 +75,11 @@ public:
     {
         if(instance().network == "main")
         {
-            return QString(RVO_INFO_MAINNET).arg("tx", txHash);
+            return QString(REVO_INFO_MAINNET).arg("tx", txHash);
         }
         else if(instance().network == "test")
         {
-            return QString(RVO_INFO_TESTNET).arg("tx", txHash);
+            return QString(REVO_INFO_TESTNET).arg("tx", txHash);
         }
 
         return txHash;

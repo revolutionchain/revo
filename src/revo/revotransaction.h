@@ -1,5 +1,5 @@
-#ifndef RVOTRANSACTION_H
-#define RVOTRANSACTION_H
+#ifndef REVOTRANSACTION_H
+#define REVOTRANSACTION_H
 
 #include <libethereum/Transaction.h>
 

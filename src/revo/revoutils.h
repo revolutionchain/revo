@@ -1,5 +1,5 @@
-#ifndef RVOUTILS_H
-#define RVOUTILS_H
+#ifndef REVOUTILS_H
+#define REVOUTILS_H
 
 #include <libdevcore/Common.h>
 #include <libdevcore/FixedHash.h>

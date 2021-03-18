@@ -1,5 +1,5 @@
-#ifndef RVODELEGATION_H
-#define RVODELEGATION_H
+#ifndef REVODELEGATION_H
+#define REVODELEGATION_H
 #include <string>
 #include <vector>
 #include <map>

@@ -1,5 +1,5 @@
-#ifndef RVO_CONVERT_H
-#define RVO_CONVERT_H
+#ifndef REVO_CONVERT_H
+#define REVO_CONVERT_H
 
 ////////////////////////////////////////////////////// revo
 #include <uint256.h>
@@ -62,4 +62,4 @@ inline uint160 u160Touint(const dev::u160& in)
 }
 //////////////////////////////////////////////////////
 
-#endif // RVO_CONVERT_H
+#endif // REVO_CONVERT_H

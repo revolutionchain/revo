@@ -1,5 +1,5 @@
-#ifndef RVO_QT_TOKENTRANSACTIONDESC_H
-#define RVO_QT_TOKENTRANSACTIONDESC_H
+#ifndef REVO_QT_TOKENTRANSACTIONDESC_H
+#define REVO_QT_TOKENTRANSACTIONDESC_H
 
 #include <QObject>
 #include <QString>
@@ -26,4 +26,4 @@ private:
     static QString FormatTxStatus(interfaces::Wallet& wallet, const interfaces::TokenTx& wtx);
 };
 
-#endif // RVO_QT_TOKENTRANSACTIONDESC_H
+#endif // REVO_QT_TOKENTRANSACTIONDESC_H
