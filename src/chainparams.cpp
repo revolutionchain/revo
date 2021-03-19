@@ -132,10 +132,7 @@ public:
         // This is fine at runtime as we'll fall back to using them as a oneshot if they don't support the
         // service bits we want, but we should get them updated to support all service bits wanted by any
         // release ASAP to avoid it where possible.
-        vSeeds.emplace_back("revo3.dynu.net"); // Revo mainnet
-        vSeeds.emplace_back("revo5.dynu.net"); // Revo mainnet
-        vSeeds.emplace_back("revo6.dynu.net"); // Revo mainnet
-        vSeeds.emplace_back("revo7.dynu.net"); // Revo mainnet
+        //vSeeds.emplace_back("dnsseed.revo.net"); // Revo mainnet
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,58);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,50);
