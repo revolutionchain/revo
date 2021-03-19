@@ -103,10 +103,13 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = 1230767999; // December 31, 2008
 
         // The best chain should have at least this much work.
-        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000000000000010001"); // revo
+        // consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000000000000010001"); // genesis
+        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000010000089c30dc3"); // last PoW block == 2500
 
         // By default assume that the signatures in ancestors of this block are valid.
-        consensus.defaultAssumeValid = uint256S("0x00004efa50a2acae549b94d8cf62dd14d40ba395ee20e5b1594771aa5243121b"); // 0
+        // consensus.defaultAssumeValid = uint256S("0x00004efa50a2acae549b94d8cf62dd14d40ba395ee20e5b1594771aa5243121b"); // genesis
+        consensus.defaultAssumeValid = uint256S("0x0000c3fd3fd92aea047a9f62f771325a8c031039591f371f871fd81d4101134e"); // last PoW block == 2500
+        
 
         /**
          * The message start string is designed to be unlikely to occur in normal data.
@@ -172,19 +175,20 @@ public:
         checkpointData = {
             {
                 { 0, uint256S("00004efa50a2acae549b94d8cf62dd14d40ba395ee20e5b1594771aa5243121b")},
+                { 2500, uint256S("0000c3fd3fd92aea047a9f62f771325a8c031039591f371f871fd81d4101134e")},  
             }
         };
 
         chainTxData = ChainTxData{
-            // Data as of block 76b1e67fcff0fcfd078d499c65494cee4319f256da09f5fdefa574433f7d4e3c (height 709065)
-            1616158385, // * UNIX timestamp of last known number of transactions
-            0, // * total number of transactions between genesis and that timestamp
+            // Data as of block 0000c3fd3fd92aea047a9f62f771325a8c031039591f371f871fd81d4101134e (height 2500)
+            1616188211, // * UNIX timestamp of last known number of transactions
+            2501, // * total number of transactions between genesis and that timestamp
             //   (the tx=... number in the SetBestChain debug.log lines)
             0.0333333333333 // * estimated number of transactions per second after that timestamp
         };
 
-        consensus.nLastPOWBlock = 2000;
-        consensus.nLastBigReward = 2000;
+        consensus.nLastPOWBlock = 2500;
+        consensus.nLastBigReward = 2500;
         consensus.nMPoSRewardRecipients = 1;
         consensus.nFirstMPoSBlock = consensus.nLastPOWBlock + 
                                     consensus.nMPoSRewardRecipients + 
@@ -192,7 +196,8 @@ public:
         consensus.nLastMPoSBlock = consensus.nFirstMPoSBlock;
 
 
-        consensus.nFixUTXOCacheHFHeight = 4000;
+        //consensus.nFixUTXOCacheHFHeight = 4000;
+        consensus.nFixUTXOCacheHFHeight = 0;
         consensus.nEnableHeaderSignatureHeight = 3000;
         consensus.nCheckpointSpan = COINBASE_MATURITY;
         consensus.delegationsAddress = uint160(ParseHex("0000000000000000000000000000000000000086")); // Delegations contract for offline staking
