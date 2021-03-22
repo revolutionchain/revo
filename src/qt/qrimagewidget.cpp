@@ -15,10 +15,10 @@
 #include <QPainter>
 
 #if defined(HAVE_CONFIG_H)
-#include <config/bitcoin-config.h> /* for USE_QRCODE */
+#include <config/bitcoin-config.h> /* for USE_ RVCODE */
 #endif
 
-#ifdef USE_QRCODE
+#ifdef USE_ RVCODE
 #include <qrencode.h>
 #endif
 
@@ -36,7 +36,7 @@ QRImageWidget::QRImageWidget(QWidget *parent):
 
 bool QRImageWidget::setQR(const QString& data, const QString& text)
 {
-#ifdef USE_QRCODE
+#ifdef USE_ RVCODE
     setText("");
     if (data.isEmpty()) return false;
 

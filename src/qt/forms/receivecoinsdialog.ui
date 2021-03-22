@@ -267,7 +267,7 @@
            <string>Show</string>
           </property>
           <property name="icon">
-           <iconset resource="../bitcoin.qrc">
+           <iconset resource="../bitcoin.rvc">
             <normaloff>:/icons/show</normaloff>:/icons/show</iconset>
           </property>
           <property name="iconSize">
@@ -309,7 +309,7 @@
            <string>Remove</string>
           </property>
           <property name="icon">
-           <iconset resource="../bitcoin.qrc">
+           <iconset resource="../bitcoin.rvc">
             <normaloff>:/icons/remove</normaloff>:/icons/remove</iconset>
           </property>
           <property name="autoDefault">
@@ -443,7 +443,7 @@
   <tabstop>removeRequestButton</tabstop>
  </tabstops>
  <resources>
-  <include location="../bitcoin.qrc"/>
+  <include location="../bitcoin.rvc"/>
  </resources>
  <connections/>
 </ui>

@@ -411,12 +411,12 @@
         <translation type="unfinished">거래 기록 조회</translation>
     </message>
     <message>
-        <source>&amp;QRC Tokens</source>
-        <translation type="unfinished">QRC 토큰</translation>
+        <source>&amp; RVC Tokens</source>
+        <translation type="unfinished"> RVC 토큰</translation>
     </message>
     <message>
-        <source>QRC Tokens (send, receive or add Tokens in list)</source>
-        <translation type="unfinished">QRC 토큰 (입출금 또는 리스트에 추가)</translation>
+        <source> RVC Tokens (send, receive or add Tokens in list)</source>
+        <translation type="unfinished"> RVC 토큰 (입출금 또는 리스트에 추가)</translation>
     </message>
     <message>
         <source>E&amp;xit</source>
@@ -2371,7 +2371,7 @@ Please make sure to keep an updated antivirus and operating system. We can not r
     </message>
 </context>
 <context>
-    <name>QRCToken</name>
+    <name> RVCToken</name>
     <message>
         <source>Form</source>
         <translation type="unfinished">서식</translation>

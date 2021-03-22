@@ -1,5 +1,5 @@
-#include <qt/qrctoken.h>
-#include <qt/forms/ui_qrctoken.h>
+#include <qt/rvctoken.h>
+#include <qt/forms/ui_rvctoken.h>
 #include <qt/tokenitemmodel.h>
 #include <qt/walletmodel.h>
 #include <qt/tokentransactionview.h>
@@ -15,9 +15,9 @@
 #include <QSizePolicy>
 #include <QMenu>
 
-QRCToken::QRCToken(const PlatformStyle *platformStyle, QWidget *parent) :
+ RVCToken:: RVCToken(const PlatformStyle *platformStyle, QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::QRCToken),
+    ui(new Ui:: RVCToken),
     m_model(0),
     m_clientModel(0),
     m_tokenTransactionView(0)
@@ -48,9 +48,9 @@ QRCToken::QRCToken(const PlatformStyle *platformStyle, QWidget *parent) :
     new QVBoxLayout(ui->scrollArea);
     ui->scrollArea->setWidget(m_tokenList);
     ui->scrollArea->setWidgetResizable(true);
-    connect(m_tokenList, &TokenListWidget::sendToken, this, &QRCToken::on_sendToken);
-    connect(m_tokenList, &TokenListWidget::receiveToken, this, &QRCToken::on_receiveToken);
-    connect(m_tokenList, &TokenListWidget::addToken, this, &QRCToken::on_addToken);
+    connect(m_tokenList, &TokenListWidget::sendToken, this, & RVCToken::on_sendToken);
+    connect(m_tokenList, &TokenListWidget::receiveToken, this, & RVCToken::on_receiveToken);
+    connect(m_tokenList, &TokenListWidget::addToken, this, & RVCToken::on_addToken);
 
     contextMenu = new QMenu(m_tokenList);
     contextMenu->addAction(copySenderAction);
@@ -59,21 +59,21 @@ QRCToken::QRCToken(const PlatformStyle *platformStyle, QWidget *parent) :
     contextMenu->addAction(copyTokenAddressAction);
     contextMenu->addAction(removeTokenAction);
 
-    connect(copyTokenAddressAction, &QAction::triggered, this, &QRCToken::copyTokenAddress);
-    connect(copyTokenBalanceAction, &QAction::triggered, this, &QRCToken::copyTokenBalance);
-    connect(copyTokenNameAction, &QAction::triggered, this, &QRCToken::copyTokenName);
-    connect(copySenderAction, &QAction::triggered, this, &QRCToken::copySenderAddress);
-    connect(removeTokenAction, &QAction::triggered, this, &QRCToken::removeToken);
+    connect(copyTokenAddressAction, &QAction::triggered, this, & RVCToken::copyTokenAddress);
+    connect(copyTokenBalanceAction, &QAction::triggered, this, & RVCToken::copyTokenBalance);
+    connect(copyTokenNameAction, &QAction::triggered, this, & RVCToken::copyTokenName);
+    connect(copySenderAction, &QAction::triggered, this, & RVCToken::copySenderAddress);
+    connect(removeTokenAction, &QAction::triggered, this, & RVCToken::removeToken);
 
-    connect(m_tokenList, &TokenListWidget::customContextMenuRequested, this, &QRCToken::contextualMenu);
+    connect(m_tokenList, &TokenListWidget::customContextMenuRequested, this, & RVCToken::contextualMenu);
 }
 
-QRCToken::~QRCToken()
+ RVCToken::~ RVCToken()
 {
     delete ui;
 }
 
-void QRCToken::setModel(WalletModel *_model)
+void  RVCToken::setModel(WalletModel *_model)
 {
     m_model = _model;
     m_addTokenPage->setModel(m_model);
@@ -83,8 +83,8 @@ void QRCToken::setModel(WalletModel *_model)
     if(m_model && m_model->getTokenItemModel())
     {
         // Set current token
-        connect(m_tokenList->tokenModel(), &QAbstractItemModel::dataChanged, this, &QRCToken::on_dataChanged);
-        connect(m_tokenList->tokenModel(), &QAbstractItemModel::rowsInserted, this, &QRCToken::on_rowsInserted);
+        connect(m_tokenList->tokenModel(), &QAbstractItemModel::dataChanged, this, & RVCToken::on_dataChanged);
+        connect(m_tokenList->tokenModel(), &QAbstractItemModel::rowsInserted, this, & RVCToken::on_rowsInserted);
         if(m_tokenList->tokenModel()->rowCount() > 0)
         {
             QModelIndex currentToken(m_tokenList->tokenModel()->index(0, 0));
@@ -93,29 +93,29 @@ void QRCToken::setModel(WalletModel *_model)
     }
 }
 
-void QRCToken::setClientModel(ClientModel *_clientModel)
+void  RVCToken::setClientModel(ClientModel *_clientModel)
 {
     m_clientModel = _clientModel;
     m_sendTokenPage->setClientModel(_clientModel);
     m_addTokenPage->setClientModel(_clientModel);
 }
 
-void QRCToken::on_goToSendTokenPage()
+void  RVCToken::on_goToSendTokenPage()
 {
     m_sendTokenPage->show();
 }
 
-void QRCToken::on_goToReceiveTokenPage()
+void  RVCToken::on_goToReceiveTokenPage()
 {
     m_receiveTokenPage->show();
 }
 
-void QRCToken::on_goToAddTokenPage()
+void  RVCToken::on_goToAddTokenPage()
 {
     m_addTokenPage->show();
 }
 
-void QRCToken::on_currentTokenChanged(QModelIndex index)
+void  RVCToken::on_currentTokenChanged(QModelIndex index)
 {
     if(m_tokenList->tokenModel())
     {
@@ -146,7 +146,7 @@ void QRCToken::on_currentTokenChanged(QModelIndex index)
     }
 }
 
-void QRCToken::on_dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles)
+void  RVCToken::on_dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles)
 {
     Q_UNUSED(bottomRight);
     Q_UNUSED(roles);
@@ -162,14 +162,14 @@ void QRCToken::on_dataChanged(const QModelIndex &topLeft, const QModelIndex &bot
     }
 }
 
-void QRCToken::on_currentChanged(QModelIndex current, QModelIndex previous)
+void  RVCToken::on_currentChanged(QModelIndex current, QModelIndex previous)
 {
     Q_UNUSED(previous);
 
     on_currentTokenChanged(current);
 }
 
-void QRCToken::on_rowsInserted(QModelIndex index, int first, int last)
+void  RVCToken::on_rowsInserted(QModelIndex index, int first, int last)
 {
     Q_UNUSED(index);
     Q_UNUSED(first);
@@ -182,7 +182,7 @@ void QRCToken::on_rowsInserted(QModelIndex index, int first, int last)
     }
 }
 
-void QRCToken::contextualMenu(const QPoint &point)
+void  RVCToken::contextualMenu(const QPoint &point)
 {
     QModelIndex index = m_tokenList->indexAt(point);
     if(index.isValid())
@@ -192,7 +192,7 @@ void QRCToken::contextualMenu(const QPoint &point)
     }
 }
 
-void QRCToken::copyTokenAddress()
+void  RVCToken::copyTokenAddress()
 {
     if(indexMenu.isValid())
     {
@@ -201,7 +201,7 @@ void QRCToken::copyTokenAddress()
     }
 }
 
-void QRCToken::copyTokenBalance()
+void  RVCToken::copyTokenBalance()
 {
     if(indexMenu.isValid())
     {
@@ -210,7 +210,7 @@ void QRCToken::copyTokenBalance()
     }
 }
 
-void QRCToken::copyTokenName()
+void  RVCToken::copyTokenName()
 {
     if(indexMenu.isValid())
     {
@@ -219,7 +219,7 @@ void QRCToken::copyTokenName()
     }
 }
 
-void QRCToken::copySenderAddress()
+void  RVCToken::copySenderAddress()
 {
     if(indexMenu.isValid())
     {
@@ -228,7 +228,7 @@ void QRCToken::copySenderAddress()
     }
 }
 
-void QRCToken::removeToken()
+void  RVCToken::removeToken()
 {
     QMessageBox::StandardButton btnRetVal = QMessageBox::question(this, tr("Confirm token remove"), tr("The selected token will be removed from the list. Are you sure?"),
         QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel);
@@ -242,19 +242,19 @@ void QRCToken::removeToken()
     }
 }
 
-void QRCToken::on_sendToken(const QModelIndex &index)
+void  RVCToken::on_sendToken(const QModelIndex &index)
 {
     on_currentTokenChanged(index);
     on_goToSendTokenPage();
 }
 
-void QRCToken::on_receiveToken(const QModelIndex &index)
+void  RVCToken::on_receiveToken(const QModelIndex &index)
 {
     on_currentTokenChanged(index);
     on_goToReceiveTokenPage();
 }
 
-void QRCToken::on_addToken()
+void  RVCToken::on_addToken()
 {
     on_goToAddTokenPage();
 }
