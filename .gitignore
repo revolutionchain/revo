@@ -102,7 +102,7 @@ Makefile.test
 bitcoin-qt_test
 
 # Resources cpp
-qrc_*.cpp
+rvc_*.cpp
 
 # Mac specific
 .DS_Store
