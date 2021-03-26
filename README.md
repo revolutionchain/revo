@@ -3,7 +3,7 @@ What is Revo?
 
 ![image](https://user-images.githubusercontent.com/38892618/111605157-5bede300-87d6-11eb-8002-dba20ce7d19a.png)
 
-Revo is a decentralized blockchain project built on Bitcoin's UTXO model, with support for Ethereum Virtual Machine based smart contracts, and secured by a PoA consensus model. It achieves this through the revolutionary Account Abstraction Layer which allows the EVM to communicate with Revo's Bitcoin-like UTXO blockchain. For more general information about Revo as well as links to join our community, go to https://www.revo.revolutionchain.it/
+Revo is a decentralized blockchain project built on Bitcoin's UTXO model, with support for Ethereum Virtual Machine based smart contracts, and secured by a PoA consensus model. It achieves this through the revolutionary Account Abstraction Layer which allows the EVM to communicate with Revo's Bitcoin-like UTXO blockchain. For more general information about Revo as well as links to join our community, go to https://www.revo.network/
 
 Welcome to the Revo Testnet Network. This is the main testnet where the data hold value and should be guarded very carefully. If you are testing the network, or developing unstable software on Revo platform, we highly recommend using official testnet or regtest mode. 
 
