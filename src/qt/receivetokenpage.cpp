@@ -25,7 +25,7 @@ ReceiveTokenPage::~ReceiveTokenPage()
 void ReceiveTokenPage::setAddress(QString address)
 {
     m_address = address;
-    create QRCode();
+    createQRCode();
 }
 
 void ReceiveTokenPage::setSymbol(QString symbol)
@@ -41,7 +41,7 @@ void ReceiveTokenPage::on_copyAddressClicked()
         GUIUtil::setClipboard(m_address);
 }
 
-void ReceiveTokenPage::create QRCode()
+void ReceiveTokenPage::createQRCode()
 {
     SendCoinsRecipient info;
     if(!m_address.isEmpty())
