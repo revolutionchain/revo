@@ -15,9 +15,9 @@
 #include <QSizePolicy>
 #include <QMenu>
 
- RVCToken:: RVCToken(const PlatformStyle *platformStyle, QWidget *parent) :
+RVCToken::RVCToken(const PlatformStyle *platformStyle, QWidget *parent) :
     QWidget(parent),
-    ui(new Ui:: RVCToken),
+    ui(new Ui::RVCToken),
     m_model(0),
     m_clientModel(0),
     m_tokenTransactionView(0)
@@ -68,7 +68,7 @@
     connect(m_tokenList, &TokenListWidget::customContextMenuRequested, this, & RVCToken::contextualMenu);
 }
 
- RVCToken::~ RVCToken()
+ RVCToken::~RVCToken()
 {
     delete ui;
 }
@@ -110,12 +110,12 @@ void  RVCToken::on_goToReceiveTokenPage()
     m_receiveTokenPage->show();
 }
 
-void  RVCToken::on_goToAddTokenPage()
+void RVCToken::on_goToAddTokenPage()
 {
     m_addTokenPage->show();
 }
 
-void  RVCToken::on_currentTokenChanged(QModelIndex index)
+void RVCToken::on_currentTokenChanged(QModelIndex index)
 {
     if(m_tokenList->tokenModel())
     {
@@ -146,7 +146,7 @@ void  RVCToken::on_currentTokenChanged(QModelIndex index)
     }
 }
 
-void  RVCToken::on_dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles)
+void RVCToken::on_dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles)
 {
     Q_UNUSED(bottomRight);
     Q_UNUSED(roles);
@@ -162,14 +162,14 @@ void  RVCToken::on_dataChanged(const QModelIndex &topLeft, const QModelIndex &bo
     }
 }
 
-void  RVCToken::on_currentChanged(QModelIndex current, QModelIndex previous)
+void RVCToken::on_currentChanged(QModelIndex current, QModelIndex previous)
 {
     Q_UNUSED(previous);
 
     on_currentTokenChanged(current);
 }
 
-void  RVCToken::on_rowsInserted(QModelIndex index, int first, int last)
+void RVCToken::on_rowsInserted(QModelIndex index, int first, int last)
 {
     Q_UNUSED(index);
     Q_UNUSED(first);
@@ -182,7 +182,7 @@ void  RVCToken::on_rowsInserted(QModelIndex index, int first, int last)
     }
 }
 
-void  RVCToken::contextualMenu(const QPoint &point)
+void RVCToken::contextualMenu(const QPoint &point)
 {
     QModelIndex index = m_tokenList->indexAt(point);
     if(index.isValid())
@@ -192,7 +192,7 @@ void  RVCToken::contextualMenu(const QPoint &point)
     }
 }
 
-void  RVCToken::copyTokenAddress()
+void RVCToken::copyTokenAddress()
 {
     if(indexMenu.isValid())
     {
@@ -201,7 +201,7 @@ void  RVCToken::copyTokenAddress()
     }
 }
 
-void  RVCToken::copyTokenBalance()
+void RVCToken::copyTokenBalance()
 {
     if(indexMenu.isValid())
     {
@@ -210,7 +210,7 @@ void  RVCToken::copyTokenBalance()
     }
 }
 
-void  RVCToken::copyTokenName()
+void RVCToken::copyTokenName()
 {
     if(indexMenu.isValid())
     {
@@ -219,7 +219,7 @@ void  RVCToken::copyTokenName()
     }
 }
 
-void  RVCToken::copySenderAddress()
+void RVCToken::copySenderAddress()
 {
     if(indexMenu.isValid())
     {
@@ -228,7 +228,7 @@ void  RVCToken::copySenderAddress()
     }
 }
 
-void  RVCToken::removeToken()
+void RVCToken::removeToken()
 {
     QMessageBox::StandardButton btnRetVal = QMessageBox::question(this, tr("Confirm token remove"), tr("The selected token will be removed from the list. Are you sure?"),
         QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel);
@@ -242,7 +242,7 @@ void  RVCToken::removeToken()
     }
 }
 
-void  RVCToken::on_sendToken(const QModelIndex &index)
+void RVCToken::on_sendToken(const QModelIndex &index)
 {
     on_currentTokenChanged(index);
     on_goToSendTokenPage();
@@ -254,7 +254,7 @@ void  RVCToken::on_receiveToken(const QModelIndex &index)
     on_goToReceiveTokenPage();
 }
 
-void  RVCToken::on_addToken()
+void RVCToken::on_addToken()
 {
     on_goToAddTokenPage();
 }

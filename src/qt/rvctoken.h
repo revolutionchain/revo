@@ -17,16 +17,16 @@ class PlatformStyle;
 class QMenu;
 
 namespace Ui {
-class  RVCToken;
+class RVCToken;
 }
 
-class  RVCToken : public QWidget
+class RVCToken : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit  RVCToken(const PlatformStyle *platformStyle, QWidget *parent = 0);
-    ~ RVCToken();
+    explicit RVCToken(const PlatformStyle *platformStyle, QWidget *parent = 0);
+    ~RVCToken();
 
     void setModel(WalletModel *_model);
     void setClientModel(ClientModel *clientModel);
@@ -52,7 +52,7 @@ public Q_SLOTS:
     void on_addToken();
 
 private:
-    Ui:: RVCToken *ui;
+    Ui::RVCToken *ui;
     SendTokenPage* m_sendTokenPage;
     ReceiveTokenPage* m_receiveTokenPage;
     AddTokenPage* m_addTokenPage;
@@ -69,4 +69,4 @@ private:
     TokenListWidget* m_tokenList;
 };
 
-#endif //  RVCTOKEN_H
+#endif // RVCTOKEN_H
