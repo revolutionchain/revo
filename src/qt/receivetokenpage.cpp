@@ -48,10 +48,10 @@ void ReceiveTokenPage::createQRCode()
     {
         info.address = m_address;
         QString uri = GUIUtil::formatBitcoinURI(info);
-        if(ui->lbl QRCode->setQR(uri))
+        if(ui->lblQRCode->setQR(uri))
         {
             ui->widgetQRMargin->setVisible(true);
-            ui->lbl QRCode->setScaledContents(true);
+            ui->lblQRCode->setScaledContents(true);
         }
         else
         {
@@ -62,7 +62,7 @@ void ReceiveTokenPage::createQRCode()
     }
     else
     {
-        ui->lbl QRCode->clear();
+        ui->lblQRCode->clear();
         ui->labelTokenAddress->setText("");
         ui->labelTokenAddressText->setText("");
         ui->copyAddressButton->setVisible(false);

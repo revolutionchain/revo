@@ -134,9 +134,9 @@ void ReceiveRequestDialog::update()
     {
         QString uri = GUIUtil::formatBitcoinURI(info);
 #ifdef USE_QRCODE
-        if(ui->lbl QRCode->setQR(uri))
+        if(ui->lblQRCode->setQR(uri))
         {
-            ui->lbl QRCode->setScaledContents(true);
+            ui->lblQRCode->setScaledContents(true);
         }
 #endif
 
@@ -196,7 +196,7 @@ void ReceiveRequestDialog::clear()
         setWindowTitle(tr("Request payment to %1").arg(""));
         info = SendCoinsRecipient();
 #ifdef USE_QRCODE
-        ui->lbl QRCode->clear();
+        ui->lblQRCode->clear();
 #endif
         ui->labelURI->clear();
         ui->labelAddress->clear();
