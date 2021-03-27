@@ -48,9 +48,9 @@ RVCToken::RVCToken(const PlatformStyle *platformStyle, QWidget *parent) :
     new QVBoxLayout(ui->scrollArea);
     ui->scrollArea->setWidget(m_tokenList);
     ui->scrollArea->setWidgetResizable(true);
-    connect(m_tokenList, &TokenListWidget::sendToken, this, & RVCToken::on_sendToken);
-    connect(m_tokenList, &TokenListWidget::receiveToken, this, & RVCToken::on_receiveToken);
-    connect(m_tokenList, &TokenListWidget::addToken, this, & RVCToken::on_addToken);
+    connect(m_tokenList, &TokenListWidget::sendToken, this, &RVCToken::on_sendToken);
+    connect(m_tokenList, &TokenListWidget::receiveToken, this, &RVCToken::on_receiveToken);
+    connect(m_tokenList, &TokenListWidget::addToken, this, &RVCToken::on_addToken);
 
     contextMenu = new QMenu(m_tokenList);
     contextMenu->addAction(copySenderAction);
@@ -59,13 +59,13 @@ RVCToken::RVCToken(const PlatformStyle *platformStyle, QWidget *parent) :
     contextMenu->addAction(copyTokenAddressAction);
     contextMenu->addAction(removeTokenAction);
 
-    connect(copyTokenAddressAction, &QAction::triggered, this, & RVCToken::copyTokenAddress);
-    connect(copyTokenBalanceAction, &QAction::triggered, this, & RVCToken::copyTokenBalance);
-    connect(copyTokenNameAction, &QAction::triggered, this, & RVCToken::copyTokenName);
-    connect(copySenderAction, &QAction::triggered, this, & RVCToken::copySenderAddress);
-    connect(removeTokenAction, &QAction::triggered, this, & RVCToken::removeToken);
+    connect(copyTokenAddressAction, &QAction::triggered, this, &RVCToken::copyTokenAddress);
+    connect(copyTokenBalanceAction, &QAction::triggered, this, &RVCToken::copyTokenBalance);
+    connect(copyTokenNameAction, &QAction::triggered, this, &RVCToken::copyTokenName);
+    connect(copySenderAction, &QAction::triggered, this, &RVCToken::copySenderAddress);
+    connect(removeTokenAction, &QAction::triggered, this, &RVCToken::removeToken);
 
-    connect(m_tokenList, &TokenListWidget::customContextMenuRequested, this, & RVCToken::contextualMenu);
+    connect(m_tokenList, &TokenListWidget::customContextMenuRequested, this, &RVCToken::contextualMenu);
 }
 
  RVCToken::~RVCToken()
@@ -83,8 +83,8 @@ void  RVCToken::setModel(WalletModel *_model)
     if(m_model && m_model->getTokenItemModel())
     {
         // Set current token
-        connect(m_tokenList->tokenModel(), &QAbstractItemModel::dataChanged, this, & RVCToken::on_dataChanged);
-        connect(m_tokenList->tokenModel(), &QAbstractItemModel::rowsInserted, this, & RVCToken::on_rowsInserted);
+        connect(m_tokenList->tokenModel(), &QAbstractItemModel::dataChanged, this, &RVCToken::on_dataChanged);
+        connect(m_tokenList->tokenModel(), &QAbstractItemModel::rowsInserted, this, &RVCToken::on_rowsInserted);
         if(m_tokenList->tokenModel()->rowCount() > 0)
         {
             QModelIndex currentToken(m_tokenList->tokenModel()->index(0, 0));
