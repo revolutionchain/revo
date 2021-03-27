@@ -19,7 +19,7 @@
 #include <QPixmap>
 
 #if defined(HAVE_CONFIG_H)
-#include <config/bitcoin-config.h> /* for USE_ QRCODE */
+#include <config/bitcoin-config.h> /* for USE_QRCODE */
 #endif
 
 ReceiveRequestDialog::ReceiveRequestDialog(const PlatformStyle *_platformStyle, QWidget *parent) :
@@ -37,7 +37,7 @@ ReceiveRequestDialog::ReceiveRequestDialog(const PlatformStyle *_platformStyle, 
     ui->btnCopyAddress->setIcon(platformStyle->MultiStatesIcon(":/icons/editcopy", PlatformStyle::PushButtonIcon));
     ui->btnCopyURI->setIcon(platformStyle->MultiStatesIcon(":/icons/editcopy", PlatformStyle::PushButtonIcon));
 
-#ifndef USE_ QRCODE
+#ifndef USE_QRCODE
     ui->widgetQRMargin->setVisible(false);
 #endif
 
@@ -133,7 +133,7 @@ void ReceiveRequestDialog::update()
     if(!info.address.isEmpty())
     {
         QString uri = GUIUtil::formatBitcoinURI(info);
-#ifdef USE_ QRCODE
+#ifdef USE_QRCODE
         if(ui->lbl QRCode->setQR(uri))
         {
             ui->lbl QRCode->setScaledContents(true);
@@ -195,7 +195,7 @@ void ReceiveRequestDialog::clear()
     {
         setWindowTitle(tr("Request payment to %1").arg(""));
         info = SendCoinsRecipient();
-#ifdef USE_ QRCODE
+#ifdef USE_QRCODE
         ui->lbl QRCode->clear();
 #endif
         ui->labelURI->clear();
