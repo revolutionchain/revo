@@ -1215,7 +1215,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../bitcoin.rvc"/>
+  <include location="../bitcoin.erc"/>
  </resources>
  <connections/>
  <buttongroups>

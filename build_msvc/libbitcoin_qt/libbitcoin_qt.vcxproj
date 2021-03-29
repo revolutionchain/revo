@@ -112,8 +112,8 @@
     <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_walletmodeltransaction.cpp" />
     <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_walletview.cpp" />
     <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_winshutdownmonitor.cpp" />
-    <ClCompile Include="$(GeneratedFilesOutDir)\rcc\rvc_bitcoin.cpp" />
-    <ClCompile Include="$(GeneratedFilesOutDir)\rcc\rvc_bitcoin_locale.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\rcc\erc_bitcoin.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\rcc\erc_bitcoin_locale.cpp" />
   </ItemGroup>
 
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -153,7 +153,7 @@
     <QT_MOC Include="..\..\src\qt\overviewpage.cpp" />
     <QT_MOC Include="..\..\src\qt\rpcconsole.cpp" />
     <MocHeaderFiles Include="..\..\src\qt\*.h" />
-    <ResourceTemplates Include="..\..\src\qt\*.rvc" />
+    <ResourceTemplates Include="..\..\src\qt\*.erc" />
     <UiFormFiles Include="..\..\src\qt\forms\*.ui" />
     <TranslationFiles Include="..\..\src\qt\locale\*.ts" />
   </ItemGroup>
@@ -195,13 +195,13 @@
     <Exec Command="$(QtToolsDir)\lrelease.exe &quot;%(TranslationFiles.Identity)&quot; -qm ..\..\src\qt\locale\%(Filename).qm" />
   </Target>
 
-  <Target Name="resource" Inputs="@(ResourceTemplates)" Outputs="@(ResourceTemplates->'$(GeneratedFilesOutDir)\rcc\rvc_%(Filename).cpp')" DependsOnTargets="translation">
+  <Target Name="resource" Inputs="@(ResourceTemplates)" Outputs="@(ResourceTemplates->'$(GeneratedFilesOutDir)\rcc\erc_%(Filename).cpp')" DependsOnTargets="translation">
     <PropertyGroup>
       <ErrorText>There was an error executing the libbitcoin_qt resource code generation task.</ErrorText>
     </PropertyGroup>
     <Exec Command="echo Performing libbitcoin_qt resource code generation task, output path $(GeneratedFilesOutDir)\rcc." />
     <MakeDir Directories="$(GeneratedFilesOutDir)\rcc\" />
-    <Exec Command="$(QtToolsDir)\rcc.exe --verbose --name %(Filename) &quot;%(ResourceTemplates.Identity)&quot; -o $(GeneratedFilesOutDir)\rcc\rvc_%(Filename).cpp" />
+    <Exec Command="$(QtToolsDir)\rcc.exe --verbose --name %(Filename) &quot;%(ResourceTemplates.Identity)&quot; -o $(GeneratedFilesOutDir)\rcc\erc_%(Filename).cpp" />
   </Target>
 
   <Target Name="qtclean">

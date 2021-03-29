@@ -22,7 +22,7 @@
 #include <qt/createcontract.h>
 #include <qt/sendtocontract.h>
 #include <qt/callcontract.h>
-#include <qt/rvctoken.h>
+#include <qt/erctoken.h>
 #include <qt/restoredialog.h>
 #include <qt/stakepage.h>
 #include <qt/delegationpage.h>
@@ -76,7 +76,7 @@ WalletView::WalletView(const PlatformStyle *_platformStyle, QWidget *parent):
     sendToContractPage = new SendToContract(platformStyle);
     callContractPage = new CallContract(platformStyle);
 
-    RVCTokenPage = new RVCToken(platformStyle);
+    ERCTokenPage = new ERCToken(platformStyle);
 
     stakePage = new StakePage(platformStyle);
     delegationPage = new DelegationPage(platformStyle);
@@ -87,7 +87,7 @@ WalletView::WalletView(const PlatformStyle *_platformStyle, QWidget *parent):
     addWidget(createContractPage);
     addWidget(sendToContractPage);
     addWidget(callContractPage);
-    addWidget(RVCTokenPage);
+    addWidget(ERCTokenPage);
     addWidget(stakePage);
     addWidget(delegationPage);
     addWidget(superStakerPage);
@@ -129,7 +129,7 @@ void WalletView::setClientModel(ClientModel *_clientModel)
     createContractPage->setClientModel(_clientModel);
     sendToContractPage->setClientModel(_clientModel);
     callContractPage->setClientModel(_clientModel);
-    RVCTokenPage->setClientModel(_clientModel);
+    ERCTokenPage->setClientModel(_clientModel);
     stakePage->setClientModel(_clientModel);
     delegationPage->setClientModel(_clientModel);
     superStakerPage->setClientModel(_clientModel);
@@ -147,7 +147,7 @@ void WalletView::setWalletModel(WalletModel *_walletModel)
     createContractPage->setModel(_walletModel);
     sendToContractPage->setModel(_walletModel);
     callContractPage->setModel(_walletModel);
-    RVCTokenPage->setModel(_walletModel);
+    ERCTokenPage->setModel(_walletModel);
     stakePage->setWalletModel(_walletModel);
     delegationPage->setModel(_walletModel);
     superStakerPage->setModel(_walletModel);
@@ -281,7 +281,7 @@ void WalletView::gotoCallContractPage()
 
 void WalletView::gotoTokenPage()
 {
-    setCurrentWidget(RVCTokenPage);
+    setCurrentWidget(ERCTokenPage);
 }
 
 void WalletView::gotoStakePage()

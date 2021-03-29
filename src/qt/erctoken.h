@@ -1,5 +1,5 @@
-#ifndef  RVCTOKEN_H
-#define  RVCTOKEN_H
+#ifndef  ERCTOKEN_H
+#define  ERCTOKEN_H
 
 #include <qt/sendtokenpage.h>
 #include <qt/receivetokenpage.h>
@@ -17,16 +17,16 @@ class PlatformStyle;
 class QMenu;
 
 namespace Ui {
-class RVCToken;
+class ERCToken;
 }
 
-class RVCToken : public QWidget
+class ERCToken : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit RVCToken(const PlatformStyle *platformStyle, QWidget *parent = 0);
-    ~RVCToken();
+    explicit ERCToken(const PlatformStyle *platformStyle, QWidget *parent = 0);
+    ~ERCToken();
 
     void setModel(WalletModel *_model);
     void setClientModel(ClientModel *clientModel);
@@ -52,7 +52,7 @@ public Q_SLOTS:
     void on_addToken();
 
 private:
-    Ui::RVCToken *ui;
+    Ui::ERCToken *ui;
     SendTokenPage* m_sendTokenPage;
     ReceiveTokenPage* m_receiveTokenPage;
     AddTokenPage* m_addTokenPage;
@@ -69,4 +69,4 @@ private:
     TokenListWidget* m_tokenList;
 };
 
-#endif // RVCTOKEN_H
+#endif // ERCTOKEN_H

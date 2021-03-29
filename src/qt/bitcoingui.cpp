@@ -337,12 +337,12 @@ void BitcoinGUI::createActions()
     delegationAction = new QAction(tr("Delegations"), this);
     superStakerAction = new QAction(tr("Super Staking"), this);
 
-     RVCTokenAction = new QAction(platformStyle->MultiStatesIcon(":/icons/rvctoken"), tr("& RVC Tokens"), this);
-     RVCTokenAction->setStatusTip(tr(" RVC Tokens (send, receive or add Tokens in list)"));
-     RVCTokenAction->setToolTip( RVCTokenAction->statusTip());
-     RVCTokenAction->setCheckable(true);
-     RVCTokenAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_5));
-    tabGroup->addAction( RVCTokenAction);
+     ERCTokenAction = new QAction(platformStyle->MultiStatesIcon(":/icons/erctoken"), tr("& ERC Tokens"), this);
+     ERCTokenAction->setStatusTip(tr(" ERC Tokens (send, receive or add Tokens in list)"));
+     ERCTokenAction->setToolTip( ERCTokenAction->statusTip());
+     ERCTokenAction->setCheckable(true);
+     ERCTokenAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_5));
+    tabGroup->addAction( ERCTokenAction);
 
 #ifdef ENABLE_WALLET
     // These showNormalIfMinimized are needed because Send Coins and Receive Coins
@@ -365,8 +365,8 @@ void BitcoinGUI::createActions()
     connect(sendToContractAction, SIGNAL(triggered()), this, SLOT(gotoSendToContractPage()));
     connect(callContractAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(callContractAction, SIGNAL(triggered()), this, SLOT(gotoCallContractPage()));
-    connect( RVCTokenAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
-    connect( RVCTokenAction, SIGNAL(triggered()), this, SLOT(gotoTokenPage()));
+    connect( ERCTokenAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
+    connect( ERCTokenAction, SIGNAL(triggered()), this, SLOT(gotoTokenPage()));
     connect(stakeAction, &QAction::triggered, [this]{ showNormalIfMinimized(); });
     connect(stakeAction, &QAction::triggered, this, &BitcoinGUI::gotoStakePage);
     connect(delegationAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
@@ -629,7 +629,7 @@ void BitcoinGUI::createToolBars()
         walletStakeActions.append(delegationAction);
         walletStakeActions.append(superStakerAction);
         appNavigationBar->mapGroup(walletStakeAction, walletStakeActions);
-        appNavigationBar->addAction( RVCTokenAction);
+        appNavigationBar->addAction( ERCTokenAction);
         appNavigationBar->buildUi();
         overviewAction->setChecked(true);
     }
@@ -837,7 +837,7 @@ void BitcoinGUI::setWalletActionsEnabled(bool enabled)
     receiveCoinsMenuAction->setEnabled(enabled);
     historyAction->setEnabled(enabled);
     smartContractAction->setEnabled(enabled);
-     RVCTokenAction->setEnabled(enabled);
+     ERCTokenAction->setEnabled(enabled);
     encryptWalletAction->setEnabled(enabled);
     backupWalletAction->setEnabled(enabled);
     restoreWalletAction->setEnabled(enabled);
@@ -977,7 +977,7 @@ void BitcoinGUI::gotoHistoryPage()
 
 void BitcoinGUI::gotoTokenPage()
 {
-     RVCTokenAction->setChecked(true);
+     ERCTokenAction->setChecked(true);
     if (walletFrame) walletFrame->gotoTokenPage();
 }
 

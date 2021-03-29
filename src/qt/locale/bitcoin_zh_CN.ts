@@ -407,12 +407,12 @@
         <translation type="unfinished">查看交易历史</translation>
     </message>
     <message>
-        <source>&amp; RVC Tokens</source>
-        <translation type="unfinished"> RVCtoken</translation>
+        <source>&amp; ERC Tokens</source>
+        <translation type="unfinished"> ERCtoken</translation>
     </message>
     <message>
-        <source> RVC Tokens (send, receive or add Tokens in list)</source>
-        <translation type="unfinished"> RVCtoken（在列表内发送、接收或添加token）</translation>
+        <source> ERC Tokens (send, receive or add Tokens in list)</source>
+        <translation type="unfinished"> ERCtoken（在列表内发送、接收或添加token）</translation>
     </message>
     <message>
         <source>E&amp;xit</source>
@@ -2352,7 +2352,7 @@ Please make sure to keep an updated antivirus and operating system. We can not r
     </message>
 </context>
 <context>
-    <name> RVCToken</name>
+    <name> ERCToken</name>
     <message>
         <source>Form</source>
         <translation type="unfinished">表单</translation>

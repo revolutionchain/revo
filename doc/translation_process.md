@@ -69,7 +69,7 @@ To assist in updating translations, a helper script is available in the [maintai
 
 1. `python3 ../bitcoin-maintainer-tools/update-translations.py`
 2. `git add` new translations from `src/qt/locale/`
-3. Update `src/qt/bitcoin_locale.rvc` manually or via
+3. Update `src/qt/bitcoin_locale.erc` manually or via
 ```bash
 git ls-files src/qt/locale/*ts|xargs -n1 basename|sed 's/\(bitcoin_\(.*\)\).ts/        <file alias="\2">locale\/\1.qm<\/file>/'
 ```
@@ -92,7 +92,7 @@ When new plurals are added to the source file, it's important to do the followin
 7. Save the source file
 
 ### Translating a new language
-To create a new language template, you will need to edit the languages manifest file `src/qt/bitcoin_locale.rvc` and add a new entry. Below is an example of the English language entry.
+To create a new language template, you will need to edit the languages manifest file `src/qt/bitcoin_locale.erc` and add a new entry. Below is an example of the English language entry.
 
 ```xml
 <qresource prefix="/translations">

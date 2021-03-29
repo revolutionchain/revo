@@ -21,7 +21,7 @@ class AddressBookPage;
 class CreateContract;
 class SendToContract;
 class CallContract;
-class RVCToken;
+class ERCToken;
 class StakePage;
 class DelegationPage;
 class SuperStakerPage;
@@ -74,7 +74,7 @@ private:
     CreateContract* createContractPage;
     SendToContract* sendToContractPage;
     CallContract* callContractPage;
-    RVCToken* RVCTokenPage;
+    ERCToken* ERCTokenPage;
     StakePage *stakePage;
     DelegationPage* delegationPage;
     SuperStakerPage* superStakerPage;
