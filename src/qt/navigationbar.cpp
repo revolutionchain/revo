@@ -20,7 +20,7 @@ static const int MarginTop = 0;
 static const int MarginBottom = 8;
 static const int ButtonSpacing = 2;
 static const int SubNavPaddingRight = 40;
-static const int LogoHeight = 60;
+static const int LogoHeight = 180;
 static const int LogoWidth = 90;
 }
 using namespace NavigationBar_NS;
