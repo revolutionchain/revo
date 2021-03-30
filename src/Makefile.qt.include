@@ -496,7 +496,7 @@ RES_IMAGES =
 
 RES_MOVIES = $(wildcard $(srcdir)/qt/res/movies/spinner-*.png)
 
-RES_TOKENS = qt/res/tokens/756fc65c34db6f5076154bdda247b270ef5f608a.png \
+RES_TOKENS = qt/res/tokens/756fc65c34db6f5076154bdda247b270ef5f608a.png
 
 RES_STYLES = qt/res/styles/theme1/buttontransparentbordered.css \
 qt/res/styles/theme1/buttondark.css \
