@@ -4,6 +4,7 @@
 #include <chainparams.h>
 #include <script/script.h>
 #include <revo/revostate.h>
+#include <libevm/VMFace.h>
 
 using namespace std;
 using namespace dev;
@@ -291,7 +292,7 @@ void RevoState::deployDelegationsContract(){
     dev::Address delegationsAddress = uintToh160(Params().GetConsensus().delegationsAddress);
     if(!RevoState::addressInUse(delegationsAddress)){
         RevoState::createContract(delegationsAddress);
-        RevoState::setCode(delegationsAddress, bytes{fromHex(DELEGATIONS_CONTRACT_CODE)});
+        RevoState::setCode(delegationsAddress, bytes{fromHex(DELEGATIONS_CONTRACT_CODE)}, RevoState::version(delegationsAddress));
         commit(CommitBehaviour::RemoveEmptyAccounts);
         db().commit();
     }

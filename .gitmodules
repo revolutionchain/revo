@@ -1,4 +1,4 @@
 [submodule "src/cpp-ethereum"]
 	path = src/cpp-ethereum
-	url = https://github.com/revolutionchain/cpp-eth-revo.git
-	branch = develop
+	url = https://github.com/miodragpop/cpp-eth-revo.git
+	branch = dev-revo
