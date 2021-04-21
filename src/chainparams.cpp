@@ -87,8 +87,8 @@ public:
         consensus.QIP7Height = 0;
         consensus.QIP9Height = 0;
         consensus.nOfflineStakeHeight = 2000000;
-        consensus.nReduceBlocktimeHeight = 845000; // TODO: set height
-        consensus.nMuirGlacierHeight = 845000; // TODO: set height
+        consensus.nReduceBlocktimeHeight = 47000; // Glacier upgrade
+        consensus.nMuirGlacierHeight = 47000; // Glacier upgrade
         consensus.powLimit = uint256S("0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.posLimit = uint256S("00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.QIP9PosLimit = uint256S("0000000000001fffffffffffffffffffffffffffffffffffffffffffffffffff"); // The new POS-limit activated after QIP9
