@@ -2447,6 +2447,9 @@ bool ProcessMessage(CNode* pfrom, const std::string& msg_type, CDataStream& vRec
         const auto current_time = GetTime<std::chrono::microseconds>();
         uint256* best_block{nullptr};
 
+        // Store state here instead of hitting a lock up to 500 times (!)
+        const bool isInInitialBlockDownload = ::ChainstateActive().IsInitialBlockDownload();
+
         for (CInv &inv : vInv)
         {
             if (interruptMsgProc)
@@ -2475,7 +2478,7 @@ bool ProcessMessage(CNode* pfrom, const std::string& msg_type, CDataStream& vRec
                     LogPrint(BCLog::NET, "transaction (%s) inv sent in violation of protocol, disconnecting peer=%d\n", inv.hash.ToString(), pfrom->GetId());
                     pfrom->fDisconnect = true;
                     return true;
-                } else if (!fAlreadyHave && !fImporting && !fReindex && !::ChainstateActive().IsInitialBlockDownload()) {
+                } else if (!fAlreadyHave && !fImporting && !fReindex && !isInInitialBlockDownload) {
                     RequestTx(State(pfrom->GetId()), inv.hash, current_time);
                 }
             }
