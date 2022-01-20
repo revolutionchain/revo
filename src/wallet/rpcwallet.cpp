@@ -846,6 +846,102 @@ static UniValue splitutxosforaddress(const JSONRPCRequest& request)
     return obj;
 }
 
+static UniValue mergeunspent(const JSONRPCRequest& request)
+{
+    std::shared_ptr<CWallet> const wallet = GetWalletForJSONRPCRequest(request);
+    CWallet* const pwallet = wallet.get();
+
+    if (!EnsureWalletIsAvailable(pwallet, request.fHelp)) {
+        return NullUniValue;
+    }
+
+            RPCHelpMan{"mergeunspent",
+                "\nMerge utxos of a given address." +
+                    HELP_REQUIRING_PASSPHRASE,
+                {
+                    {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "The wallet address to merge utxos for."},
+                    {"maxInputs", RPCArg::Type::NUM, "100", "Maximum number of utxos to merge."}
+                },
+                RPCResult {
+                    RPCResult::Type::OBJ, "", "",
+                    {
+                        { RPCResult::Type::STR_HEX, "txid", "The transaction id." },
+                        { RPCResult::Type::NUM, "count", "Count of utxos merged," }
+                    }
+                },
+                RPCExamples{
+                    HelpExampleCli("mergeunspent", "\"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 500")
+                },
+            }.Check(request);
+
+    pwallet->BlockUntilSyncedToCurrentChain();
+
+    auto locked_chain = pwallet->chain().lock();
+    LOCK(pwallet->cs_wallet);
+
+    CTxDestination dest = DecodeDestination(request.params[0].get_str());
+    if (!IsValidDestination(dest)) {
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid REVO address");
+    }
+
+    int maxInputs = request.params.size() > 1 ? request.params[1].get_int() : 100;
+    if (maxInputs < 2 || maxInputs > 1000) {
+        throw JSONRPCError(RPC_TYPE_ERROR, "maxInputs out of range [2 ... 1000]");
+    }
+
+    mapValue_t mapValue;
+    CCoinControl coin_control;
+
+    CTxDestination senderAddress = dest;
+    bool fChangeToSender = true;
+
+    UniValue result(UniValue::VOBJ);
+    std::vector<COutput> vecOutputs;
+
+    coin_control.fAllowOtherInputs = true;
+
+    assert(pwallet != NULL);
+
+    pwallet->AvailableCoins(*locked_chain, vecOutputs, false, NULL, 1, MAX_MONEY);
+
+    CAmount nAmount = 0;
+    int numInputs = 0;
+
+    for(const COutput& out : vecOutputs)
+    {
+        CTxDestination destAdress;
+        const CScript& scriptPubKey = out.tx->tx->vout[out.i].scriptPubKey;
+        bool fValidAddress = ExtractDestination(scriptPubKey, destAdress);
+
+        if (!fValidAddress || senderAddress != destAdress)
+            continue;
+
+        coin_control.Select(COutPoint(out.tx->GetHash(), out.i));
+        nAmount += out.tx->tx->vout[out.i].nValue;
+        numInputs++;
+
+        if (numInputs >= maxInputs) break;
+    }
+
+    if(!coin_control.HasSelected())
+    {
+        throw JSONRPCError(RPC_TYPE_ERROR, "Specified address does not have any unspent outputs");
+    }
+    
+    coin_control.destChange = senderAddress;
+
+    EnsureWalletIsUnlocked(pwallet);
+
+    CTransactionRef tx = SendMoney(*locked_chain, pwallet, dest, nAmount, true, coin_control, std::move(mapValue), true);
+    result.pushKV("txid", tx->GetHash().GetHex());
+    result.pushKV("utxos", numInputs);
+
+    return result;
+}
+
+
+
+
 static UniValue createcontract(const JSONRPCRequest& request){
 
     std::shared_ptr<CWallet> const wallet = GetWalletForJSONRPCRequest(request);
@@ -6110,6 +6206,7 @@ static const CRPCCommand commands[] =
     { "wallet",             "sendmanywithdupes",                &sendmanywithdupes,             {"fromaccount","amounts","minconf","comment","subtractfeefrom"} },
     { "wallet",             "sendtoaddress",                    &sendtoaddress,                 {"address","amount","comment","comment_to","subtractfeefromamount","replaceable","conf_target","estimate_mode","avoid_reuse","senderAddress","changeToSender"} },
     { "wallet",             "splitutxosforaddress",             &splitutxosforaddress,          {"address","minValue","maxValue","maxOutputs"} },
+    { "wallet",             "mergeunspent",                     &mergeunspent,                  {"address","maxInputs"} },
     { "wallet",             "sethdseed",                        &sethdseed,                     {"newkeypool","seed"} },
     { "wallet",             "setlabel",                         &setlabel,                      {"address","label"} },
     { "wallet",             "settxfee",                         &settxfee,                      {"amount"} },
