@@ -860,7 +860,9 @@ static UniValue mergeunspent(const JSONRPCRequest& request)
                     HELP_REQUIRING_PASSPHRASE,
                 {
                     {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "The wallet address to merge utxos for."},
-                    {"maxInputs", RPCArg::Type::NUM, "100", "Maximum number of utxos to merge."}
+                    {"maxInputs", RPCArg::Type::NUM, "100", "Maximum number of utxos to merge."},
+                    {"minValue", RPCArg::Type::AMOUNT, "0.0", "Select utxo which value is greater than or equal to this value (default 0 REVO)"},
+                    {"maxValue", RPCArg::Type::AMOUNT, "100000.0", "Select utxo which value is lower than or equal to this value (default 100000 REVO)"},
                 },
                 RPCResult {
                     RPCResult::Type::OBJ, "", "",
@@ -871,6 +873,7 @@ static UniValue mergeunspent(const JSONRPCRequest& request)
                 },
                 RPCExamples{
                     HelpExampleCli("mergeunspent", "\"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 500")
+                    + HelpExampleCli("mergeunspent", "\"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 200 0 50")
                 },
             }.Check(request);
 
@@ -887,6 +890,16 @@ static UniValue mergeunspent(const JSONRPCRequest& request)
     int maxInputs = request.params.size() > 1 ? request.params[1].get_int() : 100;
     if (maxInputs < 2 || maxInputs > 1000) {
         throw JSONRPCError(RPC_TYPE_ERROR, "maxInputs out of range [2 ... 1000]");
+    }
+
+    // minimum value
+    CAmount minValue = request.params.size() > 2 ? AmountFromValue(request.params[2]) : 0 * COIN;
+
+    // maximum value
+    CAmount maxValue = request.params.size() > 3 ? AmountFromValue(request.params[3]) : 100000 * COIN;
+
+    if (maxValue <= 0 || minValue > maxValue) {
+        throw JSONRPCError(RPC_INVALID_PARAMETER, "Invalid values for minimum and maximum");
     }
 
     mapValue_t mapValue;
@@ -913,11 +926,12 @@ static UniValue mergeunspent(const JSONRPCRequest& request)
         const CScript& scriptPubKey = out.tx->tx->vout[out.i].scriptPubKey;
         bool fValidAddress = ExtractDestination(scriptPubKey, destAdress);
 
-        if (!fValidAddress || senderAddress != destAdress)
+        CAmount val = out.tx->tx.get()->vout[out.i].nValue;
+        if (!fValidAddress || senderAddress != destAdress || val > maxValue || val < minValue )
             continue;
 
         coin_control.Select(COutPoint(out.tx->GetHash(), out.i));
-        nAmount += out.tx->tx->vout[out.i].nValue;
+        nAmount += val;
         numInputs++;
 
         if (numInputs >= maxInputs) break;
