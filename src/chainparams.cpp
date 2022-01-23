@@ -86,7 +86,7 @@ public:
         consensus.QIP6Height = 0;
         consensus.QIP7Height = 0;
         consensus.QIP9Height = 0;
-        consensus.nOfflineStakeHeight = 2000000;
+        consensus.nOfflineStakeHeight = 680000;
         consensus.nReduceBlocktimeHeight = 47000; // Glacier upgrade
         consensus.nMuirGlacierHeight = 47000; // Glacier upgrade
         consensus.powLimit = uint256S("0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
