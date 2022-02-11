@@ -47,6 +47,8 @@ static const CRPCConvertParam vRPCConvertParams[] =
     { "mergeunspent", 1, "maxInputs" },
     { "mergeunspent", 2, "minValue" },
     { "mergeunspent", 3, "maxValue" },
+    { "genutxosforaddress", 1, "numOfUtxos" },
+    { "genutxosforaddress", 2, "utxoValue" },
     { "settxfee", 0, "amount" },
     { "sethdseed", 0, "newkeypool" },
     { "getsubsidy", 0, "height" },

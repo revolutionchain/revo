@@ -9,6 +9,7 @@
 
 #include <consensus/validation.h>
 #include <coins.h>
+#include <logging.h>
 
 
 CAmount GetDustThreshold(const CTxOut& txout, const CFeeRate& dustRelayFeeIn)
@@ -47,7 +48,14 @@ CAmount GetDustThreshold(const CTxOut& txout, const CFeeRate& dustRelayFeeIn)
 
 bool IsDust(const CTxOut& txout, const CFeeRate& dustRelayFeeIn)
 {
-    return (txout.nValue < GetDustThreshold(txout, dustRelayFeeIn) && !txout.scriptPubKey.HasOpCreate() && !txout.scriptPubKey.HasOpCall());
+    /*
+    LogPrintf("IsDust(): txout.nValue = %u\n", txout.nValue);
+    LogPrintf("IsDust(): dustRelayFeeIn = %d\n", dustRelayFeeIn.GetFeePerK());
+    LogPrintf("IsDust(): GetDustThreshold(txout, dustRelayFeeIn) = %u\n", GetDustThreshold(txout, dustRelayFeeIn));
+    */
+    bool is_dust = txout.nValue < GetDustThreshold(txout, dustRelayFeeIn) && !txout.scriptPubKey.HasOpCreate() && !txout.scriptPubKey.HasOpCall();
+    LogPrintf("IsDust(%u) = %s\n", txout.nValue, is_dust ? "TRUE" : "FALSE");
+    return is_dust;
 }
 
 bool IsStandard(const CScript& scriptPubKey, txnouttype& whichType)

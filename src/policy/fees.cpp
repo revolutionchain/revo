@@ -789,6 +789,8 @@ double CBlockPolicyEstimator::estimateConservativeFee(unsigned int doubleTarget,
  */
 CFeeRate CBlockPolicyEstimator::estimateSmartFee(int confTarget, FeeCalculation *feeCalc, bool conservative) const
 {
+    return CFeeRate(10000);
+    
     LOCK(m_cs_fee_estimator);
 
     if (feeCalc) {
