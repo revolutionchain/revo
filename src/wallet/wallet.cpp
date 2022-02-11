@@ -3677,6 +3677,7 @@ bool CWallet::CreateTransaction(interfaces::Chain::Lock& locked_chain, const std
         // Limit size
         if (GetTransactionWeight(*tx) > MAX_STANDARD_TX_WEIGHT)
         {
+            LogPrintf("TRANSACTION TOO LARGE: GetTransactionWeight(*tx) = %u , MAX_STANDARD_TX_WEIGHT = %u\n", GetTransactionWeight(*tx), MAX_STANDARD_TX_WEIGHT);
             strFailReason = _("Transaction too large").translated;
             return false;
         }
