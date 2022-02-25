@@ -136,6 +136,7 @@ public:
     ErrorType lastError() const;
 
 private:
+    void abiInString(std::string value, std::string &data, std::map<int, std::string>& mapDynamic) const;
     bool abiInBasic(ParameterType::Type abiType, std::string value, std::string &data) const;
     bool abiOutBasic(ParameterType::Type abiType, const std::string &data, size_t &pos, std::string &value) const;
     void addDynamic(const std::string& paramData, std::string &data, std::map<int, std::string>& mapDynamic) const;
