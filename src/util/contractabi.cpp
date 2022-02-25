@@ -321,6 +321,12 @@ ParameterABI::ParameterABI(const std::string &_name, const std::string &_type, b
 ParameterABI::~ParameterABI()
 {}
 
+void ParameterABI::abiInString(std::string value, std::string &data, std::map<int, std::string>& mapDynamic) const
+{
+    std::string myData = dev::toHex(dev::eth::ABISerialiser<std::string>::serialise(value));
+    addDynamic(myData, data, mapDynamic);
+}
+
 bool ParameterABI::abiInBasic(ParameterType::Type abiType, std::string value, std::string &data) const
 {
     switch (abiType) {
@@ -449,14 +455,30 @@ bool ParameterABI::abiIn(const std::vector<std::string> &value, std::string &dat
         else if(decodeType().isDynamic() && decodeType().isList())
         {
             // Dynamic list type
-            std::string paramData;
+            std::string paramData, my_paramData;
+            std::map<int, std::string> my_mapDynamic;
+
             abiInBasic(ParameterType::abi_uint, "32", paramData);
             size_t length = value.size();
             abiInBasic(ParameterType::abi_uint, std::to_string(length), paramData);
             for(size_t i = 0; i < length; i++)
             {
-                abiInBasic(abiType, value[i], paramData);
+                abiInString(value[i], my_paramData, my_mapDynamic);
             }
+
+            for(auto i = my_mapDynamic.begin(); i != my_mapDynamic.end(); i++)
+            {
+                int pos = i->first;
+                std::string my_value = i->second;
+                dev::u256 inRef = my_paramData.size() / 2;
+                dev::bytes rawRef = dev::eth::ABISerialiser<dev::u256>::serialise(inRef);
+                std::string strRef = dev::toHex(rawRef);
+                my_paramData.replace(pos, strRef.size(), strRef);
+                my_paramData += my_value;
+            }
+
+            paramData += my_paramData;
+
             addDynamic(paramData, data, mapDynamic);
         }
         else if(!decodeType().isDynamic() && decodeType().isList())
