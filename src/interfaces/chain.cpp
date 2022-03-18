@@ -178,6 +178,7 @@ public:
     void UpdatedBlockTip(const CBlockIndex* index, const CBlockIndex* fork_index, bool is_ibd) override
     {
         m_notifications->updatedBlockTip();
+        m_notifications->updatedBlockTipEx(index);
     }
     void ChainStateFlushed(const CBlockLocator& locator) override { m_notifications->chainStateFlushed(locator); }
     std::shared_ptr<Chain::Notifications> m_notifications;

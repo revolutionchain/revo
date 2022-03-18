@@ -60,6 +60,7 @@ namespace BCLog {
         COINSTAKE   = (1 << 22),
         HTTPPOLL    = (1 << 23),
         INDEX       = (1 << 24),
+        DELETETX    = (1 << 25),
         ALL         = ~(uint32_t)0,
     };
 

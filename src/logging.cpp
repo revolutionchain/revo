@@ -185,6 +185,7 @@ const CLogCategoryDesc LogCategories[] =
     {BCLog::COINSTAKE, "coinstake"},
     {BCLog::HTTPPOLL, "http-poll"},
     {BCLog::INDEX, "index"},
+    {BCLog::DELETETX, "deletetx"},
     {BCLog::ALL, "1"},
     {BCLog::ALL, "all"},
 };
