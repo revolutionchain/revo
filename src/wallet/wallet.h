@@ -109,6 +109,18 @@ static const CAmount DEFAULT_STAKER_MIN_UTXO_SIZE{COIN/10};
 //! -maxstakerutxoscriptcache default
 static const int32_t DEFAULT_STAKER_MAX_UTXO_SCRIPT_CACHE = 200000;
 
+//Default Transaction Rentention N-BLOCKS
+static const int DEFAULT_TX_DELETE_INTERVAL = 1000;
+
+//Default Transaction Rentention N-BLOCKS
+static const unsigned int DEFAULT_TX_RETENTION_BLOCKS = 1500;
+
+//Default Retenion Last N-Transactions
+static const unsigned int DEFAULT_TX_RETENTION_LASTTX = 50;
+
+//Amount of transactions to delete per run while syncing
+static const int MAX_DELETE_TX_SIZE = 50000;
+
 class CCoinControl;
 class COutput;
 class CScript;
@@ -673,6 +685,9 @@ private:
     int64_t nNextResend = 0;
     int64_t nLastResend = 0;
     bool fBroadcastTransactions = false;
+
+   int nDeletedTxes;
+
     // Local time that the tip block was received. Used to schedule wallet rebroadcasts.
     std::atomic<int64_t> m_best_block_time {0};
 
@@ -914,6 +929,10 @@ public:
 
     bool IsSpent(const uint256& hash, unsigned int n) const EXCLUSIVE_LOCKS_REQUIRED(cs_wallet);
 
+    int GetSpendDepth(const uint256& hash, unsigned int n) const EXCLUSIVE_LOCKS_REQUIRED(cs_wallet);
+
+    bool IsFullySpentAtDepth(const uint256& hash, unsigned int depth) const EXCLUSIVE_LOCKS_REQUIRED(cs_wallet);
+    
     // Whether this or any known UTXO with the same single key has been spent.
     bool IsSpentKey(const uint256& hash, unsigned int n) const EXCLUSIVE_LOCKS_REQUIRED(cs_wallet);
     void SetSpentKeyState(WalletBatch& batch, const uint256& hash, unsigned int n, bool used, std::set<CTxDestination>& tx_destinations) EXCLUSIVE_LOCKS_REQUIRED(cs_wallet);
@@ -987,6 +1006,14 @@ public:
     void blockConnected(const CBlock& block, int height) override;
     void blockDisconnected(const CBlock& block, int height) override;
     void updatedBlockTip() override;
+    void updatedBlockTipEx(const CBlockIndex* pindex) override;
+// ADDENDUM
+    void ReorderWalletTransactions(std::map<std::pair<int,int>, const uint256> &mapSorted, int64_t &maxOrderPos);
+    void UpdateWalletTransactionOrder(std::map<std::pair<int,int>, const uint256> &mapSorted, bool resetOrder);
+    void SortWalletTransactions(std::multimap<int64_t, uint256> &mmSorted);
+    void DeleteWalletTransactions(const CBlockIndex* pindex);
+    unsigned int DeleteTransactions(std::vector<uint256> &removeTxs);
+
     int64_t RescanFromTime(int64_t startTime, const WalletRescanReserver& reserver, bool update);
 
     struct ScanResult {

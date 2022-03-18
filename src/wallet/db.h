@@ -156,6 +156,10 @@ public:
      */
     bool Rewrite(const char* pszSkip=nullptr);
 
+    /** Compact the database on disk
+     */
+    bool Compact();
+
     /** Back up the entire database to a file.
      */
     bool Backup(const std::string& strDest) const;

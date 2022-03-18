@@ -868,6 +868,52 @@ bool BerkeleyDatabase::Rewrite(const char* pszSkip)
     return BerkeleyBatch::Rewrite(*this, pszSkip);
 }
 
+bool BerkeleyDatabase::Compact()
+{
+    LOCK(cs_db);
+
+    DB_COMPACT dbcompact;
+    dbcompact.compact_fillpercent = 80;
+    dbcompact.compact_pages = DB_MAX_PAGES;
+    dbcompact.compact_timeout = 0;
+
+    DB_COMPACT *pdbcompact;
+    pdbcompact = &dbcompact;
+
+    int result = 1;
+    
+    result = this->m_db.get()->compact(NULL, NULL, NULL, pdbcompact, DB_FREE_SPACE, NULL);
+
+    switch (result)
+    {
+        case DB_LOCK_DEADLOCK:
+            LogPrint(BCLog::WALLETDB, "Deadlock %i\n", result);
+            break;
+        case DB_LOCK_NOTGRANTED:
+            LogPrint(BCLog::WALLETDB, "Lock Not Granted %i\n", result);
+            break;
+        case DB_REP_HANDLE_DEAD:
+            LogPrint(BCLog::WALLETDB, "Handle Dead %i\n", result);
+            break;
+        case DB_REP_LOCKOUT:
+            LogPrint(BCLog::WALLETDB, "Rep Lockout %i\n", result);
+            break;
+        case EACCES:
+            LogPrint(BCLog::WALLETDB, "Eacces %i\n", result);
+            break;
+        case EINVAL:
+            LogPrint(BCLog::WALLETDB, "Error Invalid %i\n", result);
+            break;
+        case 0:
+            LogPrint(BCLog::WALLETDB, "Wallet Compact Sucessful\n");
+            break;
+        default:
+            LogPrint(BCLog::WALLETDB, "Compact result int %i\n", result);
+    }
+
+    return (result == 0);
+}
+
 bool BerkeleyDatabase::Backup(const std::string& strDest) const
 {
     if (IsDummy()) {
