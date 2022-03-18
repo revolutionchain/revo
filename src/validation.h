@@ -121,6 +121,10 @@ static const unsigned int BLOCK_STALLING_TIMEOUT = 2;
 /** Number of headers sent in one getheaders result. We rely on the assumption that if a peer sends
  *  less than this number, we reached its tip. Changing this value is a protocol upgrade. */
 static const unsigned int MAX_HEADERS_RESULTS = 2000; //limit to COINBASE_MATURITY-1
+
+/** Minimum depth for wtx we will accept to delete. */
+static const unsigned int MIN_DELETETX_DEPTH = 1000 - 1;
+
 /** Maximum depth of blocks we're willing to serve as compact blocks to peers
  *  when requested. For older blocks, a regular BLOCK response will be sent. */
 static const int MAX_CMPCTBLOCK_DEPTH = 5;
@@ -143,6 +147,9 @@ static const int64_t BLOCK_DOWNLOAD_TIMEOUT_PER_PEER = 500000;
 static const int64_t DEFAULT_MAX_TIP_AGE = 12 * 60 * 60; //Changed to 12 hours so that isInitialBlockDownload() is more accurate
 /** Maximum age of our tip in seconds for us to be considered current for fee estimation */
 static const int64_t MAX_FEE_ESTIMATION_TIP_AGE = 3 * 60 * 60;
+
+/** Minimum number of wtx deleted between compacting wallet. */
+static const unsigned int COMPACTING_THRESHOLD = 10;
 
 static const bool DEFAULT_CHECKPOINTS_ENABLED = true;
 static const bool DEFAULT_TXINDEX = false;

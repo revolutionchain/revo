@@ -16,6 +16,7 @@
 #include <map>
 
 class CBlock;
+class CBlockIndex;
 class CFeeRate;
 class CRPCCommand;
 class CScheduler;
@@ -230,6 +231,7 @@ public:
         virtual void blockConnected(const CBlock& block, int height) {}
         virtual void blockDisconnected(const CBlock& block, int height) {}
         virtual void updatedBlockTip() {}
+        virtual void updatedBlockTipEx(const CBlockIndex* pindex) {}
         virtual void chainStateFlushed(const CBlockLocator& locator) {}
     };
 
