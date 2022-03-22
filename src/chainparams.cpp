@@ -61,7 +61,7 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesi
  */
 static CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
 {
-    const char* pszTimestamp = "Mar 19, 2021 Bitcoin is now ‘too important to ignore’, Deutsche Bank says";
+    const char* pszTimestamp = "Mar 22, 2022 DAO Central: DAOs an 'Existential Threat' to Tax Base";
     const CScript genesisOutputScript = CScript() << ParseHex("040d61d8653448c98731ee5fffd303c15e71ec2057b77f11ab3601979728cdaff2d68afbba14e4fa0bc44f2072b0b23ef63717f8cdfbe58dcd33f32b6afe98741a") << OP_CHECKSIG;
     return CreateGenesisBlock(pszTimestamp, genesisOutputScript, nTime, nNonce, nBits, nVersion, genesisReward);
 }
@@ -108,14 +108,13 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = 1230767999; // December 31, 2008
 
         // The best chain should have at least this much work.
-        // consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000000000000010001"); // genesis
-        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000010000089c30dc3"); // last PoW block == 2500
+        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000000000000010001"); // genesis
 
         // By default assume that the signatures in ancestors of this block are valid.
-        // consensus.defaultAssumeValid = uint256S("0x00004efa50a2acae549b94d8cf62dd14d40ba395ee20e5b1594771aa5243121b"); // genesis
-        consensus.defaultAssumeValid = uint256S("0x0000c3fd3fd92aea047a9f62f771325a8c031039591f371f871fd81d4101134e"); // last PoW block == 2500
+        //consensus.defaultAssumeValid = uint256S("0x0000bc5ae2d1f69111ec64d6dd74243253e73aede12d4311c2e3554cfc811836"); // genesis
+        consensus.defaultAssumeValid = uint256S("0x0000b211c3305246935f0911f698227249e7094bf06154da8fe200bb37745983"); // 2500
         
-
+        
         /**
          * The message start string is designed to be unlikely to occur in normal data.
          * The characters are rarely used upper ASCII, not valid as UTF-8, and produce
@@ -131,7 +130,7 @@ public:
         m_assumed_blockchain_size = 8;
         m_assumed_chain_state_size = 1;
 
-        genesis = CreateGenesisBlock(1616158385, 171713, 0x1f00ffff, 1, 50 * COIN);
+        genesis = CreateGenesisBlock(1647958500, 379388, 0x1f00ffff, 1, 50 * COIN);
 
         /*
         // MINING GENESIS BLOCK
@@ -149,22 +148,21 @@ public:
         }
         */
 
-
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x00004efa50a2acae549b94d8cf62dd14d40ba395ee20e5b1594771aa5243121b"));
-        assert(genesis.hashMerkleRoot == uint256S("0x84ed8aac078bac024905ad72822603d5ef283a4ad4ef92b2d17ffd49e7a32fc4"));
+        assert(consensus.hashGenesisBlock == uint256S("0x0000bc5ae2d1f69111ec64d6dd74243253e73aede12d4311c2e3554cfc811836"));
+        assert(genesis.hashMerkleRoot == uint256S("0xd95c32ffcbc10e35f35203c0a12ed2389e4fd967de04209f548ce86685f81a46"));
 
         // Note that of those which support the service bits prefix, most only support a subset of
         // possible options.
         // This is fine at runtime as we'll fall back to using them as a oneshot if they don't support the
         // service bits we want, but we should get them updated to support all service bits wanted by any
         // release ASAP to avoid it where possible.
-	vSeeds.emplace_back("seed.revo.network"); // Revo mainnet
+	    vSeeds.emplace_back("seed.revo.network"); // Revo mainnet
         vSeeds.emplace_back("seed1.revo.network"); // Revo mainnet
-	vSeeds.emplace_back("seed2.revo.network"); // Revo mainnet
-	vSeeds.emplace_back("seed3.revo.network"); // Revo mainnet
-	vSeeds.emplace_back("seed4.revo.network"); // Revo mainnet
-	vSeeds.emplace_back("seed5.revo.network"); // Revo mainnet
+	    vSeeds.emplace_back("seed2.revo.network"); // Revo mainnet
+	    vSeeds.emplace_back("seed3.revo.network"); // Revo mainnet
+	    vSeeds.emplace_back("seed4.revo.network"); // Revo mainnet
+	    vSeeds.emplace_back("seed5.revo.network"); // Revo mainnet
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,60);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,50);
@@ -184,15 +182,15 @@ public:
 
         checkpointData = {
             {
-                { 0, uint256S("00004efa50a2acae549b94d8cf62dd14d40ba395ee20e5b1594771aa5243121b")},
-                { 2500, uint256S("0000c3fd3fd92aea047a9f62f771325a8c031039591f371f871fd81d4101134e")},  
+                { 0, uint256S("0000bc5ae2d1f69111ec64d6dd74243253e73aede12d4311c2e3554cfc811836")},
+                { 2500, uint256S("0000b211c3305246935f0911f698227249e7094bf06154da8fe200bb37745983")},
             }
         };
 
         chainTxData = ChainTxData{
-            // Data as of block 0000c3fd3fd92aea047a9f62f771325a8c031039591f371f871fd81d4101134e (height 2500)
-            1616188211, // * UNIX timestamp of last known number of transactions
-            2501, // * total number of transactions between genesis and that timestamp
+            // Data as of block 0000b211c3305246935f0911f698227249e7094bf06154da8fe200bb37745983 (2500)
+            1647968955, // * UNIX timestamp of last known number of transactions
+            2500, // * total number of transactions between genesis and that timestamp
             //   (the tx=... number in the SetBestChain debug.log lines)
             0.0333333333333 // * estimated number of transactions per second after that timestamp
         };
@@ -264,10 +262,10 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = 1230767999; // December 31, 2008
 
         // The best chain should have at least this much work.
-        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000781160195346477981"); // revo
+        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000000000000000000"); // revo
 
         // By default assume that the signatures in ancestors of this block are valid.
-        consensus.defaultAssumeValid = uint256S("0x89b010b5333fa9d22c7fcf157c7eeaee1ccfe80c435390243b3d782a1fc1eff7"); // 690000
+        consensus.defaultAssumeValid = uint256S("0x00008f99d4f885363cb794ef95029dae48377aa17ac07b246fec8f76d0ad9c76"); // genesis
 
         pchMessageStart[0] = 0x0d;
         pchMessageStart[1] = 0x22;
@@ -278,7 +276,7 @@ public:
         m_assumed_blockchain_size = 4;
         m_assumed_chain_state_size = 1;
 
-        genesis = CreateGenesisBlock(1616158384, 53150, 0x1f00ffff, 1, 50 * COIN);
+        genesis = CreateGenesisBlock(1647958500, 206732, 0x1f00ffff, 1, 50 * COIN);
 
         /*
         // MINING GENESIS BLOCK
@@ -297,8 +295,8 @@ public:
         */
 
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x0000fa0422c2a5e45d00346b9071d7c2a300b73c10cfde9d1213adc1970c42cb"));
-        assert(genesis.hashMerkleRoot == uint256S("0x84ed8aac078bac024905ad72822603d5ef283a4ad4ef92b2d17ffd49e7a32fc4"));
+        assert(consensus.hashGenesisBlock == uint256S("0x00008f99d4f885363cb794ef95029dae48377aa17ac07b246fec8f76d0ad9c76"));
+        assert(genesis.hashMerkleRoot == uint256S("0xd95c32ffcbc10e35f35203c0a12ed2389e4fd967de04209f548ce86685f81a46"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
@@ -323,15 +321,15 @@ public:
 
         checkpointData = {
             {
-                {0, uint256S("0000fa0422c2a5e45d00346b9071d7c2a300b73c10cfde9d1213adc1970c42cb")},
+                {0, uint256S("00008f99d4f885363cb794ef95029dae48377aa17ac07b246fec8f76d0ad9c76")},
             }
         };
 
         chainTxData = ChainTxData{
-            // Data as of block 8947ec20d2e17bb48365d50833d6967115ceb2358b13edf99b5624da3f156f37 (height 694595)
-            1602363600,
-            1505398,
-            0.016913121136215
+            // Data as of block 00008f99d4f885363cb794ef95029dae48377aa17ac07b246fec8f76d0ad9c76 (genesis)
+            1647958500,
+            0,
+            0.033333333
         };
 
         consensus.nBlocktimeDownscaleFactor = 4;
@@ -415,7 +413,7 @@ public:
 
         UpdateActivationParametersFromArgs(args);
 
-        genesis = CreateGenesisBlock(1616158383, 2, 0x207fffff, 1, 50 * COIN);
+        genesis = CreateGenesisBlock(1647958500, 3, 0x207fffff, 1, 50 * COIN);
 
         /*
         // MINING GENESIS BLOCK
@@ -434,8 +432,8 @@ public:
         */
 
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x73726045b7cdc291f00bbfaf46254c810c86ebf65e3d532b4a5dca5acd40f8ad"));
-        assert(genesis.hashMerkleRoot == uint256S("0x84ed8aac078bac024905ad72822603d5ef283a4ad4ef92b2d17ffd49e7a32fc4"));
+        assert(consensus.hashGenesisBlock == uint256S("0x31349974eefde0dfbb060b7f278a6b3c4eaa916953716163cbda6de29a536390"));
+        assert(genesis.hashMerkleRoot == uint256S("0xd95c32ffcbc10e35f35203c0a12ed2389e4fd967de04209f548ce86685f81a46"));
 
         vFixedSeeds.clear(); //!< Regtest mode doesn't have any fixed seeds.
         vSeeds.clear();      //!< Regtest mode doesn't have any DNS seeds.
@@ -448,7 +446,7 @@ public:
 
         checkpointData = {
             {
-                {0, uint256S("73726045b7cdc291f00bbfaf46254c810c86ebf65e3d532b4a5dca5acd40f8ad")},
+                {0, uint256S("31349974eefde0dfbb060b7f278a6b3c4eaa916953716163cbda6de29a536390")},
             }
         };
 
