@@ -12,7 +12,7 @@ static const dev::Address GasPriceDGP = dev::Address("00000000000000000000000000
 static const dev::Address DGPCONTRACT4 = dev::Address("0000000000000000000000000000000000000083");
 static const dev::Address BlockGasLimitDGP = dev::Address("0000000000000000000000000000000000000084");
 
-static const uint32_t MIN_BLOCK_SIZE_DGP = 1000000;
+static const uint32_t MIN_BLOCK_SIZE_DGP = 500000;
 static const uint32_t MAX_BLOCK_SIZE_DGP = 32000000;
 static const uint32_t DEFAULT_BLOCK_SIZE_DGP = 2000000;
 
