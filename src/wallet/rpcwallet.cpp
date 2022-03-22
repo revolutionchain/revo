@@ -790,7 +790,7 @@ static UniValue splitutxosforaddress(const JSONRPCRequest& request)
     // maximum value
     CAmount maxValue = AmountFromValue(request.params[2]);
 
-    if (minValue < COIN/10 || maxValue <= 0 || minValue > maxValue) {
+    if (/*minValue < COIN/10 ||*/ maxValue <= 0 || minValue > maxValue) {
         throw JSONRPCError(RPC_INVALID_PARAMETER, "Invalid values for minimum and maximum");
     }
 
@@ -915,7 +915,7 @@ static UniValue mergeunspent(const JSONRPCRequest& request)
 
     assert(pwallet != NULL);
 
-    pwallet->AvailableCoins(*locked_chain, vecOutputs, false, NULL, 1, MAX_MONEY);
+    pwallet->AvailableCoins(*locked_chain, vecOutputs, false, NULL, 0, MAX_MONEY);
 
     CAmount nAmount = 0;
     int numInputs = 0;
@@ -949,6 +949,125 @@ static UniValue mergeunspent(const JSONRPCRequest& request)
     CTransactionRef tx = SendMoney(*locked_chain, pwallet, dest, nAmount, true, coin_control, std::move(mapValue), true);
     result.pushKV("txid", tx->GetHash().GetHex());
     result.pushKV("utxos", numInputs);
+
+    return result;
+}
+
+
+static UniValue genutxosforaddress(const JSONRPCRequest& request)
+{
+    std::shared_ptr<CWallet> const wallet = GetWalletForJSONRPCRequest(request);
+    CWallet* const pwallet = wallet.get();
+
+    if (!EnsureWalletIsAvailable(pwallet, request.fHelp)) {
+        return NullUniValue;
+    }
+
+            RPCHelpMan{"genutxosforaddress",
+                "\nGenerate upto specific number of utxos with the same specified value." +
+                    HELP_REQUIRING_PASSPHRASE,
+                {
+                    {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "The wallet address to merge utxos for."},
+                    {"numberOfUtxos", RPCArg::Type::NUM, "10", "Number of utxos to generate."},
+                    {"utxoValue", RPCArg::Type::AMOUNT, "1", "Value of a single generated utxo."},
+                },
+                RPCResult {
+                    RPCResult::Type::OBJ, "", "",
+                    {
+                        { RPCResult::Type::STR_HEX, "txid", "The transaction id." },
+                        { RPCResult::Type::NUM, "count", "Count of utxos generated," }
+                    }
+                },
+                RPCExamples{
+                    HelpExampleCli("genutxosforaddress", "\"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 5 1000")
+                },
+            }.Check(request);
+
+    pwallet->BlockUntilSyncedToCurrentChain();
+
+    auto locked_chain = pwallet->chain().lock();
+    LOCK(pwallet->cs_wallet);
+
+    CTxDestination dest = DecodeDestination(request.params[0].get_str());
+    if (!IsValidDestination(dest)) {
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid REVO address");
+    }
+
+    int number_of_utxos = request.params.size() > 1 ? request.params[1].get_int() : 10;
+    if (number_of_utxos < 1) {
+        throw JSONRPCError(RPC_TYPE_ERROR, "numberOfUtxos should be at least 1");
+    }
+
+    CAmount utxo_value = AmountFromValue(request.params[2]);
+        if (utxo_value <= 0) {
+        throw JSONRPCError(RPC_TYPE_ERROR, "utxoValue must be greater than 0");
+    }
+
+    mapValue_t mapValue;
+    CCoinControl coin_control;
+
+    CTxDestination senderAddress = dest;
+    bool fChangeToSender = true;
+
+    UniValue result(UniValue::VOBJ);
+    std::vector<COutput> vecOutputs;
+
+    coin_control.fAllowOtherInputs = false;
+
+    assert(pwallet != NULL);
+
+    pwallet->AvailableCoins(*locked_chain, vecOutputs, false, NULL, 0, MAX_MONEY);
+
+    CAmount nAmount = 0;
+    int num_outputs = 0;
+
+    for(const COutput& out : vecOutputs)
+    {
+        CTxDestination destAdress;
+        const CScript& scriptPubKey = out.tx->tx->vout[out.i].scriptPubKey;
+        bool fValidAddress = ExtractDestination(scriptPubKey, destAdress);
+
+        CAmount val = out.tx->tx.get()->vout[out.i].nValue;
+        if (!fValidAddress || senderAddress != destAdress || val == utxo_value)
+            continue;
+
+        coin_control.Select(COutPoint(out.tx->GetHash(), out.i));
+        nAmount += val;
+        if (nAmount > utxo_value * number_of_utxos)
+            break;
+    }
+
+    if (!coin_control.HasSelected())
+    {
+        throw JSONRPCError(RPC_TYPE_ERROR, "Specified address does not have any unspent outputs");
+    }
+
+    if (nAmount < utxo_value * number_of_utxos)
+    {
+        number_of_utxos = nAmount / utxo_value;
+    }
+
+    coin_control.destChange = senderAddress;
+
+    EnsureWalletIsUnlocked(pwallet);
+
+    CScript scriptPubKey = GetScriptForDestination(dest);
+    CAmount required_fee = 0;
+    std::string strError;
+    std::vector<CRecipient> vecSend;
+    int nChangePosRet = -1;
+
+    CTransactionRef tx_final;
+    CRecipient recipient_final = {scriptPubKey, utxo_value, false};
+
+    if (!pwallet->CreateTransaction(*locked_chain, vecSend, tx_final, required_fee, nChangePosRet, strError, coin_control, true, 0, true))
+    {
+        throw JSONRPCError(RPC_WALLET_ERROR, strprintf("Error: Final genutxosforaddress tx generation failed! (reason: %s)", strError));
+    }
+
+    pwallet->CommitTransaction(tx_final, std::move(mapValue), {} /* orderForm */);
+    result.pushKV("txid", tx_final->GetHash().GetHex());
+    result.pushKV("count", num_outputs);
 
     return result;
 }
@@ -6221,6 +6340,7 @@ static const CRPCCommand commands[] =
     { "wallet",             "sendtoaddress",                    &sendtoaddress,                 {"address","amount","comment","comment_to","subtractfeefromamount","replaceable","conf_target","estimate_mode","avoid_reuse","senderAddress","changeToSender"} },
     { "wallet",             "splitutxosforaddress",             &splitutxosforaddress,          {"address","minValue","maxValue","maxOutputs"} },
     { "wallet",             "mergeunspent",                     &mergeunspent,                  {"address","maxInputs"} },
+    { "wallet",             "genutxosforaddress",               &genutxosforaddress,            {"address","numOfUtxos", "utxoValue"} },
     { "wallet",             "sethdseed",                        &sethdseed,                     {"newkeypool","seed"} },
     { "wallet",             "setlabel",                         &setlabel,                      {"address","label"} },
     { "wallet",             "settxfee",                         &settxfee,                      {"amount"} },
