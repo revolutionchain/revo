@@ -54,7 +54,7 @@ bool IsDust(const CTxOut& txout, const CFeeRate& dustRelayFeeIn)
     LogPrintf("IsDust(): GetDustThreshold(txout, dustRelayFeeIn) = %u\n", GetDustThreshold(txout, dustRelayFeeIn));
     */
     bool is_dust = txout.nValue < GetDustThreshold(txout, dustRelayFeeIn) && !txout.scriptPubKey.HasOpCreate() && !txout.scriptPubKey.HasOpCall();
-    LogPrintf("IsDust(%u) = %s\n", txout.nValue, is_dust ? "TRUE" : "FALSE");
+    //LogPrintf("IsDust(%u) = %s\n", txout.nValue, is_dust ? "TRUE" : "FALSE");
     return is_dust;
 }
 
