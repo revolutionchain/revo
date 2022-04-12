@@ -234,7 +234,7 @@ void ContractResult::updateCallResult(QVariant result, FunctionABI function, QLi
             }
             else
             {
-                ui->scrollAreaResult->setMaximumHeight(140);
+                ui->scrollAreaResult->setMaximumHeight(ui->groupBoxResult->height());
             }
             ui->scrollAreaResult->setWidget(widgetResults);
             ui->groupBoxResult->setVisible(true);

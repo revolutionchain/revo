@@ -274,8 +274,8 @@ background: transparent;
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>889</width>
-            <height>73</height>
+            <width>891</width>
+            <height>109</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_4"/>
@@ -361,6 +361,9 @@ background: transparent;
        <string>Result</string>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
+       <property name="sizeConstraint">
+        <enum>QLayout::SetDefaultConstraint</enum>
+       </property>
        <property name="leftMargin">
         <number>15</number>
        </property>
@@ -370,10 +373,10 @@ background: transparent;
        <property name="rightMargin">
         <number>9</number>
        </property>
-       <item>
+       <item alignment="Qt::AlignTop">
         <widget class="QScrollArea" name="scrollAreaResult">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -384,13 +387,16 @@ background: transparent;
          <property name="widgetResizable">
           <bool>true</bool>
          </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+         </property>
          <widget class="QWidget" name="scrollAreaWidgetContents_2">
           <property name="geometry">
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>889</width>
-            <height>73</height>
+            <width>891</width>
+            <height>68</height>
            </rect>
           </property>
          </widget>
@@ -398,22 +404,6 @@ background: transparent;
        </item>
       </layout>
      </widget>
-    </item>
-    <item>
-     <spacer name="verticalSpacer_4">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-      <property name="sizeType">
-       <enum>QSizePolicy::Expanding</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>60</height>
-       </size>
-      </property>
-     </spacer>
     </item>
    </layout>
   </widget>
