@@ -10,6 +10,9 @@
 /* Milliseconds between model updates */
 static const int MODEL_UPDATE_DELAY = 2000;
 
+/* Milliseconds between device updates */
+static const int DEVICE_UPDATE_DELAY = 10000;
+
 /* AskPassphraseDialog -- Maximum passphrase length */
 static const int MAX_PASSPHRASE_SIZE = 1024;
 
@@ -17,7 +20,6 @@ static const int MAX_PASSPHRASE_SIZE = 1024;
 static const int STATUSBAR_ICONSIZE = 16;
 
 static const bool DEFAULT_SPLASHSCREEN = true;
-
 
 /* Transaction list -- unconfirmed transaction */
 #define COLOR_UNCONFIRMED QColor(128, 128, 128)
@@ -47,6 +49,7 @@ static const int TOOLTIP_WRAP_THRESHOLD = 80;
 #define QAPP_ORG_DOMAIN "revo.org"
 #define QAPP_APP_NAME_DEFAULT "Revo-Qt"
 #define QAPP_APP_NAME_TESTNET "Revo-Qt-testnet"
+#define QAPP_APP_NAME_SIGNET "Revo-Qt-signet"
 #define QAPP_APP_NAME_REGTEST "Revo-Qt-regtest"
 
 /* One gigabyte (GB) in bytes */
@@ -60,5 +63,8 @@ static constexpr int DEFAULT_PRUNE_TARGET_GB{2};
 
 /* Testnet revo explorer uri */
 #define REVO_INFO_TESTNET "<a href='https://testnet.revo.network/%1/%2'>%2</a>"
+
+/* Hardware wallet interface uri */
+#define REVO_HWI_TOOL "<a href='https://github.com/revoproject/HWI/tags'>HWI Tool</a>"
 
 #endif // BITCOIN_QT_GUICONSTANTS_H

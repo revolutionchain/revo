@@ -267,7 +267,7 @@
            <string>Show</string>
           </property>
           <property name="icon">
-           <iconset resource="../bitcoin.erc">
+           <iconset resource="../bitcoin.qrc">
             <normaloff>:/icons/show</normaloff>:/icons/show</iconset>
           </property>
           <property name="iconSize">
@@ -309,7 +309,7 @@
            <string>Remove</string>
           </property>
           <property name="icon">
-           <iconset resource="../bitcoin.erc">
+           <iconset resource="../bitcoin.qrc">
             <normaloff>:/icons/remove</normaloff>:/icons/remove</iconset>
           </property>
           <property name="autoDefault">
@@ -413,6 +413,12 @@
           <property name="text">
            <string>S&amp;ubmit</string>
           </property>
+          <property name="autoDefault">
+           <bool>false</bool>
+          </property>
+          <property name="default">
+           <bool>true</bool>
+          </property>
          </widget>
         </item>
        </layout>
@@ -443,7 +449,7 @@
   <tabstop>removeRequestButton</tabstop>
  </tabstops>
  <resources>
-  <include location="../bitcoin.erc"/>
+  <include location="../bitcoin.qrc"/>
  </resources>
  <connections/>
 </ui>

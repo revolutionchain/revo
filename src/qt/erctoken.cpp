@@ -66,6 +66,8 @@ ERCToken::ERCToken(const PlatformStyle *platformStyle, QWidget *parent) :
     connect(removeTokenAction, &QAction::triggered, this, &ERCToken::removeToken);
 
     connect(m_tokenList, &TokenListWidget::customContextMenuRequested, this, &ERCToken::contextualMenu);
+
+    connect(m_sendTokenPage, &SendTokenPage::message, this, &ERCToken::message);
 }
 
  ERCToken::~ERCToken()

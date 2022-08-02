@@ -110,7 +110,7 @@ BOOST_AUTO_TEST_CASE(checking_delegations_contract){
     // Create contracts
     std::vector<RevoTransaction> txs;
     txs.push_back(createRevoTransaction(DELEGATION_CODE, 0, GASLIMIT, dev::u256(1), hashTx, dev::Address()));
-    executeBC(txs);
+    executeBC(txs, *m_node.chainman);
 
     // Set delegation contract address
     dev::Address contractAddress = createRevoAddress(txs[0].getHashWith(), txs[0].getNVout());
@@ -123,12 +123,12 @@ BOOST_AUTO_TEST_CASE(checking_delegations_contract){
     RevoTransaction txAdd = createRevoTransaction(ParseHex(ADD_BYTECODE_HEX), 0, GASLIMIT, dev::u256(1), ++hashTx, contractAddress);
     txAdd.forceSender(dev::Address(DELEGATE_ADDRESS_HEX));
     txsAdd.push_back(txAdd);
-    executeBC(txsAdd);
+    executeBC(txsAdd, *m_node.chainman);
 
     // Get delegation for address
     Delegation delegation;
     uint160 address(ParseHex(DELEGATE_ADDRESS_HEX));
-    bool contractRet = revoDelegation.GetDelegation(address, delegation);
+    bool contractRet = revoDelegation.GetDelegation(address, delegation, m_node.chainman->ActiveChainstate());
     BOOST_CHECK(contractRet == true);
 
     // Verify delegation is valid
@@ -142,11 +142,11 @@ BOOST_AUTO_TEST_CASE(checking_delegations_contract){
     RevoTransaction txRemove = createRevoTransaction(ParseHex(REMOVE_BYTECODE_HEX), 0, GASLIMIT, dev::u256(1), ++hashTx, contractAddress);
     txRemove.forceSender(dev::Address(DELEGATE_ADDRESS_HEX));
     txsRemove.push_back(txRemove);
-    executeBC(txsRemove);
+    executeBC(txsRemove, *m_node.chainman);
 
     // Get delegation for address
     delegation = Delegation();
-    contractRet = revoDelegation.GetDelegation(address, delegation);
+    contractRet = revoDelegation.GetDelegation(address, delegation, m_node.chainman->ActiveChainstate());
     BOOST_CHECK(contractRet == true);
 
     // Verify delegation is valid

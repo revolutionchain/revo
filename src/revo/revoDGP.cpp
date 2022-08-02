@@ -121,7 +121,7 @@ void RevoDGP::initStorageTemplate(const dev::Address& addr){
 }
 
 void RevoDGP::initDataTemplate(const dev::Address& addr, std::vector<unsigned char>& data){
-    dataTemplate = CallContract(addr, data)[0].execRes.output;
+    dataTemplate = CallContract(addr, data, chainstate)[0].execRes.output;
 }
 
 void RevoDGP::createParamsInstance(){

@@ -165,6 +165,8 @@ public:
 
     std::string selector() const;
 
+    int numIndexed() const;
+
     static std::string defaultSelector();
 
     std::string name; // The name of the function;

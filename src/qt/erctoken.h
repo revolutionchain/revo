@@ -1,5 +1,5 @@
-#ifndef  ERCTOKEN_H
-#define  ERCTOKEN_H
+#ifndef ERCTOKEN_H
+#define ERCTOKEN_H
 
 #include <qt/sendtokenpage.h>
 #include <qt/receivetokenpage.h>
@@ -32,6 +32,8 @@ public:
     void setClientModel(ClientModel *clientModel);
 
 Q_SIGNALS:
+    // Fired when a message should be reported to the user
+    void message(const QString &title, const QString &message, unsigned int style);
 
 public Q_SLOTS:
     void on_goToSendTokenPage();

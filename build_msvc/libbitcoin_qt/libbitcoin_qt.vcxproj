@@ -34,7 +34,9 @@
     <ClCompile Include="..\..\src\qt\overviewpage.cpp" />
     <ClCompile Include="..\..\src\qt\paymentserver.cpp" />
     <ClCompile Include="..\..\src\qt\peertablemodel.cpp" />
+    <ClCompile Include="..\..\src\qt\peertablesortproxy.cpp" />
     <ClCompile Include="..\..\src\qt\platformstyle.cpp" />
+    <ClCompile Include="..\..\src\qt\psbtoperationsdialog.cpp" />
     <ClCompile Include="..\..\src\qt\qrimagewidget.cpp" />
     <ClCompile Include="..\..\src\qt\qvalidatedlineedit.cpp" />
     <ClCompile Include="..\..\src\qt\qvaluecombobox.cpp" />
@@ -86,7 +88,9 @@
     <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_overviewpage.cpp" />
     <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_paymentserver.cpp" />
     <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_peertablemodel.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_peertablesortproxy.cpp" />
     <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_platformstyle.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_psbtoperationsdialog.cpp" />
     <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_qrimagewidget.cpp" />
     <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_qvalidatedlineedit.cpp" />
     <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_qvaluecombobox.cpp" />
@@ -102,6 +106,7 @@
     <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_transactiondesc.cpp" />
     <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_transactiondescdialog.cpp" />
     <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_transactionfilterproxy.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_transactionoverviewwidget.cpp" />
     <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_transactionrecord.cpp" />
     <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_transactiontablemodel.cpp" />
     <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_transactionview.cpp" />
@@ -112,8 +117,8 @@
     <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_walletmodeltransaction.cpp" />
     <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_walletview.cpp" />
     <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_winshutdownmonitor.cpp" />
-    <ClCompile Include="$(GeneratedFilesOutDir)\rcc\erc_bitcoin.cpp" />
-    <ClCompile Include="$(GeneratedFilesOutDir)\rcc\erc_bitcoin_locale.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\rcc\qrc_bitcoin.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\rcc\qrc_bitcoin_locale.cpp" />
   </ItemGroup>
 
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -153,7 +158,7 @@
     <QT_MOC Include="..\..\src\qt\overviewpage.cpp" />
     <QT_MOC Include="..\..\src\qt\rpcconsole.cpp" />
     <MocHeaderFiles Include="..\..\src\qt\*.h" />
-    <ResourceTemplates Include="..\..\src\qt\*.erc" />
+    <ResourceTemplates Include="..\..\src\qt\*.qrc" />
     <UiFormFiles Include="..\..\src\qt\forms\*.ui" />
     <TranslationFiles Include="..\..\src\qt\locale\*.ts" />
   </ItemGroup>
@@ -195,13 +200,13 @@
     <Exec Command="$(QtToolsDir)\lrelease.exe &quot;%(TranslationFiles.Identity)&quot; -qm ..\..\src\qt\locale\%(Filename).qm" />
   </Target>
 
-  <Target Name="resource" Inputs="@(ResourceTemplates)" Outputs="@(ResourceTemplates->'$(GeneratedFilesOutDir)\rcc\erc_%(Filename).cpp')" DependsOnTargets="translation">
+  <Target Name="resource" Inputs="@(ResourceTemplates)" Outputs="@(ResourceTemplates->'$(GeneratedFilesOutDir)\rcc\qrc_%(Filename).cpp')" DependsOnTargets="translation">
     <PropertyGroup>
       <ErrorText>There was an error executing the libbitcoin_qt resource code generation task.</ErrorText>
     </PropertyGroup>
     <Exec Command="echo Performing libbitcoin_qt resource code generation task, output path $(GeneratedFilesOutDir)\rcc." />
     <MakeDir Directories="$(GeneratedFilesOutDir)\rcc\" />
-    <Exec Command="$(QtToolsDir)\rcc.exe --verbose --name %(Filename) &quot;%(ResourceTemplates.Identity)&quot; -o $(GeneratedFilesOutDir)\rcc\erc_%(Filename).cpp" />
+    <Exec Command="$(QtToolsDir)\rcc.exe --verbose --name %(Filename) &quot;%(ResourceTemplates.Identity)&quot; -o $(GeneratedFilesOutDir)\rcc\qrc_%(Filename).cpp" />
   </Target>
 
   <Target Name="qtclean">
