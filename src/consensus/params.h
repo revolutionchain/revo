@@ -69,8 +69,6 @@ struct BIP9Deployment {
  */
 struct Params {
     uint256 hashGenesisBlock;
-    int nSubsidyHalvingInterval;
-    int nSubsidyHalvingIntervalV2;
     /* Block hash that is excepted from BIP16 enforcement */
     uint256 BIP16Exception;
     /** Block height and hash at which BIP34 becomes active */
@@ -180,10 +178,6 @@ struct Params {
     {
         return height < nReduceBlocktimeHeight ? nStakeTimestampMask : nRBTStakeTimestampMask;
     }
-    int SubsidyHalvingInterval(int height) const
-    {
-        return height < nReduceBlocktimeHeight ? nSubsidyHalvingInterval : nSubsidyHalvingIntervalV2;
-    }
     int64_t BlocktimeDownscaleFactor(int height) const
     {
         return height < nReduceBlocktimeHeight ? 1 : nBlocktimeDownscaleFactor;
@@ -191,17 +185,6 @@ struct Params {
     int64_t TargetSpacing(int height) const
     {
         return height < nReduceBlocktimeHeight ? nPowTargetSpacing : nRBTPowTargetSpacing;
-    }
-    int SubsidyHalvingWeight(int height) const
-    {
-        if(height <= nLastBigReward)
-            return 0;
-
-        int blocktimeDownscaleFactor = BlocktimeDownscaleFactor(height);
-        int blockCount = height - nLastBigReward;
-        int beforeDownscale = blocktimeDownscaleFactor == 1 ? 0 : nReduceBlocktimeHeight - nLastBigReward - 1;
-        int subsidyHalvingWeight = blockCount - beforeDownscale + beforeDownscale * blocktimeDownscaleFactor;
-        return subsidyHalvingWeight;
     }
     int64_t TimestampDownscaleFactor(int height) const
     {
