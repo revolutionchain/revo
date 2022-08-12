@@ -32,18 +32,18 @@ public:
 
     RevoDGP(RevoState* _state, CChainState& _chainstate, bool _dgpevm = true) : dgpevm(_dgpevm), state(_state), chainstate(_chainstate) { initDataSchedule(); }
 
-    dev::eth::EVMSchedule getGasSchedule(int blockHeight);
+    dev::eth::EVMSchedule getGasSchedule();
 
     //uint32_t getBlockSize(unsigned int blockHeight);
-    uint64_t getBlockSize(unsigned int blockHeight);
+    uint64_t getBlockSize();
 
-    uint64_t getMinGasPrice(unsigned int blockHeight);
+    uint64_t getMinGasPrice();
 
-    uint64_t getBlockGasLimit(unsigned int blockHeight);
+    uint64_t getBlockGasLimit();
 
 private:
 
-    bool initStorages(const dev::Address& addr, unsigned int blockHeight, std::vector<unsigned char> data = std::vector<unsigned char>());
+    bool initStorages(const dev::Address& addr,std::vector<unsigned char> data = std::vector<unsigned char>());
 
     void initStorageDGP(const dev::Address& addr);
 
@@ -53,13 +53,13 @@ private:
 
     void initDataSchedule();
 
-    bool checkLimitSchedule(const std::vector<uint32_t>& defaultData, const std::vector<uint32_t>& checkData, int blockHeight);
+    bool checkLimitSchedule(const std::vector<uint32_t>& defaultData, const std::vector<uint32_t>& checkData);
 
     void createParamsInstance();
 
-    dev::Address getAddressForBlock(unsigned int blockHeight);
+    dev::Address getAddressForBlock();
 
-    uint64_t getUint64FromDGP(unsigned int blockHeight, const dev::Address& contract, std::vector<unsigned char> data);
+    uint64_t getUint64FromDGP(const dev::Address& contract, std::vector<unsigned char> data);
 
     void parseStorageScheduleContract(std::vector<uint32_t>& uint32Values);
     
@@ -69,7 +69,7 @@ private:
 
     void parseDataOneUint64(uint64_t& value);
 
-    dev::eth::EVMSchedule createEVMSchedule(const dev::eth::EVMSchedule& schedule, int blockHeight);
+    dev::eth::EVMSchedule createEVMSchedule(const dev::eth::EVMSchedule& schedule);
 
     void clear();    
 
