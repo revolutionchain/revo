@@ -12,6 +12,8 @@ static const dev::Address GasPriceDGP = dev::Address("00000000000000000000000000
 static const dev::Address DGPCONTRACT4 = dev::Address("0000000000000000000000000000000000000083");
 static const dev::Address BlockGasLimitDGP = dev::Address("0000000000000000000000000000000000000084");
 
+static const dev::Address NewDGP = dev::Address("1dec34568a9476915caacee2adccf29c79b58a7f");
+
 static const uint32_t MIN_BLOCK_SIZE_DGP = 500000;
 static const uint32_t MAX_BLOCK_SIZE_DGP = 32000000;
 static const uint32_t DEFAULT_BLOCK_SIZE_DGP = 2000000;
@@ -32,7 +34,8 @@ public:
 
     dev::eth::EVMSchedule getGasSchedule(int blockHeight);
 
-    uint32_t getBlockSize(unsigned int blockHeight);
+    //uint32_t getBlockSize(unsigned int blockHeight);
+    uint64_t getBlockSize(unsigned int blockHeight);
 
     uint64_t getMinGasPrice(unsigned int blockHeight);
 

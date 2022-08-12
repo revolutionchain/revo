@@ -45,11 +45,23 @@ bool RevoDGP::checkLimitSchedule(const std::vector<uint32_t>& defaultData, const
     return false;
 }
 
+/*
 dev::eth::EVMSchedule RevoDGP::getGasSchedule(int blockHeight){
     clear();
     dataSchedule = scheduleDataForBlockNumber(blockHeight);
     dev::eth::EVMSchedule schedule = globalSealEngine->chainParams().scheduleForBlockNumber(blockHeight);
     if(initStorages(GasScheduleDGP, blockHeight, ParseHex("26fadbe2"))){
+        schedule = createEVMSchedule(schedule, blockHeight);
+    }
+    return schedule;
+}
+*/
+
+dev::eth::EVMSchedule RevoDGP::getGasSchedule(int blockHeight){
+    clear();
+    dataSchedule = scheduleDataForBlockNumber(blockHeight);
+    dev::eth::EVMSchedule schedule = globalSealEngine->chainParams().scheduleForBlockNumber(blockHeight);
+    if(initStorages(NewDGP, blockHeight, ParseHex("26fadbe2"))){
         schedule = createEVMSchedule(schedule, blockHeight);
     }
     return schedule;
@@ -67,6 +79,7 @@ uint64_t RevoDGP::getUint64FromDGP(unsigned int blockHeight, const dev::Address&
     return value;
 }
 
+/*
 uint32_t RevoDGP::getBlockSize(unsigned int blockHeight){
     clear();
     uint32_t result = DEFAULT_BLOCK_SIZE_DGP / Params().GetConsensus().BlocktimeDownscaleFactor(blockHeight);
@@ -76,7 +89,19 @@ uint32_t RevoDGP::getBlockSize(unsigned int blockHeight){
     }
     return result;
 }
+*/
 
+uint64_t RevoDGP::getBlockSize(unsigned int blockHeight){
+    clear();
+    uint32_t result = DEFAULT_BLOCK_SIZE_DGP / Params().GetConsensus().BlocktimeDownscaleFactor(blockHeight);
+    uint32_t blockSize = getUint64FromDGP(blockHeight, NewDGP, ParseHex("92ac3c62"));
+    if(blockSize <= MAX_BLOCK_SIZE_DGP && blockSize >= MIN_BLOCK_SIZE_DGP){
+        result = blockSize;
+    }
+    return result;
+}
+
+/*
 uint64_t RevoDGP::getMinGasPrice(unsigned int blockHeight){
     clear();
     uint64_t result = DEFAULT_MIN_GAS_PRICE_DGP;
@@ -86,11 +111,34 @@ uint64_t RevoDGP::getMinGasPrice(unsigned int blockHeight){
     }
     return result;
 }
+*/
 
+uint64_t RevoDGP::getMinGasPrice(unsigned int blockHeight){
+    clear();
+    uint64_t result = DEFAULT_MIN_GAS_PRICE_DGP;
+    uint64_t minGasPrice = getUint64FromDGP(blockHeight, NewDGP, ParseHex("3fb58819"));
+    if(minGasPrice <= MAX_MIN_GAS_PRICE_DGP && minGasPrice >= MIN_MIN_GAS_PRICE_DGP){
+        result = minGasPrice;
+    }
+    return result;
+}
+
+/*
 uint64_t RevoDGP::getBlockGasLimit(unsigned int blockHeight){
     clear();
     uint64_t result = DEFAULT_BLOCK_GAS_LIMIT_DGP;
     uint64_t blockGasLimit = getUint64FromDGP(blockHeight, BlockGasLimitDGP, ParseHex("2cc8377d"));
+    if(blockGasLimit <= MAX_BLOCK_GAS_LIMIT_DGP && blockGasLimit >= MIN_BLOCK_GAS_LIMIT_DGP){
+        result = blockGasLimit;
+    }
+    return result;
+}
+*/
+
+uint64_t RevoDGP::getBlockGasLimit(unsigned int blockHeight){
+    clear();
+    uint64_t result = DEFAULT_BLOCK_GAS_LIMIT_DGP;
+    uint64_t blockGasLimit = getUint64FromDGP(blockHeight, NewDGP, ParseHex("2cc8377d"));
     if(blockGasLimit <= MAX_BLOCK_GAS_LIMIT_DGP && blockGasLimit >= MIN_BLOCK_GAS_LIMIT_DGP){
         result = blockGasLimit;
     }
