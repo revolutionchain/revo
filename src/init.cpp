@@ -1294,14 +1294,6 @@ bool AppInitParameterInteraction(const ArgsManager& args)
             return InitError(Untranslated(strprintf("-stakingexcludelist, address %s does not refer to public key hash", strAddress)));
     }
 
-// MIODRAG
-CAmount sum=0;
-for (int i=1; i<=33000000; i++)
-{
-    sum = sum + GetBlockSubsidy(i, chainparams.GetConsensus());
-}
-LogPrintf("MIODRAG TOTAL SUPPLY = %u\n", sum);
-
     return true;
 }
 

@@ -1436,6 +1436,61 @@ CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
     return 0 * COIN;
 }
 
+CAmount GetSupply(int nHeight, const Consensus::Params& consensusParams)
+{
+    int previous_blocks = 0;
+    CAmount previous_supply = 50 * COIN; // Genesis reward
+
+    if(nHeight <= consensusParams.nLastBigReward)
+        return previous_supply + (nHeight - previous_blocks) * 21000 * COIN;
+
+    previous_supply = previous_supply + (consensusParams.nLastBigReward - previous_blocks) * 21000 * COIN;
+    previous_blocks = consensusParams.nLastBigReward;
+
+    if (nHeight <= 1000000)
+        return previous_supply + (nHeight - previous_blocks) * 21 * COIN;
+
+    previous_supply = previous_supply + (1000000 - previous_blocks) * 21 * COIN;
+    previous_blocks = 1000000;
+
+    if (nHeight <= 2000000)
+        return previous_supply + (nHeight - previous_blocks) * 13 * COIN;
+
+    previous_supply = previous_supply + (2000000 - previous_blocks) * 13 * COIN;
+    previous_blocks = 2000000;
+
+    if (nHeight <= 4000000)
+        return previous_supply + (nHeight - previous_blocks) * 8 * COIN;
+
+    previous_supply = previous_supply + (4000000 - previous_blocks) * 8 * COIN;
+    previous_blocks = 4000000;
+
+    if (nHeight <= 7000000)
+        return previous_supply + (nHeight - previous_blocks) * 5 * COIN;
+
+    previous_supply = previous_supply + (7000000 - previous_blocks) * 5 * COIN;
+    previous_blocks = 7000000;
+
+    if (nHeight <= 12000000)
+        return previous_supply + (nHeight - previous_blocks) * 3 * COIN;
+
+    previous_supply = previous_supply + (12000000 - previous_blocks) * 3 * COIN;
+    previous_blocks = 12000000;
+
+    if (nHeight <= 20000000)
+        return previous_supply + (nHeight - previous_blocks) * 2 * COIN;
+
+    previous_supply = previous_supply + (20000000 - previous_blocks) * 2 * COIN;
+    previous_blocks = 20000000;
+
+    if (nHeight <= 33000000)
+        return previous_supply + (nHeight - previous_blocks) * 1 * COIN;
+
+    previous_supply = previous_supply + (33000000 - previous_blocks) * 1 * COIN;
+
+    return previous_supply;
+}
+
 CoinsViews::CoinsViews(
     std::string ldb_name,
     size_t cache_size_bytes,
@@ -3385,16 +3440,14 @@ bool CChainState::ConnectBlock(const CBlock& block, BlockValidationState& state,
 //////////////////////////////////////////////////////////////////
 
     pindex->nMoneySupply = (pindex->pprev? pindex->pprev->nMoneySupply : 0) + nValueOut - nValueIn;
-// MIODRAG: TODO: New supply function required for this check
-/*
-    //only start checking this error after block 5000 and only on testnet and mainnet, not regtest
-    if(pindex->nHeight > 5000 && !m_params.MineBlocksOnDemand()) {
+    //only on testnet and mainnet, not regtest
+    if(!m_params.MineBlocksOnDemand()) {
         //sanity check in case an exploit happens that allows new coins to be minted
-        if(pindex->nMoneySupply > (uint64_t)(100000000 + ((pindex->nHeight - 5000) * 4)) * COIN){
+        if(pindex->nMoneySupply > (uint64_t)(GetSupply(pindex->nHeight, m_params.GetConsensus()))){
             return state.Invalid(BlockValidationResult::BLOCK_CONSENSUS, "incorrect-money-supply", "ConnectBlock(): Unknown error caused actual money supply to exceed expected money supply");
         }
     }
-*/
+
     if (!WriteUndoDataForBlock(blockundo, state, pindex, m_params)) {
         return false;
     }
