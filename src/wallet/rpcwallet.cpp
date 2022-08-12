@@ -942,30 +942,31 @@ static RPCHelpMan splitutxosforaddress()
     };
 }
 
-// Miodrag TODO: fix mergeunspent
-/*
+
 static RPCHelpMan mergeunspent()
 {
     return RPCHelpMan{"mergeunspent",
-        "\nMerge utxos of a given address." +
-            HELP_REQUIRING_PASSPHRASE,
-        {
-            {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "The wallet address to merge utxos for."},
-            {"maxInputs", RPCArg::Type::NUM, "100", "Maximum number of utxos to merge."},
-            {"minValue", RPCArg::Type::AMOUNT, "0.0", "Select utxo which value is greater than or equal to this value (default 0 REVO)"},
-            {"maxValue", RPCArg::Type::AMOUNT, "100000.0", "Select utxo which value is lower than or equal to this value (default 100000 REVO)"},
-        },
-        RPCResult {
-            RPCResult::Type::OBJ, "", "",
-            {
-                { RPCResult::Type::STR_HEX, "txid", "The transaction id." },
-                { RPCResult::Type::NUM, "count", "Count of utxos merged," },
-            }
-        },
-        RPCExamples{
-            HelpExampleCli("mergeunspent", "\"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 500")
+                "\nMerge an address many smaller utxos into one." +
+                    HELP_REQUIRING_PASSPHRASE,
+                {
+                    {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "The wallet address to merge utxos for."},
+                    {"maxInputs", RPCArg::Type::NUM, RPCArg::Default{100}, "Maximum number of utxos to merge."},
+                    {"minValue", RPCArg::Type::AMOUNT, RPCArg::Default{1}, "Select utxo which value is greater than or equal to this value (default 0 REVO)"},
+                    {"maxValue", RPCArg::Type::AMOUNT, RPCArg::Default{10000}, "Select utxo which value is lower than or equal to this value (default 10000 REVO)"},
+                },
+                RPCResult{
+                    RPCResult::Type::OBJ, "", "",
+                    {
+                        {RPCResult::Type::STR_HEX, "txid", "The hex-encoded transaction id"},
+                        {RPCResult::Type::NUM, "count", "Count of utxos merged"},
+                    }
+                },
+                RPCExamples{
+                    HelpExampleCli("mergeunspent", "\"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 500")
             + HelpExampleCli("mergeunspent", "\"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 200 0 50")
-        },
+            + HelpExampleRpc("mergeunspent", "\"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 500")
+            + HelpExampleRpc("mergeunspent", "\"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 200 0 50")
+                },
         [&](const RPCHelpMan& self, const JSONRPCRequest& request) -> UniValue
 {
     std::shared_ptr<CWallet> const pwallet = GetWalletForJSONRPCRequest(request);
@@ -973,203 +974,98 @@ static RPCHelpMan mergeunspent()
 
     // Make sure the results are valid at least up to the most recent block
     // the user could have gotten from another RPC command prior to now
-
     pwallet->BlockUntilSyncedToCurrentChain();
 
     LOCK(pwallet->cs_wallet);
 
-    CTxDestination dest = DecodeDestination(request.params[0].get_str());
-    if (!IsValidDestination(dest)) {
-        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid REVO address");
-    }
+    // Address
+    CTxDestination address = DecodeDestination(request.params[0].get_str());
 
-    int maxInputs = request.params.size() > 1 ? request.params[1].get_int() : 100;
-    if (maxInputs < 2 || maxInputs > 1000) {
-        throw JSONRPCError(RPC_TYPE_ERROR, "maxInputs out of range [2 ... 1000]");
+    if (!IsValidDestination(address)) {
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Revo address");
+    }
+    CScript scriptPubKey = GetScriptForDestination(address);
+    if (!pwallet->IsMine(scriptPubKey)) {
+        throw JSONRPCError(RPC_WALLET_ERROR, "Address not found in wallet");
     }
 
     // minimum value
-    CAmount minValue = request.params.size() > 2 ? AmountFromValue(request.params[2]) : 0 * COIN;
+    CAmount minValue = !request.params[2].isNull() ? AmountFromValue(request.params[2]) : 0;
 
     // maximum value
-    CAmount maxValue = request.params.size() > 3 ? AmountFromValue(request.params[3]) : 100000 * COIN;
+    CAmount maxValue = !request.params[3].isNull() ? AmountFromValue(request.params[3]) : 10000 * COIN;
 
-    if (maxValue <= 0 || minValue > maxValue) {
+    if (minValue < 0 || maxValue <= 0 || minValue > maxValue) {
         throw JSONRPCError(RPC_INVALID_PARAMETER, "Invalid values for minimum and maximum");
     }
 
-    mapValue_t mapValue;
+    // Maximum utxos to merge
+    int maxInputs = !request.params[1].isNull() ? request.params[1].get_int() : 100;
+    if (maxInputs <= 1) {
+        throw JSONRPCError(RPC_INVALID_PARAMETER, "Invalid value for maximum inputs");
+    }
+
     CCoinControl coin_control;
+    coin_control.destChange = address;
+    coin_control.fAllowOtherInputs=true;
 
-    CTxDestination senderAddress = dest;
-    bool fChangeToSender = true;
-
-    UniValue result(UniValue::VOBJ);
+    // Find UTXOs for a address with value greater than minValue and smaller then maxValue
     std::vector<COutput> vecOutputs;
 
-    coin_control.fAllowOtherInputs = true;
-
     assert(pwallet != NULL);
+    pwallet->AvailableCoins(vecOutputs, NULL);
 
-    pwallet->AvailableCoins(vecOutputs, &coin_control);
-
-    CAmount nAmount = 0;
-    int numInputs = 0;
-
-    for(const COutput& out : vecOutputs)
-    {
-        CTxDestination destAdress;
+    CAmount nSelectedAmount = 0;
+    int nCount = 0;
+    for(const COutput& out : vecOutputs) {
+        CTxDestination destAddress;
         const CScript& scriptPubKey = out.tx->tx->vout[out.i].scriptPubKey;
-        bool fValidAddress = ExtractDestination(scriptPubKey, destAdress);
+        bool fValidAddress = ExtractDestination(scriptPubKey, destAddress);
 
         CAmount val = out.tx->tx.get()->vout[out.i].nValue;
-        if (!fValidAddress || senderAddress != destAdress || val > maxValue || val < minValue )
+        if (!fValidAddress || address != destAddress || val > maxValue || val < minValue)
             continue;
 
-        coin_control.Select(COutPoint(out.tx->GetHash(), out.i));
-        nAmount += val;
-        numInputs++;
-
-        if (numInputs >= maxInputs) break;
+        if (nCount < maxInputs)
+        {
+            coin_control.Select(COutPoint(out.tx->GetHash(),out.i));
+            nSelectedAmount += val;
+            nCount++;
+        }
+        else
+        {
+            break;
+        }
     }
 
-    if(!coin_control.HasSelected())
-    {
-        throw JSONRPCError(RPC_TYPE_ERROR, "Specified address does not have any unspent outputs");
+    UniValue obj(UniValue::VOBJ);
+    if(coin_control.HasSelected()){
+        EnsureWalletIsUnlocked(*pwallet);
+
+        CAmount nFeeRequired = 0;
+        bilingual_str error;
+        std::vector<CRecipient> vecSend;
+        int nChangePosRet = -1;
+
+        CRecipient recipient = {scriptPubKey, nSelectedAmount, true};
+        vecSend.push_back(recipient);
+
+        CTransactionRef tx;
+        FeeCalculation fee_calc_out;
+        
+        if (!pwallet->CreateTransaction(vecSend, tx, nFeeRequired, nChangePosRet, error, coin_control, fee_calc_out, true, 0, false)) {
+            throw JSONRPCError(RPC_WALLET_ERROR, error.original);
+        }
+
+        pwallet->CommitTransaction(tx, {}, {});
+        obj.pushKV("txid", tx->GetHash().GetHex());
     }
-    
-    coin_control.destChange = senderAddress;
 
-    EnsureWalletIsUnlocked(*pwallet);
-
-    CTransactionRef tx = SendMoney(*pwallet, coin_control, dest, nAmount, true, coin_control, std::move(mapValue), true);
-    result.pushKV("txid", tx->GetHash().GetHex());
-    result.pushKV("utxos", numInputs);
-    
-    return result;
+    obj.pushKV("count", nCount);
+    return obj;
 },
     };
 }
-*/
-
-// Miodrag TODO: fix genutxosforaddress
-/*
-static RPCHelpMan genutxosforaddress()
-{
-    return RPCHelpMan{"genutxosforaddress",
-        "\nGenerate upto specific number of utxos with the same specified value." +
-            HELP_REQUIRING_PASSPHRASE,
-        {
-            {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "The wallet address to merge utxos for."},
-            {"numberOfUtxos", RPCArg::Type::NUM, "10", "Number of utxos to generate."},
-            {"utxoValue", RPCArg::Type::AMOUNT, "1", "Value of a single generated utxo."},
-        },
-        RPCResult {
-            RPCResult::Type::OBJ, "", "",
-            {
-                { RPCResult::Type::STR_HEX, "txid", "The transaction id." },
-                { RPCResult::Type::NUM, "count", "Count of utxos generated," }
-            }
-        },
-        RPCExamples{
-            HelpExampleCli("genutxosforaddress", "\"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 5 1000")
-        },
-        [&](const RPCHelpMan& self, const JSONRPCRequest& request) -> UniValue
-{
-    std::shared_ptr<CWallet> const pwallet = GetWalletForJSONRPCRequest(request);
-    if (!pwallet) return NullUniValue;
-
-    // Make sure the results are valid at least up to the most recent block
-    // the user could have gotten from another RPC command prior to now
-    pwallet->BlockUntilSyncedToCurrentChain();
-    
-    LOCK(pwallet->cs_wallet);
-    
-    CTxDestination dest = DecodeDestination(request.params[0].get_str());
-    
-    if (!IsValidDestination(dest)) {
-        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid REVO address");
-    }
-
-    int number_of_utxos = request.params.size() > 1 ? request.params[1].get_int() : 10;
-    if (number_of_utxos < 1) {
-        throw JSONRPCError(RPC_TYPE_ERROR, "numberOfUtxos should be at least 1");
-    }
-
-    CAmount utxo_value = AmountFromValue(request.params[2]);
-        if (utxo_value <= 0) {
-        throw JSONRPCError(RPC_TYPE_ERROR, "utxoValue must be greater than 0");
-    }
-
-    mapValue_t mapValue;
-    CCoinControl coin_control;
-
-    CTxDestination senderAddress = dest;
-    bool fChangeToSender = true;
-
-    UniValue result(UniValue::VOBJ);
-    std::vector<COutput> vecOutputs;
-
-    coin_control.fAllowOtherInputs = false;
-
-    assert(pwallet != NULL);
-
-    pwallet->AvailableCoins(vecOutputs, NULL);
-
-    CAmount nAmount = 0;
-    int num_outputs = 0;
-
-    for(const COutput& out : vecOutputs)
-    {
-        CTxDestination destAdress;
-        const CScript& scriptPubKey = out.tx->tx->vout[out.i].scriptPubKey;
-        bool fValidAddress = ExtractDestination(scriptPubKey, destAdress);
-
-        CAmount val = out.tx->tx.get()->vout[out.i].nValue;
-        if (!fValidAddress || senderAddress != destAdress || val == utxo_value)
-            continue;
-
-        coin_control.Select(COutPoint(out.tx->GetHash(), out.i));
-        nAmount += val;
-        if (nAmount > utxo_value * number_of_utxos)
-            break;
-    }
-
-    if (!coin_control.HasSelected())
-    {
-        throw JSONRPCError(RPC_TYPE_ERROR, "Specified address does not have any unspent outputs");
-    }
-
-    if (nAmount < utxo_value * number_of_utxos)
-    {
-        number_of_utxos = nAmount / utxo_value;
-    }
-
-    coin_control.destChange = senderAddress;
-
-    EnsureWalletIsUnlocked(*pwallet);
-
-    CScript scriptPubKey = GetScriptForDestination(dest);
-    CAmount required_fee = 0;
-    std::string strError;
-    std::vector<CRecipient> vecSend;
-    int nChangePosRet = -1;
-
-    CTransactionRef tx_final;
-    CRecipient recipient_final = {scriptPubKey, utxo_value, false};
-
-    if (!pwallet->CreateTransaction(*locked_chain, vecSend, tx_final, required_fee, nChangePosRet, strError, coin_control, true, 0, true))
-    {
-        throw JSONRPCError(RPC_WALLET_ERROR, strprintf("Error: Final genutxosforaddress tx generation failed! (reason: %s)", strError));
-    }
-
-    pwallet->CommitTransaction(tx_final, std::move(mapValue), {} );
-    result.pushKV("txid", tx_final->GetHash().GetHex());
-    result.pushKV("count", num_outputs);
-
-    return result;
-}
-*/
 
 
 PSBTOutput GetPsbtOutput(const CTxOut& v, CWallet& wallet)
@@ -7603,7 +7499,7 @@ static const CRPCCommand commands[] =
     { "wallet",             &sendmanywithdupes,              },
     { "wallet",             &sendtoaddress,                  },
     { "wallet",             &splitutxosforaddress,           },
-//    { "wallet",             &mergeunspent,                   }, // disabled, needs to be fixed
+    { "wallet",             &mergeunspent,                   },
     { "wallet",             &sethdseed,                      },
     { "wallet",             &setlabel,                       },
     { "wallet",             &settxfee,                       },
