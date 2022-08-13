@@ -2278,6 +2278,104 @@ static RPCHelpMan verifychain()
     };
 }
 
+
+static RPCHelpMan exportchain()
+{
+    return RPCHelpMan{"exportchain",
+                "\nExports blockchain database to bootstrap.dat file.\n",
+                {
+                    {"filename", RPCArg::Type::STR, RPCArg::Default{"bootstrap.dat"}, "exported file name"},
+                },
+                RPCResult{
+                    RPCResult::Type::OBJ, "", "",
+                    {
+                        {RPCResult::Type::BOOL, "result", "Success indicator"},
+                        {RPCResult::Type::STR, "height", "Maximum block height exported"},
+                        {RPCResult::Type::STR, "description", "Additional description"},
+                    }
+                },
+                RPCExamples{
+                    HelpExampleCli("exportchain", "")
+                  + HelpExampleRpc("exportchain", "")
+                },
+        [&](const RPCHelpMan& self, const JSONRPCRequest& request) -> UniValue
+{
+
+    ChainstateManager& chainman = EnsureAnyChainman(request.context);
+    LOCK(cs_main);
+
+    CChainState& active_chainstate = chainman.ActiveChainstate();
+    UniValue ret(UniValue::VOBJ);
+    std::string filename = "bootstrap.dat";
+
+    if (request.params.size() == 1)
+        filename = request.params[0].get_str();
+
+    if (active_chainstate.m_chain.Tip() == nullptr)
+    {
+        ret.pushKV("result", false);
+        ret.pushKV("height", "unknown");
+        ret.pushKV("description", "Chain tip is null!");
+        return ret;
+    }
+
+    if (request.params.size() == 1)
+        filename = request.params[0].get_str();
+
+    Consensus::Params chainparams = Params().GetConsensus();
+
+    fs::path path = fs::current_path() / filename;
+    FILE* file = fsbridge::fopen(path, "wb+");
+
+    if (!file) {
+        ret.pushKV("result", false);
+        ret.pushKV("description", strprintf("%s not created", filename));
+    } else {
+        CAutoFile fileout(file, SER_DISK, CLIENT_VERSION);
+
+        CBlockIndex* pindex = active_chainstate.m_chain.Genesis();
+        CBlockIndex* current_tip = active_chainstate.m_chain.Tip();
+
+        while (pindex && pindex != current_tip)
+        {
+            CBlock block;
+
+            if (ReadBlockFromDisk(block, pindex, chainparams))
+            {
+                // Write index header
+                unsigned int nSize = GetSerializeSize(block, fileout.GetVersion());
+                fileout << Params().MessageStart() << nSize;
+
+                // Write block
+                long fileOutPos = ftell(fileout.Get());
+                if (fileOutPos < 0)
+                    return error("WriteBlockToDisk: ftell failed");
+                fileout << block;
+
+                if (pindex->nHeight % 50000 == 0)
+                {
+                    LogPrintf("Still exporting blocks %i/%i\n", pindex->nHeight, current_tip->nHeight);
+                }
+
+                pindex = active_chainstate.m_chain.Next(pindex);
+            }
+        }
+
+        LogPrintf("Finished exporting blocks at height %i\n", pindex->nHeight);
+
+        FileCommit(fileout.Get());
+        fileout.fclose();
+        ret.pushKV("result", true);
+        ret.pushKV("height", pindex->nHeight);
+        ret.pushKV("description", strprintf("%s created", path.generic_string()));
+    }
+
+    return ret;
+},
+    };
+}
+
+
 static void SoftForkDescPushBack(const CBlockIndex* active_chain_tip, UniValue& softforks, const Consensus::Params& params, Consensus::BuriedDeployment dep)
 {
     // For buried deployments.
@@ -3891,6 +3989,7 @@ static const CRPCCommand commands[] =
     { "blockchain",         &pruneblockchain,                    },
     { "blockchain",         &savemempool,                        },
     { "blockchain",         &verifychain,                        },
+    { "blockchain",         &exportchain,                        },
     { "blockchain",         &getaccountinfo,                     },
     { "blockchain",         &getstorage,                         },
 
