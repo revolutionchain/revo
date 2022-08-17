@@ -121,16 +121,16 @@ static const int32_t DEFAULT_STAKER_MAX_UTXO_SCRIPT_CACHE = 200000;
 //! -signpsbtwithhwitool default
 static const bool DEFAULT_SIGN_PSBT_WITH_HWI_TOOL = true;
 
-//Default Transaction Rentention N-BLOCKS
+//! -deleteinterval default
 static const int DEFAULT_TX_DELETE_INTERVAL = 1000;
 
-//Default Transaction Rentention N-BLOCKS
+//! -keeptxfornblocks default
 static const unsigned int DEFAULT_TX_RETENTION_BLOCKS = 1500;
 
-//Default Retenion Last N-Transactions
+//! -keeptxnum default
 static const unsigned int DEFAULT_TX_RETENTION_LASTTX = 50;
 
-//Amount of transactions to delete per run while syncing
+//! Maximum number of transactions to delete per round while syncing
 static const int MAX_DELETE_TX_SIZE = 50000;
 
 class CCoinControl;
