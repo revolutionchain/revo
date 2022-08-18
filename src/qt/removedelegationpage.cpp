@@ -117,10 +117,12 @@ bool RemoveDelegationPage::isDataValid()
 void RemoveDelegationPage::on_gasInfoChanged(quint64 blockGasLimit, quint64 minGasPrice, quint64 nGasPrice)
 {
     Q_UNUSED(nGasPrice)
-    ui->labelGasLimit->setToolTip(tr("Gas limit. Default = %1, Max = %2").arg(DEFAULT_GAS_LIMIT_OP_SEND).arg(blockGasLimit));
-    ui->labelGasPrice->setToolTip(tr("Gas price: REVO price per gas unit. Default = %1, Min = %2").arg(QString::fromStdString(FormatMoney(DEFAULT_GAS_PRICE))).arg(QString::fromStdString(FormatMoney(minGasPrice))));
+    ui->labelGasLimit->setToolTip(tr("Gas limit. Default = %1, Max = %2").arg(blockGasLimit).arg(blockGasLimit));
+    ui->labelGasPrice->setToolTip(tr("Gas price: REVO price per gas unit. Default = %1, Min = %2").arg(QString::fromStdString(FormatMoney(minGasPrice))).arg(QString::fromStdString(FormatMoney(minGasPrice))));
     ui->lineEditGasPrice->SetMinValue(minGasPrice);
+    ui->lineEditGasPrice->setValue(minGasPrice);
     ui->lineEditGasLimit->setMaximum(blockGasLimit);
+    ui->lineEditGasLimit->setValue(blockGasLimit);
 }
 
 void RemoveDelegationPage::accept()
