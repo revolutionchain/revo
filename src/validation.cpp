@@ -3416,8 +3416,6 @@ bool CChainState::ConnectBlock(const CBlock& block, BlockValidationState& state,
         }
         if(checkBlock.hashStateRoot != block.hashStateRoot){
             LogPrintf("Actual block data does not match hashStateRoot expected by AAL block\n");
-            LogPrintf("MIODRAG: checkBlock = %s\n", checkBlock.ToString());
-            LogPrintf("MIODRAG: block = %s\n", block.ToString());
         }
 
         return state.Invalid(BlockValidationResult::BLOCK_CONSENSUS, "incorrect-transactions-or-hashes-block", "ConnectBlock(): Incorrect AAL transactions or hashes (hashStateRoot, hashUTXORoot)");

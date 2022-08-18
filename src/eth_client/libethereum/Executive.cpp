@@ -299,8 +299,6 @@ bool Executive::go(OnOpFunc const& _onOp)
             // Create VM instance. Force Interpreter if tracing requested.
             auto vm = VMFactory::create();
 
-LOG(m_detailsLogger) << "MIODRAG BEFORE GO " << (m_isCreation ? "CREATE" : "CALL") << " at height " << m_envInfo.number() << " , m_gas=" << m_gas;
-
             if (m_isCreation)
             {
                 auto out = vm->exec(m_gas, *m_ext, _onOp);
@@ -378,8 +376,6 @@ LOG(m_detailsLogger) << "MIODRAG BEFORE GO " << (m_isCreation ? "CREATE" : "CALL
         if (m_res && m_output)
             // Copy full output:
             m_res->output = m_output.toVector();
-
-LOG(m_detailsLogger) << "MIODRAG AFTER GO " << (m_isCreation ? "CREATE" : "CALL") << " at height " << m_envInfo.number() << " , m_gas=" << m_gas;
 
 #if ETH_TIMED_EXECUTIONS
         cnote << "VM took:" << t.elapsed() << "; gas used: " << (sgas - m_endGas);
