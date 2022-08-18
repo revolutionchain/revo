@@ -90,10 +90,12 @@ uint64_t RevoDGP::getMinGasPrice(unsigned int blockHeight){
 uint64_t RevoDGP::getBlockGasLimit(unsigned int blockHeight){
     clear();
     uint64_t result = DEFAULT_BLOCK_GAS_LIMIT_DGP;
+    /*
     uint64_t blockGasLimit = getUint64FromDGP(blockHeight, BlockGasLimitDGP, ParseHex("2cc8377d"));
     if(blockGasLimit <= MAX_BLOCK_GAS_LIMIT_DGP && blockGasLimit >= MIN_BLOCK_GAS_LIMIT_DGP){
         result = blockGasLimit;
     }
+    */
     return result;
 }
 
