@@ -280,8 +280,8 @@ public:
         // Replace 0xffffc0 with the activation block number
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].min_activation_height = 0;
 
-        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000000000000000000"); // revo
-        consensus.defaultAssumeValid = uint256S("0x00000779ee4906d19ca1ff861195abd7e6d74a16d74c138b9bc36d94f9ae7d8f"); // genesis
+        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000008000053891589"); // at 5001
+        consensus.defaultAssumeValid = uint256S("0x1494862ae68cb95e1f3e796a5732a3b558aa7a140b97e74cffaeafbdaac63a2a"); // 5001 - the first PoS block
 
         pchMessageStart[0] = 0x50;
         pchMessageStart[1] = 0x57;
@@ -343,6 +343,7 @@ public:
         checkpointData = {
             {
                 {0, uint256S("00000779ee4906d19ca1ff861195abd7e6d74a16d74c138b9bc36d94f9ae7d8f")},
+                {5001, uint256S("1494862ae68cb95e1f3e796a5732a3b558aa7a140b97e74cffaeafbdaac63a2a")}
             }
         };
 
@@ -351,10 +352,10 @@ public:
         };
 
         chainTxData = ChainTxData{
-            // Data as of block 00000779ee4906d19ca1ff861195abd7e6d74a16d74c138b9bc36d94f9ae7d8f (genesis)
-            1661166778,
-            0,
-            0.033333333
+            // Data as of block 1494862ae68cb95e1f3e796a5732a3b558aa7a140b97e74cffaeafbdaac63a2a (5001, first PoS block)
+            1661347676, // * UNIX timestamp of last known number of transactions
+            5003, // * total number of transactions between genesis and that timestamp
+            0.0625 // * estimated number of transactions per second after that timestamp
         };
 
         consensus.nBlocktimeDownscaleFactor = 1;
