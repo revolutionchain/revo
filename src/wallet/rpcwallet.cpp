@@ -618,6 +618,7 @@ static CTransactionRef SplitUTXOs(std::shared_ptr<CWallet> const pwallet, const 
                     SplitRemainder(vecSend, nValueLast2, maxValue);
                 }
 
+                tx = CTransactionRef(); // clear tx
                 FeeCalculation fee_calc_out;
                 if((!pwallet->CreateTransaction(vecSend, tx, nFeeRequired, nChangePosRet, error, coin_control, fee_calc_out, sign, 0, false))) {
                     throw JSONRPCError(RPC_WALLET_ERROR, error.original);
