@@ -1427,7 +1427,7 @@ void CWallet::updatedBlockTip()
 
 void CWallet::updatedBlockTipEx(const CBlockIndex* pindex)
 {
-    if (fTxDeleteEnabled)
+    if (fTxDeleteEnabled && pindex && (pindex->nHeight % 5 == 0)) // delete transactions once in five new blocks
     {
         LOCK2(cs_main, cs_wallet);
         AssertLockHeld(cs_main);
@@ -3701,6 +3701,35 @@ std::shared_ptr<CWallet> CWallet::Create(interfaces::Chain* chain, const std::st
             return nullptr;
         }
     }
+
+    //Set Transaction Deletion Options
+    fTxDeleteEnabled = gArgs.GetBoolArg("-deletetx", false);
+    fTxConflictDeleteEnabled = gArgs.GetBoolArg("-deleteconflicttx", true);
+
+    fDeleteInterval = gArgs.GetArg("-deleteinterval", DEFAULT_TX_DELETE_INTERVAL);
+    if (fDeleteInterval < 1) {
+        error = _("deleteinterval must be greater than 0");
+        return nullptr;
+    }
+
+    fKeepLastNTransactions = gArgs.GetArg("-keeptxnum", DEFAULT_TX_RETENTION_LASTTX);
+    if (fKeepLastNTransactions < 1) {
+        error = _("keeptxnum must be greater than 0");
+        return nullptr;
+    }
+
+    fDeleteTransactionsAfterNBlocks = gArgs.GetArg("-keeptxfornblocks", DEFAULT_TX_RETENTION_BLOCKS);
+    if (fDeleteTransactionsAfterNBlocks < 1) {
+        error = _("keeptxfornblocks must be greater than 0");
+        return nullptr;
+    }
+
+    if (fDeleteTransactionsAfterNBlocks < MIN_DELETETX_DEPTH + 1 ) {
+        LogPrintf("keeptxfornblock is less than MIN_DELETETX_DEPTH, Setting to %i\n", MIN_DELETETX_DEPTH + 1);
+        fDeleteTransactionsAfterNBlocks = MIN_DELETETX_DEPTH + 1;
+    }
+
+
 
     // This wallet is in its first run if there are no ScriptPubKeyMans and it isn't blank or no privkeys
     const bool fFirstRun = walletInstance->m_spk_managers.empty() &&
