@@ -273,12 +273,12 @@ void CreateContract::on_createContractClicked()
 void CreateContract::on_gasInfoChanged(quint64 blockGasLimit, quint64 minGasPrice, quint64 nGasPrice)
 {
     Q_UNUSED(nGasPrice);
-    ui->labelGasLimit->setToolTip(tr("Gas limit. Default = %1, Max = %2").arg(blockGasLimit).arg(blockGasLimit));
+    ui->labelGasLimit->setToolTip(tr("Gas limit. Default = %1, Max = %2").arg(DEFAULT_GAS_LIMIT_OP_CREATE).arg(blockGasLimit));
     ui->labelGasPrice->setToolTip(tr("Gas price: RVO price per gas unit. Default = %1, Min = %2").arg(QString::fromStdString(FormatMoney(minGasPrice))).arg(QString::fromStdString(FormatMoney(minGasPrice))));
     ui->lineEditGasPrice->SetMinValue(minGasPrice);
     ui->lineEditGasPrice->setValue(minGasPrice);
     ui->lineEditGasLimit->setMaximum(blockGasLimit);
-    ui->lineEditGasLimit->setValue(blockGasLimit);
+    ui->lineEditGasLimit->setValue(DEFAULT_GAS_LIMIT_OP_CREATE);
 }
 
 void CreateContract::on_updateCreateButton()
