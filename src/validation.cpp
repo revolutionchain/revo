@@ -1538,7 +1538,9 @@ void CChainState::InitCoinsCache(size_t cache_size_bytes)
 //
 bool CChainState::IsInitialBlockDownload() const
 {
-    static bool fForceInitialBlocksDownloadMode = gArgs.GetBoolArg("-forceinitialblocksdownloadmode", DEFAULT_FORCE_INITIAL_BLOCKS_DOWNLOAD_MODE);
+    static bool fForceInitialBlocksDownloadMode = gArgs.GetBoolArg("-forceinitialblocksdownloadmode", DEFAULT_FORCE_INITIAL_BLOCKS_DOWNLOAD_MODE)
+                                                  || gArgs.GetBoolArg("-forceibd", DEFAULT_FORCE_INITIAL_BLOCKS_DOWNLOAD_MODE);
+
     if(fForceInitialBlocksDownloadMode)
         return true;
 
