@@ -118,8 +118,8 @@ public:
         // Replace 0xffffc0 with the activation block number
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].min_activation_height = 0;
 
-        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000000000000000000");
-        consensus.defaultAssumeValid = uint256S("0x0000134793d0d704e7d05a7a09c2b2a902b4affd6ff8e4ffb8ff061b3bbd4bfa");
+        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000000000013891389");
+        consensus.defaultAssumeValid = uint256S("0x00004ae500356d09402d3c2935c9a5e97629314497ca3a1b4bd8ca0f98406ea5");
 
         /**
          * The message start string is designed to be unlikely to occur in normal data.
@@ -190,7 +190,8 @@ public:
 
         checkpointData = {
             {
-                { 0, uint256S("0000134793d0d704e7d05a7a09c2b2a902b4affd6ff8e4ffb8ff061b3bbd4bfa")} // genesis
+                { 0, uint256S("0000134793d0d704e7d05a7a09c2b2a902b4affd6ff8e4ffb8ff061b3bbd4bfa")}, // genesis
+                { 5000, uint256S("00004ae500356d09402d3c2935c9a5e97629314497ca3a1b4bd8ca0f98406ea5")} // 5000
             }
         };
 
@@ -199,11 +200,11 @@ public:
         };
 
         chainTxData = ChainTxData{
-            // Data as of block 00000779ee4906d19ca1ff861195abd7e6d74a16d74c138b9bc36d94f9ae7d8f (genesis)
-            1665420800, // * UNIX timestamp of last known number of transactions
-            0, // * total number of transactions between genesis and that timestamp
+            // Data as of block 00004ae500356d09402d3c2935c9a5e97629314497ca3a1b4bd8ca0f98406ea5 (5000)
+            1665591719, // * UNIX timestamp of last known number of transactions
+            5003, // * total number of transactions between genesis and that timestamp
             //   (the tx=... number in the SetBestChain debug.log lines)
-            0.0333333333333 // * estimated number of transactions per second after that timestamp
+            0.0625 // * estimated number of transactions per second after that timestamp
         };
 
         consensus.nBlocktimeDownscaleFactor = 1;
