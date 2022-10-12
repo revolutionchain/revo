@@ -119,7 +119,7 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].min_activation_height = 0;
 
         consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000000000000000000");
-        consensus.defaultAssumeValid = uint256S("0x00000779ee4906d19ca1ff861195abd7e6d74a16d74c138b9bc36d94f9ae7d8f");
+        consensus.defaultAssumeValid = uint256S("0x0000134793d0d704e7d05a7a09c2b2a902b4affd6ff8e4ffb8ff061b3bbd4bfa");
 
         /**
          * The message start string is designed to be unlikely to occur in normal data.
@@ -136,7 +136,7 @@ public:
         m_assumed_blockchain_size = 16;
         m_assumed_chain_state_size = 1;
 
-        genesis = CreateGenesisBlock(1661166778, 561381, 0x1f00ffff, 1, 50 * COIN);
+        genesis = CreateGenesisBlock(1665420800, 589981, 0x1f00ffff, 1, 50 * COIN);
 
         /*
         // MINING GENESIS BLOCK
@@ -155,7 +155,7 @@ public:
         */
 
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x00000779ee4906d19ca1ff861195abd7e6d74a16d74c138b9bc36d94f9ae7d8f"));
+        assert(consensus.hashGenesisBlock == uint256S("0x0000134793d0d704e7d05a7a09c2b2a902b4affd6ff8e4ffb8ff061b3bbd4bfa"));
         assert(genesis.hashMerkleRoot == uint256S("0x21b59fdd72a764d2ed328a408e0a436636a27787d309a2ab5ef6f27e921012c6"));
 
         // Note that of those which support the service bits prefix, most only support a subset of
@@ -190,7 +190,7 @@ public:
 
         checkpointData = {
             {
-                { 0, uint256S("00000779ee4906d19ca1ff861195abd7e6d74a16d74c138b9bc36d94f9ae7d8f")} // genesis
+                { 0, uint256S("0000134793d0d704e7d05a7a09c2b2a902b4affd6ff8e4ffb8ff061b3bbd4bfa")} // genesis
             }
         };
 
@@ -200,7 +200,7 @@ public:
 
         chainTxData = ChainTxData{
             // Data as of block 00000779ee4906d19ca1ff861195abd7e6d74a16d74c138b9bc36d94f9ae7d8f (genesis)
-            1661166778, // * UNIX timestamp of last known number of transactions
+            1665420800, // * UNIX timestamp of last known number of transactions
             0, // * total number of transactions between genesis and that timestamp
             //   (the tx=... number in the SetBestChain debug.log lines)
             0.0333333333333 // * estimated number of transactions per second after that timestamp
