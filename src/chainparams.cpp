@@ -170,6 +170,7 @@ public:
 	    vSeeds.emplace_back("seed4.revo.network"); // Revo mainnet
 	    vSeeds.emplace_back("seed5.revo.network"); // Revo mainnet
         vSeeds.emplace_back("seed6.revo.network"); // Revo mainnet
+        vSeeds.emplace_back("seed7.revo.network"); // Revo mainnet
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,60);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,50);
