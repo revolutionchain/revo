@@ -87,7 +87,7 @@ public:
         consensus.QIP6Height = 0;
         consensus.QIP7Height = 0;
         consensus.QIP9Height = 0;
-        consensus.nOfflineStakeHeight = 1000000;
+        consensus.nOfflineStakeHeight = 2100000;
         consensus.nReduceBlocktimeHeight = 1;
         consensus.nMuirGlacierHeight = 1;
         consensus.nLondonHeight = 1;
