@@ -87,7 +87,7 @@ public:
         consensus.QIP6Height = 0;
         consensus.QIP7Height = 0;
         consensus.QIP9Height = 0;
-        consensus.nOfflineStakeHeight = 1000000;
+        consensus.nOfflineStakeHeight = 2100000;
         consensus.nReduceBlocktimeHeight = 1;
         consensus.nMuirGlacierHeight = 1;
         consensus.nLondonHeight = 1;
@@ -169,6 +169,8 @@ public:
 	    vSeeds.emplace_back("seed3.revo.network"); // Revo mainnet
 	    vSeeds.emplace_back("seed4.revo.network"); // Revo mainnet
 	    vSeeds.emplace_back("seed5.revo.network"); // Revo mainnet
+        vSeeds.emplace_back("seed6.revo.network"); // Revo mainnet
+        vSeeds.emplace_back("seed7.revo.network"); // Revo mainnet
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,60);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,50);
