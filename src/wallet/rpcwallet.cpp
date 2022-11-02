@@ -817,10 +817,10 @@ static RPCHelpMan splitutxosforaddress()
                     }
                 },
                 RPCExamples{
-                    HelpExampleCli("splitutxosforaddress", "\"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 100 200")
-            + HelpExampleCli("splitutxosforaddress", "\"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 100 200 100")
-            + HelpExampleRpc("splitutxosforaddress", "\"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 100 200")
-            + HelpExampleRpc("splitutxosforaddress", "\"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 100 200 100")
+                    HelpExampleCli("splitutxosforaddress", "\"RCrRkdVKhJnzXUk75958r455uk6x6uidvA\" 100 200")
+            + HelpExampleCli("splitutxosforaddress", "\"RCrRkdVKhJnzXUk75958r455uk6x6uidvA\" 100 200 100")
+            + HelpExampleRpc("splitutxosforaddress", "\"RCrRkdVKhJnzXUk75958r455uk6x6uidvA\" 100 200")
+            + HelpExampleRpc("splitutxosforaddress", "\"RCrRkdVKhJnzXUk75958r455uk6x6uidvA\" 100 200 100")
                 },
         [&](const RPCHelpMan& self, const JSONRPCRequest& request) -> UniValue
 {
@@ -963,10 +963,10 @@ static RPCHelpMan mergeunspent()
                     }
                 },
                 RPCExamples{
-                    HelpExampleCli("mergeunspent", "\"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 500")
-            + HelpExampleCli("mergeunspent", "\"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 200 0 50")
-            + HelpExampleRpc("mergeunspent", "\"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 500")
-            + HelpExampleRpc("mergeunspent", "\"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 200 0 50")
+                    HelpExampleCli("mergeunspent", "\"RCrRkdVKhJnzXUk75958r455uk6x6uidvA\" 500")
+            + HelpExampleCli("mergeunspent", "\"RCrRkdVKhJnzXUk75958r455uk6x6uidvA\" 200 0 50")
+            + HelpExampleRpc("mergeunspent", "\"RCrRkdVKhJnzXUk75958r455uk6x6uidvA\" 500")
+            + HelpExampleRpc("mergeunspent", "\"RCrRkdVKhJnzXUk75958r455uk6x6uidvA\" 200 0 50")
                 },
         [&](const RPCHelpMan& self, const JSONRPCRequest& request) -> UniValue
 {
@@ -1150,7 +1150,7 @@ static RPCHelpMan createcontract()
                 },
                 RPCExamples{
                 HelpExampleCli("createcontract", "\"60606040525b33600060006101000a81548173ffffffffffffffffffffffffffffffffffffffff02191690836c010000000000000000000000009081020402179055506103786001600050819055505b600c80605b6000396000f360606040526008565b600256\"")
-                + HelpExampleCli("createcontract", "\"60606040525b33600060006101000a81548173ffffffffffffffffffffffffffffffffffffffff02191690836c010000000000000000000000009081020402179055506103786001600050819055505b600c80605b6000396000f360606040526008565b600256\" 6000000 "+FormatMoney(minGasPrice)+" \"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" true")
+                + HelpExampleCli("createcontract", "\"60606040525b33600060006101000a81548173ffffffffffffffffffffffffffffffffffffffff02191690836c010000000000000000000000009081020402179055506103786001600050819055505b600c80605b6000396000f360606040526008565b600256\" 6000000 "+FormatMoney(minGasPrice)+" \"RCrRkdVKhJnzXUk75958r455uk6x6uidvA\" true")
                 },
         [&,blockGasLimit,minGasPrice,nGasPrice](const RPCHelpMan& self, const JSONRPCRequest& request) mutable -> UniValue
 {
@@ -1850,7 +1850,7 @@ static RPCHelpMan sendtocontract()
                     },
                     RPCExamples{
                     HelpExampleCli("sendtocontract", "\"c6ca2697719d00446d4ea51f6fac8fd1e9310214\" \"54f6127f\"")
-                    + HelpExampleCli("sendtocontract", "\"c6ca2697719d00446d4ea51f6fac8fd1e9310214\" \"54f6127f\" 12.0015 6000000 "+FormatMoney(minGasPrice)+" \"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\"")
+                    + HelpExampleCli("sendtocontract", "\"c6ca2697719d00446d4ea51f6fac8fd1e9310214\" \"54f6127f\" 12.0015 6000000 "+FormatMoney(minGasPrice)+" \"RCrRkdVKhJnzXUk75958r455uk6x6uidvA\"")
                     },
             [&](const RPCHelpMan& self, const JSONRPCRequest& request) -> UniValue
 {
@@ -1890,7 +1890,7 @@ static RPCHelpMan removedelegationforaddress()
                         }
                     },
                     RPCExamples{
-                    HelpExampleCli("removedelegationforaddress", " \"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 6000000 "+FormatMoney(minGasPrice))
+                    HelpExampleCli("removedelegationforaddress", " \"RCrRkdVKhJnzXUk75958r455uk6x6uidvA\" 6000000 "+FormatMoney(minGasPrice))
                     },
             [&,nGasPrice](const RPCHelpMan& self, const JSONRPCRequest& request) mutable -> UniValue
 {
@@ -1951,7 +1951,7 @@ static RPCHelpMan setdelegateforaddress()
                         }
                     },
                     RPCExamples{
-                    HelpExampleCli("setdelegateforaddress", " \"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 10 \"QX1GkJdye9WoUnrE2v6ZQhQ72EUVDtGXQX\" 6000000 "+FormatMoney(minGasPrice))
+                    HelpExampleCli("setdelegateforaddress", " \"RCrRkdVKhJnzXUk75958r455uk6x6uidvA\" 10 \"RKevjDxw49cume2TQSMeXa3NMH4qEiptiV\" 6000000 "+FormatMoney(minGasPrice))
                     },
         [&,nGasPrice](const RPCHelpMan& self, const JSONRPCRequest& request) mutable -> UniValue
 {
@@ -2111,12 +2111,12 @@ static RPCHelpMan setsuperstakervaluesforaddress()
                         }
                     },
                     RPCExamples{
-                        HelpExampleCli("setsuperstakervaluesforaddress", "\"{\\\"address\\\":\\\"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\\\",\\\"stakingminutxovalue\\\": \\\"100\\\",\\\"stakingminfee\\\": 10}\"")
-                        + HelpExampleCli("setsuperstakervaluesforaddress", "\"{\\\"address\\\":\\\"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\\\",\\\"stakingminutxovalue\\\": \\\"100\\\",\\\"stakingminfee\\\": 10,\\\"allow\\\":[\\\"QD1ZrZNe3JUo7ZycKEYQQiQAWd9y54F4XX\\\"]}\"")
-                        + HelpExampleCli("setsuperstakervaluesforaddress", "\"{\\\"address\\\":\\\"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\\\",\\\"stakingminutxovalue\\\": \\\"100\\\",\\\"stakingminfee\\\": 10,\\\"exclude\\\":[\\\"QD1ZrZNe3JUo7ZycKEYQQiQAWd9y54F4XX\\\"]}\"")
-                        + HelpExampleRpc("setsuperstakervaluesforaddress", "\"{\\\"address\\\":\\\"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\\\",\\\"stakingminutxovalue\\\": \\\"100\\\",\\\"stakingminfee\\\": 10}\"")
-                        + HelpExampleRpc("setsuperstakervaluesforaddress", "\"{\\\"address\\\":\\\"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\\\",\\\"stakingminutxovalue\\\": \\\"100\\\",\\\"stakingminfee\\\": 10,\\\"allow\\\":[\\\"QD1ZrZNe3JUo7ZycKEYQQiQAWd9y54F4XX\\\"]}\"")
-                        + HelpExampleRpc("setsuperstakervaluesforaddress", "\"{\\\"address\\\":\\\"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\\\",\\\"stakingminutxovalue\\\": \\\"100\\\",\\\"stakingminfee\\\": 10,\\\"exclude\\\":[\\\"QD1ZrZNe3JUo7ZycKEYQQiQAWd9y54F4XX\\\"]}\"")
+                        HelpExampleCli("setsuperstakervaluesforaddress", "\"{\\\"address\\\":\\\"RCrRkdVKhJnzXUk75958r455uk6x6uidvA\\\",\\\"stakingminutxovalue\\\": \\\"100\\\",\\\"stakingminfee\\\": 10}\"")
+                        + HelpExampleCli("setsuperstakervaluesforaddress", "\"{\\\"address\\\":\\\"RCrRkdVKhJnzXUk75958r455uk6x6uidvA\\\",\\\"stakingminutxovalue\\\": \\\"100\\\",\\\"stakingminfee\\\": 10,\\\"allow\\\":[\\\"RX5jibpkY6v4ZbXBdHVhpTdGHZVU8TiGvq\\\"]}\"")
+                        + HelpExampleCli("setsuperstakervaluesforaddress", "\"{\\\"address\\\":\\\"RCrRkdVKhJnzXUk75958r455uk6x6uidvA\\\",\\\"stakingminutxovalue\\\": \\\"100\\\",\\\"stakingminfee\\\": 10,\\\"exclude\\\":[\\\"RX5jibpkY6v4ZbXBdHVhpTdGHZVU8TiGvq\\\"]}\"")
+                        + HelpExampleRpc("setsuperstakervaluesforaddress", "\"{\\\"address\\\":\\\"RCrRkdVKhJnzXUk75958r455uk6x6uidvA\\\",\\\"stakingminutxovalue\\\": \\\"100\\\",\\\"stakingminfee\\\": 10}\"")
+                        + HelpExampleRpc("setsuperstakervaluesforaddress", "\"{\\\"address\\\":\\\"RCrRkdVKhJnzXUk75958r455uk6x6uidvA\\\",\\\"stakingminutxovalue\\\": \\\"100\\\",\\\"stakingminfee\\\": 10,\\\"allow\\\":[\\\"RX5jibpkY6v4ZbXBdHVhpTdGHZVU8TiGvq\\\"]}\"")
+                        + HelpExampleRpc("setsuperstakervaluesforaddress", "\"{\\\"address\\\":\\\"RCrRkdVKhJnzXUk75958r455uk6x6uidvA\\\",\\\"stakingminutxovalue\\\": \\\"100\\\",\\\"stakingminfee\\\": 10,\\\"exclude\\\":[\\\"RX5jibpkY6v4ZbXBdHVhpTdGHZVU8TiGvq\\\"]}\"")
                     },
             [&](const RPCHelpMan& self, const JSONRPCRequest& request) -> UniValue
 {
@@ -2301,8 +2301,8 @@ static RPCHelpMan listsuperstakervaluesforaddress()
                         }
                     },
                     RPCExamples{
-                    HelpExampleCli("listsuperstakervaluesforaddress", "QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd")
-                    + HelpExampleRpc("listsuperstakervaluesforaddress", "QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd")
+                    HelpExampleCli("listsuperstakervaluesforaddress", "RCrRkdVKhJnzXUk75958r455uk6x6uidvA")
+                    + HelpExampleRpc("listsuperstakervaluesforaddress", "RCrRkdVKhJnzXUk75958r455uk6x6uidvA")
                     },
             [&](const RPCHelpMan& self, const JSONRPCRequest& request) -> UniValue
 {
@@ -2352,8 +2352,8 @@ static RPCHelpMan removesuperstakervaluesforaddress()
                     },
                     RPCResult{RPCResult::Type::NONE, "", ""},
                     RPCExamples{
-                    HelpExampleCli("removesuperstakervaluesforaddress", "QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd")
-                    + HelpExampleRpc("removesuperstakervaluesforaddress", "QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd")
+                    HelpExampleCli("removesuperstakervaluesforaddress", "RCrRkdVKhJnzXUk75958r455uk6x6uidvA")
+                    + HelpExampleRpc("removesuperstakervaluesforaddress", "RCrRkdVKhJnzXUk75958r455uk6x6uidvA")
                     },
             [&](const RPCHelpMan& self, const JSONRPCRequest& request) -> UniValue
 {
@@ -2483,11 +2483,11 @@ static RPCHelpMan signmessage()
             "\nUnlock the wallet for 30 seconds\n"
             + HelpExampleCli("walletpassphrase", "\"mypassphrase\" 30") +
             "\nCreate the signature\n"
-            + HelpExampleCli("signmessage", "\"QD1ZrZNe3JUo7ZycKEYQQiQAWd9y54F4XX\" \"my message\"") +
+            + HelpExampleCli("signmessage", "\"RX5jibpkY6v4ZbXBdHVhpTdGHZVU8TiGvq\" \"my message\"") +
             "\nVerify the signature\n"
-            + HelpExampleCli("verifymessage", "\"QD1ZrZNe3JUo7ZycKEYQQiQAWd9y54F4XX\" \"signature\" \"my message\"") +
+            + HelpExampleCli("verifymessage", "\"RX5jibpkY6v4ZbXBdHVhpTdGHZVU8TiGvq\" \"signature\" \"my message\"") +
             "\nAs a JSON-RPC call\n"
-            + HelpExampleRpc("signmessage", "\"QD1ZrZNe3JUo7ZycKEYQQiQAWd9y54F4XX\", \"my message\"")
+            + HelpExampleRpc("signmessage", "\"RX5jibpkY6v4ZbXBdHVhpTdGHZVU8TiGvq\", \"my message\"")
                 },
         [&](const RPCHelpMan& self, const JSONRPCRequest& request) -> UniValue
 {
@@ -2852,13 +2852,13 @@ static RPCHelpMan sendmanywithdupes()
                  },
                 RPCExamples{
             "\nSend two amounts to two different addresses:\n"
-            + HelpExampleCli("sendmanywithdupes", "\"\" \"{\\\"QD1ZrZNe3JUo7ZycKEYQQiQAWd9y54F4XX\\\":0.01,\\\"Q353tsE8YMTA4EuV7dgUXGjNFf9KpVvKHz\\\":0.02}\"") +
+            + HelpExampleCli("sendmanywithdupes", "\"\" \"{\\\"RX5jibpkY6v4ZbXBdHVhpTdGHZVU8TiGvq\\\":0.01,\\\"RAhwGSioRAuuYQf5Ei2knAEPyNSJ2aneWz\\\":0.02}\"") +
             "\nSend two amounts to two different addresses setting the confirmation and comment:\n"
-            + HelpExampleCli("sendmanywithdupes", "\"\" \"{\\\"QD1ZrZNe3JUo7ZycKEYQQiQAWd9y54F4XX\\\":0.01,\\\"Q353tsE8YMTA4EuV7dgUXGjNFf9KpVvKHz\\\":0.02}\" 6 \"testing\"") +
+            + HelpExampleCli("sendmanywithdupes", "\"\" \"{\\\"RX5jibpkY6v4ZbXBdHVhpTdGHZVU8TiGvq\\\":0.01,\\\"RAhwGSioRAuuYQf5Ei2knAEPyNSJ2aneWz\\\":0.02}\" 6 \"testing\"") +
             "\nSend two amounts to two different addresses, subtract fee from amount:\n"
-            + HelpExampleCli("sendmanywithdupes", "\"\" \"{\\\"QD1ZrZNe3JUo7ZycKEYQQiQAWd9y54F4XX\\\":0.01,\\\"Q353tsE8YMTA4EuV7dgUXGjNFf9KpVvKHz\\\":0.02}\" 1 \"\" \"[\\\"QD1ZrZNe3JUo7ZycKEYQQiQAWd9y54F4XX\\\",\\\"Q353tsE8YMTA4EuV7dgUXGjNFf9KpVvKHz\\\"]\"") +
+            + HelpExampleCli("sendmanywithdupes", "\"\" \"{\\\"RX5jibpkY6v4ZbXBdHVhpTdGHZVU8TiGvq\\\":0.01,\\\"RAhwGSioRAuuYQf5Ei2knAEPyNSJ2aneWz\\\":0.02}\" 1 \"\" \"[\\\"RX5jibpkY6v4ZbXBdHVhpTdGHZVU8TiGvq\\\",\\\"RAhwGSioRAuuYQf5Ei2knAEPyNSJ2aneWz\\\"]\"") +
             "\nAs a JSON-RPC call\n"
-            + HelpExampleRpc("sendmanywithdupes", "\"\", {\"QD1ZrZNe3JUo7ZycKEYQQiQAWd9y54F4XX\":0.01,\"Q353tsE8YMTA4EuV7dgUXGjNFf9KpVvKHz\":0.02}, 6, \"testing\"")
+            + HelpExampleRpc("sendmanywithdupes", "\"\", {\"RX5jibpkY6v4ZbXBdHVhpTdGHZVU8TiGvq\":0.01,\"RAhwGSioRAuuYQf5Ei2knAEPyNSJ2aneWz\":0.02}, 6, \"testing\"")
                 },
         [&](const RPCHelpMan& self, const JSONRPCRequest& request) -> UniValue
 {
@@ -6881,10 +6881,10 @@ static RPCHelpMan qrc20approve()
                     }
                 },
                 RPCExamples{
-                    HelpExampleCli("qrc20approve", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"QX1GkJdye9WoUnrE2v6ZQhQ72EUVDtGXQX\" \"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 0.1")
-            + HelpExampleCli("qrc20approve", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"QX1GkJdye9WoUnrE2v6ZQhQ72EUVDtGXQX\" \"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 0.1 "+i64tostr(DEFAULT_GAS_LIMIT_OP_SEND)+" "+FormatMoney(minGasPrice)+" true")
-            + HelpExampleRpc("qrc20approve", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"QX1GkJdye9WoUnrE2v6ZQhQ72EUVDtGXQX\" \"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 0.1")
-            + HelpExampleRpc("qrc20approve", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"QX1GkJdye9WoUnrE2v6ZQhQ72EUVDtGXQX\" \"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 0.1 "+i64tostr(DEFAULT_GAS_LIMIT_OP_SEND)+" "+FormatMoney(minGasPrice)+" true")
+                    HelpExampleCli("qrc20approve", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"RKevjDxw49cume2TQSMeXa3NMH4qEiptiV\" \"RCrRkdVKhJnzXUk75958r455uk6x6uidvA\" 0.1")
+            + HelpExampleCli("qrc20approve", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"RKevjDxw49cume2TQSMeXa3NMH4qEiptiV\" \"RCrRkdVKhJnzXUk75958r455uk6x6uidvA\" 0.1 "+i64tostr(DEFAULT_GAS_LIMIT_OP_SEND)+" "+FormatMoney(minGasPrice)+" true")
+            + HelpExampleRpc("qrc20approve", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"RKevjDxw49cume2TQSMeXa3NMH4qEiptiV\" \"RCrRkdVKhJnzXUk75958r455uk6x6uidvA\" 0.1")
+            + HelpExampleRpc("qrc20approve", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"RKevjDxw49cume2TQSMeXa3NMH4qEiptiV\" \"RCrRkdVKhJnzXUk75958r455uk6x6uidvA\" 0.1 "+i64tostr(DEFAULT_GAS_LIMIT_OP_SEND)+" "+FormatMoney(minGasPrice)+" true")
                 },
             [&,nGasPrice](const RPCHelpMan& self, const JSONRPCRequest& request) mutable -> UniValue
 {
@@ -6988,10 +6988,10 @@ static RPCHelpMan qrc20transfer()
                     }
                 },
                 RPCExamples{
-                    HelpExampleCli("qrc20transfer", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"QX1GkJdye9WoUnrE2v6ZQhQ72EUVDtGXQX\" \"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 0.1")
-            + HelpExampleCli("qrc20transfer", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"QX1GkJdye9WoUnrE2v6ZQhQ72EUVDtGXQX\" \"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 0.1 "+i64tostr(DEFAULT_GAS_LIMIT_OP_SEND)+" "+FormatMoney(minGasPrice)+" true")
-            + HelpExampleRpc("qrc20transfer", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"QX1GkJdye9WoUnrE2v6ZQhQ72EUVDtGXQX\" \"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 0.1")
-            + HelpExampleRpc("qrc20transfer", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"QX1GkJdye9WoUnrE2v6ZQhQ72EUVDtGXQX\" \"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 0.1 "+i64tostr(DEFAULT_GAS_LIMIT_OP_SEND)+" "+FormatMoney(minGasPrice)+" true")
+                    HelpExampleCli("qrc20transfer", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"RKevjDxw49cume2TQSMeXa3NMH4qEiptiV\" \"RCrRkdVKhJnzXUk75958r455uk6x6uidvA\" 0.1")
+            + HelpExampleCli("qrc20transfer", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"RKevjDxw49cume2TQSMeXa3NMH4qEiptiV\" \"RCrRkdVKhJnzXUk75958r455uk6x6uidvA\" 0.1 "+i64tostr(DEFAULT_GAS_LIMIT_OP_SEND)+" "+FormatMoney(minGasPrice)+" true")
+            + HelpExampleRpc("qrc20transfer", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"RKevjDxw49cume2TQSMeXa3NMH4qEiptiV\" \"RCrRkdVKhJnzXUk75958r455uk6x6uidvA\" 0.1")
+            + HelpExampleRpc("qrc20transfer", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"RKevjDxw49cume2TQSMeXa3NMH4qEiptiV\" \"RCrRkdVKhJnzXUk75958r455uk6x6uidvA\" 0.1 "+i64tostr(DEFAULT_GAS_LIMIT_OP_SEND)+" "+FormatMoney(minGasPrice)+" true")
                 },
             [&,nGasPrice](const RPCHelpMan& self, const JSONRPCRequest& request) mutable -> UniValue
 {
@@ -7106,10 +7106,10 @@ static RPCHelpMan qrc20transferfrom()
                     }
                 },
                 RPCExamples{
-                    HelpExampleCli("qrc20transferfrom", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" \"QX1GkJdye9WoUnrE2v6ZQhQ72EUVDtGXQX\" \"QhZThdumK8EFRX8MziWzvjCdiQWRt7Mxdz\" 0.1")
-            + HelpExampleCli("qrc20transferfrom", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" \"QX1GkJdye9WoUnrE2v6ZQhQ72EUVDtGXQX\" \"QhZThdumK8EFRX8MziWzvjCdiQWRt7Mxdz\" 0.1 "+i64tostr(DEFAULT_GAS_LIMIT_OP_SEND)+" "+FormatMoney(minGasPrice)+" true")
-            + HelpExampleRpc("qrc20transferfrom", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" \"QX1GkJdye9WoUnrE2v6ZQhQ72EUVDtGXQX\" \"QhZThdumK8EFRX8MziWzvjCdiQWRt7Mxdz\" 0.1")
-            + HelpExampleRpc("qrc20transferfrom", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" \"QX1GkJdye9WoUnrE2v6ZQhQ72EUVDtGXQX\" \"QhZThdumK8EFRX8MziWzvjCdiQWRt7Mxdz\" 0.1 "+i64tostr(DEFAULT_GAS_LIMIT_OP_SEND)+" "+FormatMoney(minGasPrice)+" true")
+                    HelpExampleCli("qrc20transferfrom", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"RCrRkdVKhJnzXUk75958r455uk6x6uidvA\" \"RKevjDxw49cume2TQSMeXa3NMH4qEiptiV\" \"QhZThdumK8EFRX8MziWzvjCdiQWRt7Mxdz\" 0.1")
+            + HelpExampleCli("qrc20transferfrom", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"RCrRkdVKhJnzXUk75958r455uk6x6uidvA\" \"RKevjDxw49cume2TQSMeXa3NMH4qEiptiV\" \"QhZThdumK8EFRX8MziWzvjCdiQWRt7Mxdz\" 0.1 "+i64tostr(DEFAULT_GAS_LIMIT_OP_SEND)+" "+FormatMoney(minGasPrice)+" true")
+            + HelpExampleRpc("qrc20transferfrom", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"RCrRkdVKhJnzXUk75958r455uk6x6uidvA\" \"RKevjDxw49cume2TQSMeXa3NMH4qEiptiV\" \"QhZThdumK8EFRX8MziWzvjCdiQWRt7Mxdz\" 0.1")
+            + HelpExampleRpc("qrc20transferfrom", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"RCrRkdVKhJnzXUk75958r455uk6x6uidvA\" \"RKevjDxw49cume2TQSMeXa3NMH4qEiptiV\" \"QhZThdumK8EFRX8MziWzvjCdiQWRt7Mxdz\" 0.1 "+i64tostr(DEFAULT_GAS_LIMIT_OP_SEND)+" "+FormatMoney(minGasPrice)+" true")
                 },
             [&,nGasPrice](const RPCHelpMan& self, const JSONRPCRequest& request) mutable -> UniValue
 {
@@ -7223,10 +7223,10 @@ static RPCHelpMan qrc20burn()
                     }
                 },
                 RPCExamples{
-                    HelpExampleCli("qrc20burn", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 0.1")
-            + HelpExampleCli("qrc20burn", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 0.1 "+i64tostr(DEFAULT_GAS_LIMIT_OP_SEND)+" "+FormatMoney(minGasPrice)+" true")
-            + HelpExampleRpc("qrc20burn", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 0.1")
-            + HelpExampleRpc("qrc20burn", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 0.1 "+i64tostr(DEFAULT_GAS_LIMIT_OP_SEND)+" "+FormatMoney(minGasPrice)+" true")
+                    HelpExampleCli("qrc20burn", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"RCrRkdVKhJnzXUk75958r455uk6x6uidvA\" 0.1")
+            + HelpExampleCli("qrc20burn", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"RCrRkdVKhJnzXUk75958r455uk6x6uidvA\" 0.1 "+i64tostr(DEFAULT_GAS_LIMIT_OP_SEND)+" "+FormatMoney(minGasPrice)+" true")
+            + HelpExampleRpc("qrc20burn", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"RCrRkdVKhJnzXUk75958r455uk6x6uidvA\" 0.1")
+            + HelpExampleRpc("qrc20burn", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"RCrRkdVKhJnzXUk75958r455uk6x6uidvA\" 0.1 "+i64tostr(DEFAULT_GAS_LIMIT_OP_SEND)+" "+FormatMoney(minGasPrice)+" true")
                 },
             [&,nGasPrice](const RPCHelpMan& self, const JSONRPCRequest& request) mutable -> UniValue
 {
@@ -7339,10 +7339,10 @@ static RPCHelpMan qrc20burnfrom()
                     }
                 },
                 RPCExamples{
-                    HelpExampleCli("qrc20burnfrom", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"QX1GkJdye9WoUnrE2v6ZQhQ72EUVDtGXQX\" \"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 0.1")
-            + HelpExampleCli("qrc20burnfrom", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"QX1GkJdye9WoUnrE2v6ZQhQ72EUVDtGXQX\" \"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 0.1 "+i64tostr(DEFAULT_GAS_LIMIT_OP_SEND)+" "+FormatMoney(minGasPrice)+" true")
-            + HelpExampleRpc("qrc20burnfrom", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"QX1GkJdye9WoUnrE2v6ZQhQ72EUVDtGXQX\" \"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 0.1")
-            + HelpExampleRpc("qrc20burnfrom", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"QX1GkJdye9WoUnrE2v6ZQhQ72EUVDtGXQX\" \"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 0.1 "+i64tostr(DEFAULT_GAS_LIMIT_OP_SEND)+" "+FormatMoney(minGasPrice)+" true")
+                    HelpExampleCli("qrc20burnfrom", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"RKevjDxw49cume2TQSMeXa3NMH4qEiptiV\" \"RCrRkdVKhJnzXUk75958r455uk6x6uidvA\" 0.1")
+            + HelpExampleCli("qrc20burnfrom", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"RKevjDxw49cume2TQSMeXa3NMH4qEiptiV\" \"RCrRkdVKhJnzXUk75958r455uk6x6uidvA\" 0.1 "+i64tostr(DEFAULT_GAS_LIMIT_OP_SEND)+" "+FormatMoney(minGasPrice)+" true")
+            + HelpExampleRpc("qrc20burnfrom", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"RKevjDxw49cume2TQSMeXa3NMH4qEiptiV\" \"RCrRkdVKhJnzXUk75958r455uk6x6uidvA\" 0.1")
+            + HelpExampleRpc("qrc20burnfrom", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"RKevjDxw49cume2TQSMeXa3NMH4qEiptiV\" \"RCrRkdVKhJnzXUk75958r455uk6x6uidvA\" 0.1 "+i64tostr(DEFAULT_GAS_LIMIT_OP_SEND)+" "+FormatMoney(minGasPrice)+" true")
                 },
             [&,nGasPrice](const RPCHelpMan& self, const JSONRPCRequest& request) mutable -> UniValue
 {
