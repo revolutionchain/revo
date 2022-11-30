@@ -363,6 +363,8 @@ public:
     }
     void abortRescan() override { m_wallet->AbortRescan(); }
     bool backupWallet(const std::string& filename) override { return m_wallet->BackupWallet(filename); }
+    void startStake() override {m_wallet->StartStake(); }
+    void stopStake() override {m_wallet->StopStake(); }
     std::string getWalletName() override { return m_wallet->GetName(); }
     bool getNewDestination(const OutputType type, const std::string label, CTxDestination& dest) override
     {

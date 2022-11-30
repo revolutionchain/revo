@@ -37,7 +37,8 @@ StakePage::StakePage(const PlatformStyle *_platformStyle, QWidget *parent) :
     m_expectedAnnualROI(0)
 {
     ui->setupUi(this);
-    ui->checkStake->setEnabled(CanStake());
+    //ui->checkStake->setEnabled(CanStake());
+    ui->checkStake->setEnabled(true);
     transactionView = new TransactionView(platformStyle, this, true);
     ui->frameStakeRecords->layout()->addWidget(transactionView);
 }
@@ -107,7 +108,17 @@ void StakePage::on_checkStake_clicked(bool checked)
 
     bool privateKeysDisabled = walletModel->wallet().privateKeysDisabled();
     if(!privateKeysDisabled)
-        walletModel->wallet().setEnabledStaking(checked);
+    {
+        if (checked && !walletModel->wallet().getEnabledStaking())
+        {
+            walletModel->wallet().startStake();
+        }
+        else if (!checked && walletModel->wallet().getEnabledStaking())
+        {
+            walletModel->wallet().stopStake();            
+        }
+    }
+
 
     if(checked && WalletModel::Locked == walletModel->getEncryptionStatus())
         Q_EMIT requireUnlock(true);
@@ -120,7 +131,7 @@ void StakePage::on_checkStake_clicked(bool checked)
         }
         else
         {
-            walletModel->wallet().setEnabledStaking(false);
+            walletModel->wallet().stopStake();
         }
     }
 }

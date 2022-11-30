@@ -547,6 +547,7 @@ static RPCHelpMan getstakinginfo()
     uint64_t nStakerWeight = 0;
     uint64_t nDelegateWeight = 0;
     uint64_t lastCoinStakeSearchInterval = 0;
+    bool staking_enabled = false;
 #ifdef ENABLE_WALLET
     std::shared_ptr<CWallet> const wallet = GetWalletForJSONRPCRequest(request);
     CWallet* const pwallet = wallet.get();
@@ -556,6 +557,7 @@ static RPCHelpMan getstakinginfo()
         LOCK(pwallet->cs_wallet);
         nWeight = pwallet->GetStakeWeight(&nStakerWeight, &nDelegateWeight);
         lastCoinStakeSearchInterval = pwallet->m_enabled_staking ? pwallet->m_last_coin_stake_search_interval : 0;
+        staking_enabled = pwallet->m_enabled_staking;
     }
 #endif
 
@@ -570,7 +572,8 @@ static RPCHelpMan getstakinginfo()
 
     UniValue obj(UniValue::VOBJ);
 
-    obj.pushKV("enabled", gArgs.GetBoolArg("-staking", true));
+    //obj.pushKV("enabled", gArgs.GetBoolArg("-staking", true));
+    obj.pushKV("enabled", staking_enabled);
     obj.pushKV("staking", staking);
     obj.pushKV("errors", GetWarnings("statusbar").original);
 
@@ -586,6 +589,61 @@ static RPCHelpMan getstakinginfo()
 
     obj.pushKV("expectedtime", nExpectedTime);
 
+    return obj;
+},
+    };
+}
+
+static RPCHelpMan setstaking()
+{
+    return RPCHelpMan{"setstaking",
+                "\nEnables or disables staking.",
+                {
+                    {"flag", RPCArg::Type::BOOL, RPCArg::Optional::NO, "Flag to enable (true) or disable (false) staking."},
+                },
+                RPCResult{
+                    RPCResult::Type::OBJ, "", "",
+                    {
+                        {RPCResult::Type::BOOL, "enabled", "'true' if staking is enabled"},
+                    }
+                },
+                RPCExamples{
+                    HelpExampleCli("setstaking", "true")
+            + HelpExampleRpc("setstaking", "true")
+                },
+        [&](const RPCHelpMan& self, const JSONRPCRequest& request) -> UniValue
+{
+    LOCK(cs_main);
+    NodeContext& node = EnsureAnyNodeContext(request.context);
+    bool stake_enabled = false;
+
+#ifdef ENABLE_WALLET
+    std::shared_ptr<CWallet> const wallet = GetWalletForJSONRPCRequest(request);
+    CWallet* const pwallet = wallet.get();
+
+    bool flag = request.params[0].get_bool();
+
+    if (pwallet)
+    {
+        LOCK(pwallet->cs_wallet);
+
+        if (!pwallet->IsStakeClosing())
+        {
+            if (flag && !pwallet->m_enabled_staking)
+            {
+                pwallet->StartStake();
+            }
+            else if (!flag && pwallet->m_enabled_staking)
+            {
+                pwallet->StopStake();
+            }
+            stake_enabled = pwallet->m_enabled_staking;
+        }
+    }
+#endif
+
+    UniValue obj(UniValue::VOBJ);
+    obj.pushKV("enabled", stake_enabled);
     return obj;
 },
     };
@@ -1405,6 +1463,7 @@ static const CRPCCommand commands[] =
 
     { "mining",              &getsubsidy,              },
     { "mining",              &getstakinginfo,          },
+    { "mining",              &setstaking,              },
 
     { "generating",          &generatetoaddress,       },
     { "generating",          &generatetodescriptor,    },
