@@ -5029,6 +5029,7 @@ void CWallet::StartStake()
     }
 
     StakeRevos(true);
+    LogPrintf("Staking START\n");
 }
 
 void CWallet::StopStake()
@@ -5046,6 +5047,7 @@ void CWallet::StopStake()
         stakeThread = 0;
         m_stop_staking_thread = false;
     }
+    LogPrintf("Staking STOP\n");
 }
 
 bool CWallet::IsStakeClosing()

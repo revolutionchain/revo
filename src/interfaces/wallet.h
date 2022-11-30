@@ -88,6 +88,12 @@ public:
     //! Back up wallet.
     virtual bool backupWallet(const std::string& filename) = 0;
 
+    //! Start staking.
+    virtual void startStake() = 0;
+
+    //! Stop staking.
+    virtual void stopStake() = 0;
+
     //! Get wallet name.
     virtual std::string getWalletName() = 0;
 
