@@ -74,7 +74,7 @@
 #include <QSizeGrip>
 
 
-const std::string BitcoinGUI::DEFAULT_UIPLATFORM =
+const std::string RevoGUI::DEFAULT_UIPLATFORM =
 #if defined(Q_OS_MAC)
         "macosx"
 #elif defined(Q_OS_WIN)
@@ -87,7 +87,7 @@ const std::string BitcoinGUI::DEFAULT_UIPLATFORM =
 const int DISPLAY_UNIT_CONTROL_MARGIN = 25;
 const int DISPLAY_UNIT_CONTROL_HEIGHT = 24;
 
-BitcoinGUI::BitcoinGUI(interfaces::Node& node, const PlatformStyle *_platformStyle, const NetworkStyle *networkStyle, QWidget *parent) :
+RevoGUI::RevoGUI(interfaces::Node& node, const PlatformStyle *_platformStyle, const NetworkStyle *networkStyle, QWidget *parent) :
     QMainWindow(parent),
     m_node(node),
     trayIconMenu{new QMenu()},
@@ -254,8 +254,8 @@ BitcoinGUI::BitcoinGUI(interfaces::Node& node, const PlatformStyle *_platformSty
 
     modalOverlay = new ModalOverlay(enableWallet, this);
     revoVersionChecker = new RevoVersionChecker(this);
-    connect(labelBlocksIcon, &GUIUtil::ClickableLabel::clicked, this, &BitcoinGUI::showModalOverlay);
-    connect(progressBar, &GUIUtil::ClickableProgressBar::clicked, this, &BitcoinGUI::showModalOverlay);
+    connect(labelBlocksIcon, &GUIUtil::ClickableLabel::clicked, this, &RevoGUI::showModalOverlay);
+    connect(progressBar, &GUIUtil::ClickableProgressBar::clicked, this, &RevoGUI::showModalOverlay);
 
 #ifdef ENABLE_WALLET
     if(enableWallet) {
@@ -281,7 +281,7 @@ BitcoinGUI::BitcoinGUI(interfaces::Node& node, const PlatformStyle *_platformSty
     GUIUtil::handleCloseWindowShortcut(this);
 }
 
-BitcoinGUI::~BitcoinGUI()
+RevoGUI::~RevoGUI()
 {
     // Unsubscribe from notifications from core
     unsubscribeFromCoreSignals();
@@ -299,7 +299,7 @@ BitcoinGUI::~BitcoinGUI()
     delete rpcConsole;
 }
 
-void BitcoinGUI::createActions()
+void RevoGUI::createActions()
 {
     QActionGroup *tabGroup = new QActionGroup(this);
     connect(modalOverlay, &ModalOverlay::triggered, tabGroup, &QActionGroup::setEnabled);
@@ -371,17 +371,17 @@ void BitcoinGUI::createActions()
     // These showNormalIfMinimized are needed because Send Coins and Receive Coins
     // can be triggered from the tray menu, and need to show the GUI to be useful.
     connect(overviewAction, &QAction::triggered, [this]{ showNormalIfMinimized(); });
-    connect(overviewAction, &QAction::triggered, this, &BitcoinGUI::gotoOverviewPage);
+    connect(overviewAction, &QAction::triggered, this, &RevoGUI::gotoOverviewPage);
     connect(sendCoinsAction, &QAction::triggered, [this]{ showNormalIfMinimized(); });
     connect(sendCoinsAction, &QAction::triggered, [this]{ gotoSendCoinsPage(); });
     connect(sendCoinsMenuAction, &QAction::triggered, [this]{ showNormalIfMinimized(); });
     connect(sendCoinsMenuAction, &QAction::triggered, [this]{ gotoSendCoinsPage(); });
     connect(receiveCoinsAction, &QAction::triggered, [this]{ showNormalIfMinimized(); });
-    connect(receiveCoinsAction, &QAction::triggered, this, &BitcoinGUI::gotoReceiveCoinsPage);
+    connect(receiveCoinsAction, &QAction::triggered, this, &RevoGUI::gotoReceiveCoinsPage);
     connect(receiveCoinsMenuAction, &QAction::triggered, [this]{ showNormalIfMinimized(); });
-    connect(receiveCoinsMenuAction, &QAction::triggered, this, &BitcoinGUI::gotoReceiveCoinsPage);
+    connect(receiveCoinsMenuAction, &QAction::triggered, this, &RevoGUI::gotoReceiveCoinsPage);
     connect(historyAction, &QAction::triggered, [this]{ showNormalIfMinimized(); });
-    connect(historyAction, &QAction::triggered, this, &BitcoinGUI::gotoHistoryPage);
+    connect(historyAction, &QAction::triggered, this, &RevoGUI::gotoHistoryPage);
     connect(createContractAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(createContractAction, SIGNAL(triggered()), this, SLOT(gotoCreateContractPage()));
     connect(sendToContractAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
@@ -391,7 +391,7 @@ void BitcoinGUI::createActions()
     connect(ERCTokenAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(ERCTokenAction, SIGNAL(triggered()), this, SLOT(gotoTokenPage()));
     connect(stakeAction, &QAction::triggered, [this]{ showNormalIfMinimized(); });
-    connect(stakeAction, &QAction::triggered, this, &BitcoinGUI::gotoStakePage);
+    connect(stakeAction, &QAction::triggered, this, &RevoGUI::gotoStakePage);
     connect(delegationAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(delegationAction, SIGNAL(triggered()), this, SLOT(gotoDelegationPage()));
     connect(superStakerAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
@@ -480,12 +480,12 @@ void BitcoinGUI::createActions()
     m_mask_values_action->setCheckable(true);
 
     connect(quitAction, &QAction::triggered, qApp, QApplication::quit);
-    connect(aboutAction, &QAction::triggered, this, &BitcoinGUI::aboutClicked);
+    connect(aboutAction, &QAction::triggered, this, &RevoGUI::aboutClicked);
     connect(aboutQtAction, &QAction::triggered, qApp, QApplication::aboutQt);
-    connect(optionsAction, &QAction::triggered, this, &BitcoinGUI::optionsClicked);
-    connect(toggleHideAction, &QAction::triggered, this, &BitcoinGUI::toggleHidden);
-    connect(showHelpMessageAction, &QAction::triggered, this, &BitcoinGUI::showHelpMessageClicked);
-    connect(openRPCConsoleAction, &QAction::triggered, this, &BitcoinGUI::showDebugWindow);
+    connect(optionsAction, &QAction::triggered, this, &RevoGUI::optionsClicked);
+    connect(toggleHideAction, &QAction::triggered, this, &RevoGUI::toggleHidden);
+    connect(showHelpMessageAction, &QAction::triggered, this, &RevoGUI::showHelpMessageClicked);
+    connect(openRPCConsoleAction, &QAction::triggered, this, &RevoGUI::showDebugWindow);
     // prevents an open debug window from becoming stuck/unusable on client shutdown
     connect(quitAction, &QAction::triggered, rpcConsole, &QWidget::hide);
 
@@ -507,7 +507,7 @@ void BitcoinGUI::createActions()
         connect(usedSendingAddressesAction, &QAction::triggered, walletFrame, &WalletFrame::usedSendingAddresses);
         connect(usedReceivingAddressesAction, &QAction::triggered, walletFrame, &WalletFrame::usedReceivingAddresses);
         connect(signTxHardwareAction, &QAction::triggered, [this]{ signTxHardware(); });
-        connect(openAction, &QAction::triggered, this, &BitcoinGUI::openClicked);
+        connect(openAction, &QAction::triggered, this, &RevoGUI::openClicked);
         connect(m_open_wallet_menu, &QMenu::aboutToShow, [this] {
             m_open_wallet_menu->clear();
             for (const std::pair<const std::string, bool>& i : m_wallet_controller->listWalletDir()) {
@@ -527,7 +527,7 @@ void BitcoinGUI::createActions()
 
                 connect(action, &QAction::triggered, [this, path] {
                     auto activity = new OpenWalletActivity(m_wallet_controller, this);
-                    connect(activity, &OpenWalletActivity::opened, this, &BitcoinGUI::setCurrentWallet);
+                    connect(activity, &OpenWalletActivity::opened, this, &RevoGUI::setCurrentWallet);
                     connect(activity, &OpenWalletActivity::finished, activity, &QObject::deleteLater);
                     activity->open(path);
                 });
@@ -542,22 +542,22 @@ void BitcoinGUI::createActions()
         });
         connect(m_create_wallet_action, &QAction::triggered, [this] {
             auto activity = new CreateWalletActivity(m_wallet_controller, this);
-            connect(activity, &CreateWalletActivity::created, this, &BitcoinGUI::setCurrentWallet);
+            connect(activity, &CreateWalletActivity::created, this, &RevoGUI::setCurrentWallet);
             connect(activity, &CreateWalletActivity::finished, activity, &QObject::deleteLater);
             activity->create();
         });
         connect(m_close_all_wallets_action, &QAction::triggered, [this] {
             m_wallet_controller->closeAllWallets(this);
         });
-        connect(m_mask_values_action, &QAction::toggled, this, &BitcoinGUI::setPrivacy);
+        connect(m_mask_values_action, &QAction::toggled, this, &RevoGUI::setPrivacy);
     }
 #endif // ENABLE_WALLET
 
-    connect(new QShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_C), this), &QShortcut::activated, this, &BitcoinGUI::showDebugWindowActivateConsole);
-    connect(new QShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_D), this), &QShortcut::activated, this, &BitcoinGUI::showDebugWindow);
+    connect(new QShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_C), this), &QShortcut::activated, this, &RevoGUI::showDebugWindowActivateConsole);
+    connect(new QShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_D), this), &QShortcut::activated, this, &RevoGUI::showDebugWindow);
 }
 
-void BitcoinGUI::createMenuBar()
+void RevoGUI::createMenuBar()
 {
 #ifdef Q_OS_MAC
     // Create a decoupled menu bar on Mac which stays even if the window is closed
@@ -661,7 +661,7 @@ void BitcoinGUI::createMenuBar()
     help->addAction(aboutQtAction);
 }
 
-void BitcoinGUI::createToolBars()
+void RevoGUI::createToolBars()
 {
     if(walletFrame)
     {
@@ -688,7 +688,7 @@ void BitcoinGUI::createToolBars()
     }
 }
 
-void BitcoinGUI::createTitleBars()
+void RevoGUI::createTitleBars()
 {
 #ifdef ENABLE_WALLET
     if(walletFrame)
@@ -696,7 +696,7 @@ void BitcoinGUI::createTitleBars()
         // Create wallet selector
         m_wallet_selector = new QComboBox();
         m_wallet_selector->setSizeAdjustPolicy(QComboBox::AdjustToContents);
-        connect(m_wallet_selector, qOverload<int>(&QComboBox::currentIndexChanged), this, &BitcoinGUI::setCurrentWalletBySelectorIndex);
+        connect(m_wallet_selector, qOverload<int>(&QComboBox::currentIndexChanged), this, &RevoGUI::setCurrentWalletBySelectorIndex);
 
         m_wallet_selector_label = new QLabel();
         m_wallet_selector_label->setText(tr("Wallet:") + " ");
@@ -715,7 +715,7 @@ void BitcoinGUI::createTitleBars()
 #endif // ENABLE_WALLET
 }
 
-void BitcoinGUI::setClientModel(ClientModel *_clientModel, interfaces::BlockAndHeaderTipInfo* tip_info)
+void RevoGUI::setClientModel(ClientModel *_clientModel, interfaces::BlockAndHeaderTipInfo* tip_info)
 {
     this->clientModel = _clientModel;
     if(_clientModel)
@@ -737,12 +737,12 @@ void BitcoinGUI::setClientModel(ClientModel *_clientModel, interfaces::BlockAndH
         connect(connectionsControl, &GUIUtil::ClickableLabel::clicked, [this] {
             GUIUtil::PopupMenu(m_network_context_menu, QCursor::pos());
         });
-        connect(_clientModel, &ClientModel::numConnectionsChanged, this, &BitcoinGUI::setNumConnections);
-        connect(_clientModel, &ClientModel::networkActiveChanged, this, &BitcoinGUI::setNetworkActive);
+        connect(_clientModel, &ClientModel::numConnectionsChanged, this, &RevoGUI::setNumConnections);
+        connect(_clientModel, &ClientModel::networkActiveChanged, this, &RevoGUI::setNetworkActive);
 
         modalOverlay->setKnownBestHeight(tip_info->header_height, QDateTime::fromTime_t(tip_info->header_time));
         setNumBlocks(tip_info->block_height, QDateTime::fromTime_t(tip_info->block_time), tip_info->verification_progress, false, SynchronizationState::INIT_DOWNLOAD);
-        connect(_clientModel, &ClientModel::numBlocksChanged, this, &BitcoinGUI::setNumBlocks);
+        connect(_clientModel, &ClientModel::numBlocksChanged, this, &RevoGUI::setNumBlocks);
 
         // Receive and report messages from client model
         connect(_clientModel, &ClientModel::message, [this](const QString &title, const QString &message, unsigned int style){
@@ -750,7 +750,7 @@ void BitcoinGUI::setClientModel(ClientModel *_clientModel, interfaces::BlockAndH
         });
 
         // Show progress dialog
-        connect(_clientModel, &ClientModel::showProgress, this, &BitcoinGUI::showProgress);
+        connect(_clientModel, &ClientModel::showProgress, this, &RevoGUI::showProgress);
 
         rpcConsole->setClientModel(_clientModel, tip_info->block_height, tip_info->block_time, tip_info->verification_progress);
 
@@ -801,7 +801,7 @@ void BitcoinGUI::setClientModel(ClientModel *_clientModel, interfaces::BlockAndH
 }
 
 #ifdef ENABLE_WALLET
-void BitcoinGUI::setWalletController(WalletController* wallet_controller)
+void RevoGUI::setWalletController(WalletController* wallet_controller)
 {
     assert(!m_wallet_controller);
     assert(wallet_controller);
@@ -812,20 +812,20 @@ void BitcoinGUI::setWalletController(WalletController* wallet_controller)
     m_open_wallet_action->setEnabled(true);
     m_open_wallet_action->setMenu(m_open_wallet_menu);
 
-    GUIUtil::ExceptionSafeConnect(wallet_controller, &WalletController::walletAdded, this, &BitcoinGUI::addWallet);
-    connect(wallet_controller, &WalletController::walletRemoved, this, &BitcoinGUI::removeWallet);
+    GUIUtil::ExceptionSafeConnect(wallet_controller, &WalletController::walletAdded, this, &RevoGUI::addWallet);
+    connect(wallet_controller, &WalletController::walletRemoved, this, &RevoGUI::removeWallet);
 
     for (WalletModel* wallet_model : m_wallet_controller->getOpenWallets()) {
         addWallet(wallet_model);
     }
 }
 
-WalletController* BitcoinGUI::getWalletController()
+WalletController* RevoGUI::getWalletController()
 {
     return m_wallet_controller;
 }
 
-void BitcoinGUI::addWallet(WalletModel* walletModel)
+void RevoGUI::addWallet(WalletModel* walletModel)
 {
     if (!walletFrame) return;
 
@@ -840,21 +840,21 @@ void BitcoinGUI::addWallet(WalletModel* walletModel)
         m_wallet_selector->setVisible(true);
     }
 
-    connect(wallet_view, &WalletView::outOfSyncWarningClicked, this, &BitcoinGUI::showModalOverlay);
-    connect(wallet_view, &WalletView::showMore, this, &BitcoinGUI::gotoHistoryPage);
-    connect(wallet_view, &WalletView::sendCoins, this, &BitcoinGUI::gotoSendCoinsPage);
-    connect(wallet_view, &WalletView::receiveCoins, this, &BitcoinGUI::gotoReceiveCoinsPage);
-    connect(wallet_view, &WalletView::transactionClicked, this, &BitcoinGUI::gotoHistoryPage);
-    connect(wallet_view, &WalletView::coinsSent, this, &BitcoinGUI::gotoHistoryPage);
+    connect(wallet_view, &WalletView::outOfSyncWarningClicked, this, &RevoGUI::showModalOverlay);
+    connect(wallet_view, &WalletView::showMore, this, &RevoGUI::gotoHistoryPage);
+    connect(wallet_view, &WalletView::sendCoins, this, &RevoGUI::gotoSendCoinsPage);
+    connect(wallet_view, &WalletView::receiveCoins, this, &RevoGUI::gotoReceiveCoinsPage);
+    connect(wallet_view, &WalletView::transactionClicked, this, &RevoGUI::gotoHistoryPage);
+    connect(wallet_view, &WalletView::coinsSent, this, &RevoGUI::gotoHistoryPage);
     connect(wallet_view, &WalletView::message, [this](const QString& title, const QString& message, unsigned int style) {
         this->message(title, message, style);
     });
-    connect(wallet_view, &WalletView::encryptionStatusChanged, this, &BitcoinGUI::updateWalletStatus);
-    connect(wallet_view, &WalletView::incomingTransaction, this, &BitcoinGUI::incomingTransaction);
-    connect(wallet_view, &WalletView::incomingTokenTransaction, this, &BitcoinGUI::incomingTokenTransaction);
-    connect(wallet_view, &WalletView::hdEnabledStatusChanged, this, &BitcoinGUI::updateWalletStatus);
+    connect(wallet_view, &WalletView::encryptionStatusChanged, this, &RevoGUI::updateWalletStatus);
+    connect(wallet_view, &WalletView::incomingTransaction, this, &RevoGUI::incomingTransaction);
+    connect(wallet_view, &WalletView::incomingTokenTransaction, this, &RevoGUI::incomingTokenTransaction);
+    connect(wallet_view, &WalletView::hdEnabledStatusChanged, this, &RevoGUI::updateWalletStatus);
     connect(wallet_view, &WalletView::currentChanged, walletFrame, &WalletFrame::pageChanged);
-    connect(this, &BitcoinGUI::setPrivacy, wallet_view, &WalletView::setPrivacy);
+    connect(this, &RevoGUI::setPrivacy, wallet_view, &WalletView::setPrivacy);
     wallet_view->setPrivacy(isPrivacyModeActivated());
     const QString display_name = walletModel->getDisplayName();
     m_wallet_selector->addItem(display_name, QVariant::fromValue(walletModel));
@@ -866,7 +866,7 @@ void BitcoinGUI::addWallet(WalletModel* walletModel)
     m_wallet_selector->setCurrentIndex(m_wallet_selector->count()-1);
 }
 
-void BitcoinGUI::removeWallet(WalletModel* walletModel)
+void RevoGUI::removeWallet(WalletModel* walletModel)
 {
     if (!walletFrame) return;
 
@@ -888,7 +888,7 @@ void BitcoinGUI::removeWallet(WalletModel* walletModel)
     updateWindowTitle();
 }
 
-void BitcoinGUI::setCurrentWallet(WalletModel* wallet_model)
+void RevoGUI::setCurrentWallet(WalletModel* wallet_model)
 {
     if (!walletFrame) return;
     walletFrame->setCurrentWallet(wallet_model);
@@ -904,13 +904,13 @@ void BitcoinGUI::setCurrentWallet(WalletModel* wallet_model)
     updateWindowTitle();
 }
 
-void BitcoinGUI::setCurrentWalletBySelectorIndex(int index)
+void RevoGUI::setCurrentWalletBySelectorIndex(int index)
 {
     WalletModel* wallet_model = m_wallet_selector->itemData(index).value<WalletModel*>();
     if (wallet_model) setCurrentWallet(wallet_model);
 }
 
-void BitcoinGUI::removeAllWallets()
+void RevoGUI::removeAllWallets()
 {
     if(!walletFrame)
         return;
@@ -919,7 +919,7 @@ void BitcoinGUI::removeAllWallets()
 }
 #endif // ENABLE_WALLET
 
-void BitcoinGUI::setWalletActionsEnabled(bool enabled)
+void RevoGUI::setWalletActionsEnabled(bool enabled)
 {
     overviewAction->setEnabled(enabled);
     sendCoinsAction->setEnabled(enabled);
@@ -951,7 +951,7 @@ void BitcoinGUI::setWalletActionsEnabled(bool enabled)
     m_close_all_wallets_action->setEnabled(enabled);
 }
 
-void BitcoinGUI::createTrayIcon()
+void RevoGUI::createTrayIcon()
 {
     assert(QSystemTrayIcon::isSystemTrayAvailable());
 
@@ -964,7 +964,7 @@ void BitcoinGUI::createTrayIcon()
 #endif
 }
 
-void BitcoinGUI::createTrayIconMenu()
+void RevoGUI::createTrayIconMenu()
 {
 #ifndef Q_OS_MAC
     // return if trayIcon is unset (only on non-macOSes)
@@ -972,11 +972,11 @@ void BitcoinGUI::createTrayIconMenu()
         return;
 
     trayIcon->setContextMenu(trayIconMenu.get());
-    connect(trayIcon, &QSystemTrayIcon::activated, this, &BitcoinGUI::trayIconActivated);
+    connect(trayIcon, &QSystemTrayIcon::activated, this, &RevoGUI::trayIconActivated);
 #else
     // Note: On macOS, the Dock icon is used to provide the tray's functionality.
     MacDockIconHandler *dockIconHandler = MacDockIconHandler::instance();
-    connect(dockIconHandler, &MacDockIconHandler::dockIconClicked, this, &BitcoinGUI::macosDockIconActivated);
+    connect(dockIconHandler, &MacDockIconHandler::dockIconClicked, this, &RevoGUI::macosDockIconActivated);
     trayIconMenu->setAsDockMenu();
 #endif
 
@@ -1003,7 +1003,7 @@ void BitcoinGUI::createTrayIconMenu()
 }
 
 #ifndef Q_OS_MAC
-void BitcoinGUI::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
+void RevoGUI::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
 {
     if(reason == QSystemTrayIcon::Trigger)
     {
@@ -1012,19 +1012,19 @@ void BitcoinGUI::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
     }
 }
 #else
-void BitcoinGUI::macosDockIconActivated()
+void RevoGUI::macosDockIconActivated()
 {
     show();
     activateWindow();
 }
 #endif
 
-void BitcoinGUI::optionsClicked()
+void RevoGUI::optionsClicked()
 {
     openOptionsDialogWithTab(OptionsDialog::TAB_MAIN);
 }
 
-void BitcoinGUI::aboutClicked()
+void RevoGUI::aboutClicked()
 {
     if(!clientModel)
         return;
@@ -1033,25 +1033,25 @@ void BitcoinGUI::aboutClicked()
     dlg.exec();
 }
 
-void BitcoinGUI::showDebugWindow()
+void RevoGUI::showDebugWindow()
 {
     GUIUtil::bringToFront(rpcConsole);
     Q_EMIT consoleShown(rpcConsole);
 }
 
-void BitcoinGUI::showDebugWindowActivateConsole()
+void RevoGUI::showDebugWindowActivateConsole()
 {
     rpcConsole->setTabFocus(RPCConsole::TabTypes::CONSOLE);
     showDebugWindow();
 }
 
-void BitcoinGUI::showHelpMessageClicked()
+void RevoGUI::showHelpMessageClicked()
 {
     GUIUtil::bringToFront(helpMessageDialog);
 }
 
 #ifdef ENABLE_WALLET
-void BitcoinGUI::openClicked()
+void RevoGUI::openClicked()
 {
     OpenURIDialog dlg(this);
     if(dlg.exec())
@@ -1060,89 +1060,89 @@ void BitcoinGUI::openClicked()
     }
 }
 
-void BitcoinGUI::gotoOverviewPage()
+void RevoGUI::gotoOverviewPage()
 {
     overviewAction->setChecked(true);
     if (walletFrame) walletFrame->gotoOverviewPage();
 }
 
-void BitcoinGUI::gotoHistoryPage()
+void RevoGUI::gotoHistoryPage()
 {
     historyAction->setChecked(true);
     if (walletFrame) walletFrame->gotoHistoryPage();
 }
 
-void BitcoinGUI::gotoTokenPage()
+void RevoGUI::gotoTokenPage()
 {
     ERCTokenAction->setChecked(true);
     if (walletFrame) walletFrame->gotoTokenPage();
 }
 
-void BitcoinGUI::gotoDelegationPage()
+void RevoGUI::gotoDelegationPage()
 {
     delegationAction->setChecked(true);
     if (walletFrame) walletFrame->gotoDelegationPage();
 }
 
-void BitcoinGUI::gotoSuperStakerPage()
+void RevoGUI::gotoSuperStakerPage()
 {
     superStakerAction->setChecked(true);
     if (walletFrame) walletFrame->gotoSuperStakerPage();
 }
 
-void BitcoinGUI::gotoReceiveCoinsPage()
+void RevoGUI::gotoReceiveCoinsPage()
 {
     receiveCoinsAction->setChecked(true);
     if (walletFrame) walletFrame->gotoReceiveCoinsPage();
 }
 
-void BitcoinGUI::gotoSendCoinsPage(QString addr)
+void RevoGUI::gotoSendCoinsPage(QString addr)
 {
     sendCoinsAction->setChecked(true);
     if (walletFrame) walletFrame->gotoSendCoinsPage(addr);
 }
 
-void BitcoinGUI::gotoCreateContractPage()
+void RevoGUI::gotoCreateContractPage()
 {
     if (walletFrame) walletFrame->gotoCreateContractPage();
 }
 
-void BitcoinGUI::gotoSendToContractPage()
+void RevoGUI::gotoSendToContractPage()
 {
     if (walletFrame) walletFrame->gotoSendToContractPage();
 }
 
-void BitcoinGUI::gotoCallContractPage()
+void RevoGUI::gotoCallContractPage()
 {
     if (walletFrame) walletFrame->gotoCallContractPage();
 }
 
-void BitcoinGUI::gotoStakePage()
+void RevoGUI::gotoStakePage()
 {
     stakeAction->setChecked(true);
     if (walletFrame) walletFrame->gotoStakePage();
 }
 
-void BitcoinGUI::gotoSignMessageTab(QString addr)
+void RevoGUI::gotoSignMessageTab(QString addr)
 {
     if (walletFrame) walletFrame->gotoSignMessageTab(addr);
 }
 
-void BitcoinGUI::gotoVerifyMessageTab(QString addr)
+void RevoGUI::gotoVerifyMessageTab(QString addr)
 {
     if (walletFrame) walletFrame->gotoVerifyMessageTab(addr);
 }
-void BitcoinGUI::gotoLoadPSBT(bool from_clipboard)
+void RevoGUI::gotoLoadPSBT(bool from_clipboard)
 {
     if (walletFrame) walletFrame->gotoLoadPSBT(from_clipboard);
 }
-void BitcoinGUI::signTxHardware(const QString& tx)
+void RevoGUI::signTxHardware(const QString& tx)
 {
     if (walletFrame) walletFrame->signTxHardware(tx);
 }
 #endif // ENABLE_WALLET
 
-void BitcoinGUI::updateNetworkState()
+void RevoGUI::updateNetworkState()
 {
     int count = clientModel->getNumConnections();
     QString icon;
@@ -1175,12 +1175,12 @@ void BitcoinGUI::updateNetworkState()
     connectionsControl->setPixmap(platformStyle->MultiStatesIcon(icon).pixmap(STATUSBAR_ICONSIZE,STATUSBAR_ICONSIZE));
 }
 
-void BitcoinGUI::setNumConnections(int count)
+void RevoGUI::setNumConnections(int count)
 {
     updateNetworkState();
 }
 
-void BitcoinGUI::setNetworkActive(bool network_active)
+void RevoGUI::setNetworkActive(bool network_active)
 {
     updateNetworkState();
     m_network_context_menu->clear();
@@ -1200,7 +1200,7 @@ void BitcoinGUI::setNetworkActive(bool network_active)
         [this, new_state = !network_active] { m_node.setNetworkActive(new_state); });
 }
 
-void BitcoinGUI::updateHeadersSyncProgressLabel()
+void RevoGUI::updateHeadersSyncProgressLabel()
 {
     int64_t headersTipTime = clientModel->getHeaderTipTime();
     int headersTipHeight = clientModel->getHeaderTipHeight();
@@ -1209,7 +1209,7 @@ void BitcoinGUI::updateHeadersSyncProgressLabel()
         progressBarLabel->setText(tr("Syncing Headers (%1%)…").arg(QString::number(100.0 / (headersTipHeight+estHeadersLeft)*headersTipHeight, 'f', 1)));
 }
 
-void BitcoinGUI::openOptionsDialogWithTab(OptionsDialog::Tab tab)
+void RevoGUI::openOptionsDialogWithTab(OptionsDialog::Tab tab)
 {
     if (!clientModel || !clientModel->getOptionsModel())
         return;
@@ -1220,7 +1220,7 @@ void BitcoinGUI::openOptionsDialogWithTab(OptionsDialog::Tab tab)
     dlg.exec();
 }
 
-void BitcoinGUI::setNumBlocks(int count, const QDateTime& blockDate, double nVerificationProgress, bool header, SynchronizationState sync_state)
+void RevoGUI::setNumBlocks(int count, const QDateTime& blockDate, double nVerificationProgress, bool header, SynchronizationState sync_state)
 {
 // Disabling macOS App Nap on initial sync, disk and reindex operations.
 #ifdef Q_OS_MAC
@@ -1345,7 +1345,7 @@ void BitcoinGUI::setNumBlocks(int count, const QDateTime& blockDate, double nVer
     progressBar->setToolTip(tooltip);
 }
 
-void BitcoinGUI::message(const QString& title, QString message, unsigned int style, bool* ret, const QString& detailed_message)
+void RevoGUI::message(const QString& title, QString message, unsigned int style, bool* ret, const QString& detailed_message)
 {
     // Default title. On macOS, the window title is ignored (as required by the macOS Guidelines).
     QString strTitle{PACKAGE_NAME};
@@ -1405,7 +1405,7 @@ void BitcoinGUI::message(const QString& title, QString message, unsigned int sty
     }
 }
 
-void BitcoinGUI::changeEvent(QEvent *e)
+void RevoGUI::changeEvent(QEvent *e)
 {
     QMainWindow::changeEvent(e);
 
@@ -1417,12 +1417,12 @@ void BitcoinGUI::changeEvent(QEvent *e)
             QWindowStateChangeEvent *wsevt = static_cast<QWindowStateChangeEvent*>(e);
             if(!(wsevt->oldState() & Qt::WindowMinimized) && isMinimized())
             {
-                QTimer::singleShot(0, this, &BitcoinGUI::hide);
+                QTimer::singleShot(0, this, &RevoGUI::hide);
                 e->ignore();
             }
             else if((wsevt->oldState() & Qt::WindowMinimized) && !isMinimized())
             {
-                QTimer::singleShot(0, this, &BitcoinGUI::show);
+                QTimer::singleShot(0, this, &RevoGUI::show);
                 e->ignore();
             }
         }
@@ -1430,7 +1430,7 @@ void BitcoinGUI::changeEvent(QEvent *e)
 #endif
 }
 
-void BitcoinGUI::closeEvent(QCloseEvent *event)
+void RevoGUI::closeEvent(QCloseEvent *event)
 {
 #ifndef Q_OS_MAC // Ignored on Mac
     if(clientModel && clientModel->getOptionsModel())
@@ -1453,7 +1453,7 @@ void BitcoinGUI::closeEvent(QCloseEvent *event)
 #endif
 }
 
-void BitcoinGUI::showEvent(QShowEvent *event)
+void RevoGUI::showEvent(QShowEvent *event)
 {
     // enable the debug window when the main window shows up
     openRPCConsoleAction->setEnabled(true);
@@ -1462,7 +1462,7 @@ void BitcoinGUI::showEvent(QShowEvent *event)
 }
 
 #ifdef ENABLE_WALLET
-void BitcoinGUI::incomingTransaction(const QString& date, int unit, const CAmount& amount, const QString& type, const QString& address, const QString& label, const QString& walletName)
+void RevoGUI::incomingTransaction(const QString& date, int unit, const CAmount& amount, const QString& type, const QString& address, const QString& label, const QString& walletName)
 {
     // On new transaction, make an info balloon
     QString msg = tr("Date: %1\n").arg(date) +
@@ -1479,7 +1479,7 @@ void BitcoinGUI::incomingTransaction(const QString& date, int unit, const CAmoun
              msg, CClientUIInterface::MSG_INFORMATION);
 }
 
-void BitcoinGUI::incomingTokenTransaction(const QString& date, const QString& amount, const QString& type, const QString& address, const QString& label, const QString& walletName, const QString& title)
+void RevoGUI::incomingTokenTransaction(const QString& date, const QString& amount, const QString& type, const QString& address, const QString& label, const QString& walletName, const QString& title)
 {
     // On new transaction, make an info balloon
     QString msg = tr("Date: %1\n").arg(date) +
@@ -1497,14 +1497,14 @@ void BitcoinGUI::incomingTokenTransaction(const QString& date, const QString& am
 
 #endif // ENABLE_WALLET
 
-void BitcoinGUI::dragEnterEvent(QDragEnterEvent *event)
+void RevoGUI::dragEnterEvent(QDragEnterEvent *event)
 {
     // Accept only URIs
     if(event->mimeData()->hasUrls())
         event->acceptProposedAction();
 }
 
-void BitcoinGUI::dropEvent(QDropEvent *event)
+void RevoGUI::dropEvent(QDropEvent *event)
 {
     if(event->mimeData()->hasUrls())
     {
@@ -1516,7 +1516,7 @@ void BitcoinGUI::dropEvent(QDropEvent *event)
     event->acceptProposedAction();
 }
 
-bool BitcoinGUI::eventFilter(QObject *object, QEvent *event)
+bool RevoGUI::eventFilter(QObject *object, QEvent *event)
 {
     // Catch status tip events
     if (event->type() == QEvent::StatusTip)
@@ -1529,7 +1529,7 @@ bool BitcoinGUI::eventFilter(QObject *object, QEvent *event)
 }
 
 #ifdef ENABLE_WALLET
-bool BitcoinGUI::handlePaymentRequest(const SendCoinsRecipient& recipient)
+bool RevoGUI::handlePaymentRequest(const SendCoinsRecipient& recipient)
 {
     // URI has to be valid
     if (walletFrame && walletFrame->handlePaymentRequest(recipient))
@@ -1541,7 +1541,7 @@ bool BitcoinGUI::handlePaymentRequest(const SendCoinsRecipient& recipient)
     return false;
 }
 
-void BitcoinGUI::setHDStatus(bool privkeyDisabled, int hdEnabled)
+void RevoGUI::setHDStatus(bool privkeyDisabled, int hdEnabled)
 {
     labelWalletHDStatusIcon->setPixmap(platformStyle->MultiStatesIcon(privkeyDisabled ? ":/icons/eye" : hdEnabled ? ":/icons/hd_enabled" : ":/icons/hd_disabled").pixmap(STATUSBAR_ICONSIZE,STATUSBAR_ICONSIZE));
     labelWalletHDStatusIcon->setToolTip(privkeyDisabled ? tr("Private key <b>disabled</b>") : hdEnabled ? tr("HD key generation is <b>enabled</b>") : tr("HD key generation is <b>disabled</b>"));
@@ -1550,7 +1550,7 @@ void BitcoinGUI::setHDStatus(bool privkeyDisabled, int hdEnabled)
     labelWalletHDStatusIcon->setEnabled(hdEnabled);
 }
 
-void BitcoinGUI::setEncryptionStatus(WalletModel *walletModel)
+void RevoGUI::setEncryptionStatus(WalletModel *walletModel)
 {
     int status = walletModel->getEncryptionStatus();
     switch(status)
@@ -1594,7 +1594,7 @@ void BitcoinGUI::setEncryptionStatus(WalletModel *walletModel)
     }
 }
 
-void BitcoinGUI::updateWalletStatus()
+void RevoGUI::updateWalletStatus()
 {
     if (!walletFrame) {
         return;
@@ -1609,7 +1609,7 @@ void BitcoinGUI::updateWalletStatus()
 }
 #endif // ENABLE_WALLET
 
-void BitcoinGUI::updateProxyIcon()
+void RevoGUI::updateProxyIcon()
 {
     std::string ip_port;
     bool proxy_enabled = clientModel->getProxyInfo(ip_port);
@@ -1627,7 +1627,7 @@ void BitcoinGUI::updateProxyIcon()
     }
 }
 
-void BitcoinGUI::updateWindowTitle()
+void RevoGUI::updateWindowTitle()
 {
     QString window_title = PACKAGE_NAME;
 #ifdef ENABLE_WALLET
@@ -1644,7 +1644,7 @@ void BitcoinGUI::updateWindowTitle()
     setWindowTitle(window_title);
 }
 
-void BitcoinGUI::showNormalIfMinimized(bool fToggleHidden)
+void RevoGUI::showNormalIfMinimized(bool fToggleHidden)
 {
     if(!clientModel)
         return;
@@ -1656,13 +1656,13 @@ void BitcoinGUI::showNormalIfMinimized(bool fToggleHidden)
     }
 }
 
-void BitcoinGUI::toggleHidden()
+void RevoGUI::toggleHidden()
 {
     showNormalIfMinimized(true);
 }
 
 #ifdef ENABLE_WALLET
-void BitcoinGUI::updateLedgerIcon()
+void RevoGUI::updateLedgerIcon()
 {
     if(m_node.shutdownRequested() || !clientModel || clientModel->fBatchProcessingMode)
         return;
@@ -1706,7 +1706,7 @@ void BitcoinGUI::updateLedgerIcon()
     }
 }
 
-void BitcoinGUI::updateStakingIcon()
+void RevoGUI::updateStakingIcon()
 {
     if(m_node.shutdownRequested() || !clientModel || clientModel->fBatchProcessingMode)
         return;
@@ -1775,7 +1775,7 @@ void BitcoinGUI::updateStakingIcon()
 }
 #endif // ENABLE_WALLET
 
-void BitcoinGUI::detectShutdown()
+void RevoGUI::detectShutdown()
 {
     if (m_node.shutdownRequested())
     {
@@ -1785,7 +1785,7 @@ void BitcoinGUI::detectShutdown()
     }
 }
 
-void BitcoinGUI::showProgress(const QString &title, int nProgress)
+void RevoGUI::showProgress(const QString &title, int nProgress)
 {
     if (nProgress == 0) {
         progressDialog = new QProgressDialog(title, QString(), 0, 100);
@@ -1804,19 +1804,19 @@ void BitcoinGUI::showProgress(const QString &title, int nProgress)
     }
 }
 
-void BitcoinGUI::showModalOverlay()
+void RevoGUI::showModalOverlay()
 {
     if (modalOverlay && (progressBar->isVisible() || modalOverlay->isLayerVisible()))
         modalOverlay->toggleVisibility();
 }
 
-void BitcoinGUI::showModalBackupOverlay()
+void RevoGUI::showModalBackupOverlay()
 {
     if (modalBackupOverlay)
         modalBackupOverlay->toggleVisibility();
 }
 
-static bool ThreadSafeMessageBox(BitcoinGUI* gui, const bilingual_str& message, const std::string& caption, unsigned int style)
+static bool ThreadSafeMessageBox(RevoGUI* gui, const bilingual_str& message, const std::string& caption, unsigned int style)
 {
     bool modal = (style & CClientUIInterface::MODAL);
     // The SECURE flag has no effect in the Qt GUI.
@@ -1826,7 +1826,7 @@ static bool ThreadSafeMessageBox(BitcoinGUI* gui, const bilingual_str& message, 
 
     QString detailed_message; // This is original message, in English, for googling and referencing.
     if (message.original != message.translated) {
-        detailed_message = BitcoinGUI::tr("Original message:") + "\n" + QString::fromStdString(message.original);
+        detailed_message = RevoGUI::tr("Original message:") + "\n" + QString::fromStdString(message.original);
     }
 
     // In case of modal message, use blocking connection to wait for user to click a button
@@ -1841,21 +1841,21 @@ static bool ThreadSafeMessageBox(BitcoinGUI* gui, const bilingual_str& message, 
     return ret;
 }
 
-void BitcoinGUI::subscribeToCoreSignals()
+void RevoGUI::subscribeToCoreSignals()
 {
     // Connect signals to client
     m_handler_message_box = m_node.handleMessageBox(std::bind(ThreadSafeMessageBox, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
     m_handler_question = m_node.handleQuestion(std::bind(ThreadSafeMessageBox, this, std::placeholders::_1, std::placeholders::_3, std::placeholders::_4));
 }
 
-void BitcoinGUI::unsubscribeFromCoreSignals()
+void RevoGUI::unsubscribeFromCoreSignals()
 {
     // Disconnect signals from client
     m_handler_message_box->disconnect();
     m_handler_question->disconnect();
 }
 
-void BitcoinGUI::addDockWindows(Qt::DockWidgetArea area, QWidget* widget)
+void RevoGUI::addDockWindows(Qt::DockWidgetArea area, QWidget* widget)
 {
     QDockWidget *dock = new QDockWidget(this);
     dock->setFeatures(QDockWidget::NoDockWidgetFeatures);
@@ -1867,7 +1867,7 @@ void BitcoinGUI::addDockWindows(Qt::DockWidgetArea area, QWidget* widget)
     addDockWidget(area, dock);
 }
 
-bool BitcoinGUI::isPrivacyModeActivated() const
+bool RevoGUI::isPrivacyModeActivated() const
 {
     assert(m_mask_values_action);
     return m_mask_values_action->isChecked();
@@ -1961,12 +1961,12 @@ void UnitDisplayStatusBarControl::onMenuSelection(QAction* action)
     }
 }
 
-WalletFrame *BitcoinGUI::getWalletFrame() const
+WalletFrame *RevoGUI::getWalletFrame() const
 {
     return walletFrame;
 }
 
-void BitcoinGUI::join()
+void RevoGUI::join()
 {
 #ifdef ENABLE_WALLET
     if (timerStakingIcon) timerStakingIcon->stop();

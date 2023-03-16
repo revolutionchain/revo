@@ -15,7 +15,7 @@
 
 #include <interfaces/node.h>
 
-class BitcoinGUI;
+class RevoGUI;
 class ClientModel;
 class NetworkStyle;
 class OptionsModel;
@@ -84,7 +84,7 @@ public:
     /// Get process return value
     int getReturnValue() const { return returnValue; }
 
-    /// Get window identifier of QMainWindow (BitcoinGUI)
+    /// Get window identifier of QMainWindow (RevoGUI)
     WId getMainWinId() const;
 
     /// Setup platform style
@@ -115,13 +115,13 @@ Q_SIGNALS:
     void requestedInitialize();
     void requestedShutdown();
     void splashFinished();
-    void windowShown(BitcoinGUI* window);
+    void windowShown(RevoGUI* window);
 
 private:
     QThread *coreThread;
     OptionsModel *optionsModel;
     ClientModel *clientModel;
-    BitcoinGUI *window;
+    RevoGUI *window;
     QTimer *pollShutdownTimer;
 #ifdef ENABLE_WALLET
     PaymentServer* paymentServer{nullptr};
