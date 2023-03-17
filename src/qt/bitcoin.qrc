@@ -114,7 +114,7 @@
         <file alias="spinner-035">res/animation/spinner-035.png</file>
     </qresource>
     <qresource prefix="/tokens">
-        <file alias="756fc65c34db6f5076154bdda247b270ef5f608a">res/tokens/756fc65c34db6f5076154bdda247b270ef5f608a.png</file>
+        <file alias="94e6c8f62c0429b2d253615c1e756e4bb207982b">res/tokens/94e6c8f62c0429b2d253615c1e756e4bb207982b.png</file>
         </qresource>
     <qresource prefix="/styles/theme1">
         <file alias="app">res/styles/theme1/app.css</file>
