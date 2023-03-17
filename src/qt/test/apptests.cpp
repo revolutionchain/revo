@@ -87,11 +87,11 @@ void AppTests::appTests()
     AbortShutdown();
 }
 
-//! Entry point for BitcoinGUI tests.
-void AppTests::guiTests(BitcoinGUI* window)
+//! Entry point for RevoGUI tests.
+void AppTests::guiTests(RevoGUI* window)
 {
     HandleCallback callback{"guiTests", *this};
-    connect(window, &BitcoinGUI::consoleShown, this, &AppTests::consoleTests);
+    connect(window, &RevoGUI::consoleShown, this, &AppTests::consoleTests);
     expectCallback("consoleTests");
     QAction* action = window->findChild<QAction*>("openRPCConsoleAction");
     action->activate(QAction::Trigger);
