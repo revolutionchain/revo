@@ -378,8 +378,12 @@ E' possibile firmare solo con indirizzi di tipo "legacy".</translation>
         <translation>&amp;Sintesi</translation>
     </message>
     <message>
+       <source>My &amp;wallet</source>
+       <translation>Portafoglio</translation>
+    </message>
+    <message>
         <source>Show general overview of wallet</source>
-        <translation>Mostra lo stato generale del portamonete</translation>
+        <translation>Mostra lo stato generale del portafoglio</translation>
     </message>
     <message>
         <source>&amp;Transactions</source>

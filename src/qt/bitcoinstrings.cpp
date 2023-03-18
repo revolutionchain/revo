@@ -9,10 +9,10 @@
 #define UNUSED
 #endif
 static const char UNUSED *bitcoin_strings[] = {
-QT_TRANSLATE_NOOP("bitcoin-core", "The %s developers"),
+QT_TRANSLATE_NOOP("bitcoin-core", "The %s Developers"),
 QT_TRANSLATE_NOOP("bitcoin-core", ""
-"%s corrupt. Try using the wallet tool revo-wallet to salvage or restoring "
-"a backup."),
+"%s corrupt. Try using the wallet tool revo-wallet to salvage or restoring a "
+"backup."),
 QT_TRANSLATE_NOOP("bitcoin-core", ""
 "-maxtxfee is set very high! Fees this large could be paid on a single "
 "transaction."),
@@ -39,8 +39,8 @@ QT_TRANSLATE_NOOP("bitcoin-core", ""
 QT_TRANSLATE_NOOP("bitcoin-core", ""
 "Error: Dumpfile identifier record is incorrect. Got \"%s\", expected \"%s\"."),
 QT_TRANSLATE_NOOP("bitcoin-core", ""
-"Error: Dumpfile version is not supported. This version of revo-wallet "
-"only supports version 1 dumpfiles. Got dumpfile with version %s"),
+"Error: Dumpfile version is not supported. This version of revo-wallet only "
+"supports version 1 dumpfiles. Got dumpfile with version %s"),
 QT_TRANSLATE_NOOP("bitcoin-core", ""
 "Error: Legacy wallets only support the \"legacy\", \"p2sh-segwit\", and "
 "\"bech32\" address types"),
@@ -55,6 +55,9 @@ QT_TRANSLATE_NOOP("bitcoin-core", ""
 QT_TRANSLATE_NOOP("bitcoin-core", ""
 "Invalid amount for -maxtxfee=<amount>: '%s' (must be at least the minrelay "
 "fee of %s to prevent stuck transactions)"),
+QT_TRANSLATE_NOOP("bitcoin-core", ""
+"Invalid percentage value for -stakingminfee=<n>: '%d' (must be between 0 and "
+"100)"),
 QT_TRANSLATE_NOOP("bitcoin-core", ""
 "More than one onion bind address is provided. Using %s for the automatically "
 "created Tor onion service."),
@@ -92,9 +95,6 @@ QT_TRANSLATE_NOOP("bitcoin-core", ""
 "loaded using a build with a newer version of Berkeley DB. If so, please use "
 "the software that last loaded this wallet"),
 QT_TRANSLATE_NOOP("bitcoin-core", ""
-"This is a pre-release test build - use at your own risk - do not use for "
-"mining or merchant applications"),
-QT_TRANSLATE_NOOP("bitcoin-core", ""
 "This is the maximum transaction fee you pay (in addition to the normal fee) "
 "to prioritize partial spend avoidance over regular coin selection."),
 QT_TRANSLATE_NOOP("bitcoin-core", ""
@@ -125,15 +125,13 @@ QT_TRANSLATE_NOOP("bitcoin-core", ""
 QT_TRANSLATE_NOOP("bitcoin-core", ""
 "You need to rebuild the database using -reindex to go back to unpruned "
 "mode.  This will redownload the entire blockchain"),
-QT_TRANSLATE_NOOP("bitcoin-core", "%s is set very high!"),
 QT_TRANSLATE_NOOP("bitcoin-core", "-maxmempool must be at least %d MB"),
 QT_TRANSLATE_NOOP("bitcoin-core", "A fatal internal error occurred, see debug.log for details"),
-QT_TRANSLATE_NOOP("bitcoin-core", "Cannot resolve -%s address: '%s'"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Cannot set -peerblockfilters without -blockfilterindex."),
 QT_TRANSLATE_NOOP("bitcoin-core", "Cannot write to data directory '%s'; check permissions."),
 QT_TRANSLATE_NOOP("bitcoin-core", "Change index out of range"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Config setting for %s only applied on %s network when in [%s] section."),
-QT_TRANSLATE_NOOP("bitcoin-core", "Copyright (C) %i-%i"),
+QT_TRANSLATE_NOOP("bitcoin-core", "Copyright (C) %i"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Corrupted block database detected"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Could not find asmap file %s"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Could not parse asmap file %s"),
@@ -176,11 +174,9 @@ QT_TRANSLATE_NOOP("bitcoin-core", "Invalid -i2psam address or hostname: '%s'"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Invalid -onion address or hostname: '%s'"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Invalid -proxy address or hostname: '%s'"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Invalid P2P permission: '%s'"),
-QT_TRANSLATE_NOOP("bitcoin-core", "Invalid amount for -%s=<amount>: '%s'"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Invalid amount for -discardfee=<amount>: '%s'"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Invalid amount for -fallbackfee=<amount>: '%s'"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Invalid amount for -paytxfee=<amount>: '%s' (must be at least %s)"),
-QT_TRANSLATE_NOOP("bitcoin-core", "Invalid amount for -reservebalance=<amount>"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Invalid netmask specified in -whitelist: '%s'"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Loading P2P addresses…"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Loading banlist…"),
@@ -202,6 +198,7 @@ QT_TRANSLATE_NOOP("bitcoin-core", "SQLiteDatabase: Failed to read database verif
 QT_TRANSLATE_NOOP("bitcoin-core", "SQLiteDatabase: Unexpected application id. Expected %u, got %u"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Section [%s] is not recognized."),
 QT_TRANSLATE_NOOP("bitcoin-core", "Signing transaction failed"),
+QT_TRANSLATE_NOOP("bitcoin-core", "Signing transaction output failed"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Specified -walletdir \"%s\" does not exist"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Specified -walletdir \"%s\" is a relative path"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Specified -walletdir \"%s\" is not a directory"),
@@ -239,4 +236,9 @@ QT_TRANSLATE_NOOP("bitcoin-core", "User Agent comment (%s) contains unsafe chara
 QT_TRANSLATE_NOOP("bitcoin-core", "Verifying blocks…"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Verifying wallet(s)…"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Wallet needed to be rewritten: restart %s to complete"),
+QT_TRANSLATE_NOOP("bitcoin-core", "You need to rebuild the database using -reindex to change -addrindex"),
+QT_TRANSLATE_NOOP("bitcoin-core", "You need to rebuild the database using -reindex to enable -logevents"),
+QT_TRANSLATE_NOOP("bitcoin-core", "deleteinterval must be greater than 0"),
+QT_TRANSLATE_NOOP("bitcoin-core", "keeptxfornblocks must be greater than 0"),
+QT_TRANSLATE_NOOP("bitcoin-core", "keeptxnum must be greater than 0"),
 };
