@@ -115,6 +115,7 @@
     </qresource>
     <qresource prefix="/tokens">
         <file alias="94e6c8f62c0429b2d253615c1e756e4bb207982b">res/tokens/94e6c8f62c0429b2d253615c1e756e4bb207982b.png</file>
+		<file alias="034af8020b529ab8ecf3ef4744f6ed45950d97d5">res/tokens/034af8020b529ab8ecf3ef4744f6ed45950d97d5.png</file>
         </qresource>
     <qresource prefix="/styles/theme1">
         <file alias="app">res/styles/theme1/app.css</file>

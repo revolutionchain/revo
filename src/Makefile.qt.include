@@ -539,7 +539,8 @@ endif # ENABLE_WALLET
 
 RES_ANIMATION = $(wildcard $(srcdir)/qt/res/animation/spinner-*.png)
 
-RES_TOKENS = qt/res/tokens/94e6c8f62c0429b2d253615c1e756e4bb207982b.png
+RES_TOKENS = qt/res/tokens/94e6c8f62c0429b2d253615c1e756e4bb207982b.png \
+qt/res/tokens/034af8020b529ab8ecf3ef4744f6ed45950d97d5.png
 
 RES_STYLES = qt/res/styles/theme1/buttontransparentbordered.css \
 qt/res/styles/theme1/buttondark.css \
