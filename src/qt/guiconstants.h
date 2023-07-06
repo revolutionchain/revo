@@ -46,7 +46,7 @@ static const int TOOLTIP_WRAP_THRESHOLD = 80;
 #define SPINNER_FRAMES 36
 
 #define QAPP_ORG_NAME "Revo"
-#define QAPP_ORG_DOMAIN "revo.org"
+#define QAPP_ORG_DOMAIN "revo.network"
 #define QAPP_APP_NAME_DEFAULT "Revo-Qt"
 #define QAPP_APP_NAME_TESTNET "Revo-Qt-testnet"
 #define QAPP_APP_NAME_SIGNET "Revo-Qt-signet"
@@ -59,7 +59,7 @@ static constexpr uint64_t GB_BYTES{1000000000};
 static constexpr int DEFAULT_PRUNE_TARGET_GB{2};
 
 /* Mainnet revo explorer uri */
-#define REVO_INFO_MAINNET "<a href='https://explorer.revo.network/%1/%2'>%2</a>"
+#define REVO_INFO_MAINNET "<a href='https://mainnet.revo.network/%1/%2'>%2</a>"
 
 /* Testnet revo explorer uri */
 #define REVO_INFO_TESTNET "<a href='https://testnet.revo.network/%1/%2'>%2</a>"
