@@ -3656,9 +3656,9 @@ UniValue CreateUTXOSnapshot(NodeContext& node, CChainState& chainstate, CAutoFil
     return result;
 }
 
-static RPCHelpMan qrc20name()
+static RPCHelpMan erc20name()
 {
-    return RPCHelpMan{"qrc20name",
+    return RPCHelpMan{"erc20name",
                 "\nReturns the name of the token\n",
                 {
                     {"contractaddress", RPCArg::Type::STR_HEX, RPCArg::Optional::NO, "The contract address"},
@@ -3666,8 +3666,8 @@ static RPCHelpMan qrc20name()
                 RPCResult{
                     RPCResult::Type::STR, "name", "The name of the token"},
                 RPCExamples{
-                    HelpExampleCli("qrc20name", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\"")
-            + HelpExampleRpc("qrc20name", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\"")
+                    HelpExampleCli("erc20name", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\"")
+            + HelpExampleRpc("erc20name", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\"")
                 },
         [&](const RPCHelpMan& self, const JSONRPCRequest& request) -> UniValue
 {
@@ -3686,9 +3686,9 @@ static RPCHelpMan qrc20name()
     };
 }
 
-static RPCHelpMan qrc20symbol()
+static RPCHelpMan erc20symbol()
 {
-    return RPCHelpMan{"qrc20symbol",
+    return RPCHelpMan{"erc20symbol",
                 "\nReturns the symbol of the token\n",
                 {
                     {"contractaddress", RPCArg::Type::STR_HEX, RPCArg::Optional::NO, "The contract address"},
@@ -3696,8 +3696,8 @@ static RPCHelpMan qrc20symbol()
                 RPCResult{
                     RPCResult::Type::STR, "symbol", "The symbol of the token"},
                 RPCExamples{
-                    HelpExampleCli("qrc20symbol", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\"")
-            + HelpExampleRpc("qrc20symbol", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\"")
+                    HelpExampleCli("erc20symbol", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\"")
+            + HelpExampleRpc("erc20symbol", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\"")
                 },
         [&](const RPCHelpMan& self, const JSONRPCRequest& request) -> UniValue
 {
@@ -3716,9 +3716,9 @@ static RPCHelpMan qrc20symbol()
     };
 }
 
-static RPCHelpMan qrc20totalsupply()
+static RPCHelpMan erc20totalsupply()
 {
-    return RPCHelpMan{"qrc20totalsupply",
+    return RPCHelpMan{"erc20totalsupply",
                 "\nReturns the total supply of the token\n",
                 {
                     {"contractaddress", RPCArg::Type::STR_HEX, RPCArg::Optional::NO, "The contract address"},
@@ -3726,8 +3726,8 @@ static RPCHelpMan qrc20totalsupply()
                 RPCResult{
                     RPCResult::Type::STR, "totalSupply", "The total supply of the token"},
                 RPCExamples{
-                    HelpExampleCli("qrc20totalsupply", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\"")
-            + HelpExampleRpc("qrc20totalsupply", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\"")
+                    HelpExampleCli("erc20totalsupply", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\"")
+            + HelpExampleRpc("erc20totalsupply", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\"")
                 },
         [&](const RPCHelpMan& self, const JSONRPCRequest& request) -> UniValue
 {
@@ -3756,9 +3756,9 @@ static RPCHelpMan qrc20totalsupply()
     };
 }
 
-static RPCHelpMan qrc20decimals()
+static RPCHelpMan erc20decimals()
 {
-    return RPCHelpMan{"qrc20decimals",
+    return RPCHelpMan{"erc20decimals",
                 "\nReturns the number of decimals of the token\n",
                 {
                     {"contractaddress", RPCArg::Type::STR_HEX, RPCArg::Optional::NO, "The contract address"},
@@ -3766,8 +3766,8 @@ static RPCHelpMan qrc20decimals()
                 RPCResult{
                     RPCResult::Type::NUM, "decimals", "The number of decimals of the token"},
                 RPCExamples{
-                    HelpExampleCli("qrc20decimals", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\"")
-            + HelpExampleRpc("qrc20decimals", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\"")
+                    HelpExampleCli("erc20decimals", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\"")
+            + HelpExampleRpc("erc20decimals", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\"")
                 },
         [&](const RPCHelpMan& self, const JSONRPCRequest& request) -> UniValue
 {
@@ -3786,9 +3786,9 @@ static RPCHelpMan qrc20decimals()
     };
 }
 
-static RPCHelpMan qrc20balanceof()
+static RPCHelpMan erc20balanceof()
 {
-    return RPCHelpMan{"qrc20balanceof",
+    return RPCHelpMan{"erc20balanceof",
                 "\nReturns the token balance for address\n",
                 {
                     {"contractaddress", RPCArg::Type::STR_HEX, RPCArg::Optional::NO, "The contract address"},
@@ -3797,8 +3797,8 @@ static RPCHelpMan qrc20balanceof()
                 RPCResult{
                     RPCResult::Type::STR, "balance", "The token balance of the chosen address"},
                 RPCExamples{
-                    HelpExampleCli("qrc20balanceof", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"QX1GkJdye9WoUnrE2v6ZQhQ72EUVDtGXQX\"")
-            + HelpExampleRpc("qrc20balanceof", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"QX1GkJdye9WoUnrE2v6ZQhQ72EUVDtGXQX\"")
+                    HelpExampleCli("erc20balanceof", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"QX1GkJdye9WoUnrE2v6ZQhQ72EUVDtGXQX\"")
+            + HelpExampleRpc("erc20balanceof", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"QX1GkJdye9WoUnrE2v6ZQhQ72EUVDtGXQX\"")
                 },
         [&](const RPCHelpMan& self, const JSONRPCRequest& request) -> UniValue
 {
@@ -3829,9 +3829,9 @@ static RPCHelpMan qrc20balanceof()
     };
 }
 
-static RPCHelpMan qrc20allowance()
+static RPCHelpMan erc20allowance()
 {
-    return RPCHelpMan{"qrc20allowance",
+    return RPCHelpMan{"erc20allowance",
                 "\nReturns remaining tokens allowed to spend for an address\n",
                 {
                     {"contractaddress", RPCArg::Type::STR_HEX, RPCArg::Optional::NO, "The contract address"},
@@ -3841,8 +3841,8 @@ static RPCHelpMan qrc20allowance()
                 RPCResult{
                     RPCResult::Type::STR, "allowance", "Amount of remaining tokens allowed to spent"},
                 RPCExamples{
-                    HelpExampleCli("qrc20allowance", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"QX1GkJdye9WoUnrE2v6ZQhQ72EUVDtGXQX\" \"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\"")
-            + HelpExampleRpc("qrc20allowance", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"QX1GkJdye9WoUnrE2v6ZQhQ72EUVDtGXQX\" \"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\"")
+                    HelpExampleCli("erc20allowance", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"QX1GkJdye9WoUnrE2v6ZQhQ72EUVDtGXQX\" \"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\"")
+            + HelpExampleRpc("erc20allowance", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"QX1GkJdye9WoUnrE2v6ZQhQ72EUVDtGXQX\" \"QM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\"")
                 },
         [&](const RPCHelpMan& self, const JSONRPCRequest& request) -> UniValue
 {
@@ -3871,9 +3871,9 @@ static RPCHelpMan qrc20allowance()
     };
 }
 
-static RPCHelpMan qrc20listtransactions()
+static RPCHelpMan erc20listtransactions()
 {
-    return RPCHelpMan{"qrc20listtransactions",
+    return RPCHelpMan{"erc20listtransactions",
                 "\nReturns transactions history for a specific address.\n",
                 {
                     {"contractaddress", RPCArg::Type::STR_HEX, RPCArg::Optional::NO, "The contract address."},
@@ -3898,10 +3898,10 @@ static RPCHelpMan qrc20listtransactions()
                     }}
                 },
                 RPCExamples{
-                    HelpExampleCli("qrc20listtransactions", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"QX1GkJdye9WoUnrE2v6ZQhQ72EUVDtGXQX\"")
-            + HelpExampleCli("qrc20listtransactions", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"QX1GkJdye9WoUnrE2v6ZQhQ72EUVDtGXQX\" 0 6")
-            + HelpExampleRpc("qrc20listtransactions", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"QX1GkJdye9WoUnrE2v6ZQhQ72EUVDtGXQX\"")
-            + HelpExampleRpc("qrc20listtransactions", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"QX1GkJdye9WoUnrE2v6ZQhQ72EUVDtGXQX\" 0 6")
+                    HelpExampleCli("erc20listtransactions", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"QX1GkJdye9WoUnrE2v6ZQhQ72EUVDtGXQX\"")
+            + HelpExampleCli("erc20listtransactions", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"QX1GkJdye9WoUnrE2v6ZQhQ72EUVDtGXQX\" 0 6")
+            + HelpExampleRpc("erc20listtransactions", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"QX1GkJdye9WoUnrE2v6ZQhQ72EUVDtGXQX\"")
+            + HelpExampleRpc("erc20listtransactions", "\"eb23c0b3e6042821da281a2e2364feb22dd543e3\" \"QX1GkJdye9WoUnrE2v6ZQhQ72EUVDtGXQX\" 0 6")
                 },
         [&](const RPCHelpMan& self, const JSONRPCRequest& request) -> UniValue
 {
@@ -3999,13 +3999,13 @@ static const CRPCCommand commands[] =
 
     { "blockchain",         &callcontract,                       },
 
-    { "blockchain",         &qrc20name,                          },
-    { "blockchain",         &qrc20symbol,                        },
-    { "blockchain",         &qrc20totalsupply,                   },
-    { "blockchain",         &qrc20decimals,                      },
-    { "blockchain",         &qrc20balanceof,                     },
-    { "blockchain",         &qrc20allowance,                     },
-    { "blockchain",         &qrc20listtransactions,              },
+    { "blockchain",         &erc20name,                          },
+    { "blockchain",         &erc20symbol,                        },
+    { "blockchain",         &erc20totalsupply,                   },
+    { "blockchain",         &erc20decimals,                      },
+    { "blockchain",         &erc20balanceof,                     },
+    { "blockchain",         &erc20allowance,                     },
+    { "blockchain",         &erc20listtransactions,              },
 
     { "blockchain",         &listcontracts,                      },
     { "blockchain",         &gettransactionreceipt,              },

@@ -15,19 +15,19 @@ import pprint
 pp = pprint.PrettyPrinter()
 
 """
-qrc20name
-qrc20symbol
-qrc20totalsupply
-qrc20decimals
+erc20name
+erc20symbol
+erc20totalsupply
+erc20decimals
 
-qrc20balanceof
-qrc20allowance
-qrc20approve
-qrc20transfer
-qrc20transferfrom
-qrc20burn
-qrc20burnfrom
-qrc20listtransactions
+erc20balanceof
+erc20allowance
+erc20approve
+erc20transfer
+erc20transferfrom
+erc20burn
+erc20burnfrom
+erc20listtransactions
 """
 
 
@@ -40,17 +40,17 @@ class RevoQRC20Test(BitcoinTestFramework):
     def skip_test_if_missing_module(self):
         self.skip_if_no_wallet()
 
-    def qrc20name_test(self):
-        assert_equal(self.node.qrc20name(self.contract_address), "QRC TEST")
+    def erc20name_test(self):
+        assert_equal(self.node.erc20name(self.contract_address), "QRC TEST")
 
-    def qrc20symbol_test(self):
-        assert_equal(self.node.qrc20symbol(self.contract_address), "QTC")
+    def erc20symbol_test(self):
+        assert_equal(self.node.erc20symbol(self.contract_address), "QTC")
 
-    def qrc20totalsupply_test(self):
-        assert_equal(self.node.qrc20totalsupply(self.contract_address), f"{10**65}.00000000")
+    def erc20totalsupply_test(self):
+        assert_equal(self.node.erc20totalsupply(self.contract_address), f"{10**65}.00000000")
 
-    def qrc20decimals_test(self):
-        assert_equal(self.node.qrc20decimals(self.contract_address), 8)
+    def erc20decimals_test(self):
+        assert_equal(self.node.erc20decimals(self.contract_address), 8)
 
     def double_spend_tx(self, origin_node, txid, signer_address, double_spending_node):
         tx_to_double_spend_raw_hex = origin_node.getrawtransaction(txid)
@@ -155,20 +155,20 @@ class RevoQRC20Test(BitcoinTestFramework):
         self.node.generatetoaddress(1, self.creator)
         self.sync_blocks()
 
-        self.qrc20name_test()
-        self.qrc20symbol_test()
-        self.qrc20totalsupply_test()
-        self.qrc20decimals_test()
-        assert_equal(self.node.qrc20balanceof(self.contract_address, self.creator), f"{10**65}.00000000")
+        self.erc20name_test()
+        self.erc20symbol_test()
+        self.erc20totalsupply_test()
+        self.erc20decimals_test()
+        assert_equal(self.node.erc20balanceof(self.contract_address, self.creator), f"{10**65}.00000000")
 
         self.disconnect_nodes(0, 1)
         for n in self.nodes:
             assert_equal(n.getpeerinfo(), [])
 
-        self.node.qrc20transfer(self.contract_address, self.creator, self.receiver, "0.00000001")
+        self.node.erc20transfer(self.contract_address, self.creator, self.receiver, "0.00000001")
         self.node.generate(1)
         tip = self.node.getblock(self.node.getbestblockhash())
-        assert_equal(self.node.qrc20listtransactions(self.contract_address, self.creator, 0, 0), 
+        assert_equal(self.node.erc20listtransactions(self.contract_address, self.creator, 0, 0), 
             [{
                 'receiver': self.receiver, 
                 'sender': self.creator,
@@ -180,7 +180,7 @@ class RevoQRC20Test(BitcoinTestFramework):
                 'transactionHash': tip['tx'][1]
             }])
 
-        assert_equal(self.node.qrc20listtransactions(self.contract_address, self.receiver, 0, 0), 
+        assert_equal(self.node.erc20listtransactions(self.contract_address, self.receiver, 0, 0), 
             [{
                 'receiver': self.receiver, 
                 'sender': self.creator,
@@ -192,21 +192,21 @@ class RevoQRC20Test(BitcoinTestFramework):
                 'transactionHash': tip['tx'][1]
             }])
 
-        assert_equal(self.node.qrc20balanceof(self.contract_address, self.creator), f"{10**65-1}.99999999")
-        assert_equal(float(self.node.qrc20balanceof(self.contract_address, self.receiver)), 0.00000001)
+        assert_equal(self.node.erc20balanceof(self.contract_address, self.creator), f"{10**65-1}.99999999")
+        assert_equal(float(self.node.erc20balanceof(self.contract_address, self.receiver)), 0.00000001)
 
 
-        # Double spend the qrc20 transaction to clear it from the mempool and reorg to clear the state
+        # Double spend the erc20 transaction to clear it from the mempool and reorg to clear the state
         self.double_spend_tx(self.node, tip['tx'][1], self.creator, self.reorg_node)
         self.reorg_node.generate(2)
         self.connect_nodes(0, 1)
         self.sync_blocks(self.nodes)
-        assert_equal(self.node.qrc20listtransactions(self.contract_address, self.creator, 0, 0), [])
-        assert_equal(self.reorg_node.qrc20listtransactions(self.contract_address, self.creator, 0, 0), [])
-        assert_equal(self.reorg_node.qrc20balanceof(self.contract_address, self.creator), f"{10**65}.00000000")
-        assert_equal(self.node.qrc20balanceof(self.contract_address, self.creator), f"{10**65}.00000000")
-        assert_equal(float(self.reorg_node.qrc20balanceof(self.contract_address, self.receiver)), 0)
-        assert_equal(float(self.node.qrc20balanceof(self.contract_address, self.receiver)), 0)
+        assert_equal(self.node.erc20listtransactions(self.contract_address, self.creator, 0, 0), [])
+        assert_equal(self.reorg_node.erc20listtransactions(self.contract_address, self.creator, 0, 0), [])
+        assert_equal(self.reorg_node.erc20balanceof(self.contract_address, self.creator), f"{10**65}.00000000")
+        assert_equal(self.node.erc20balanceof(self.contract_address, self.creator), f"{10**65}.00000000")
+        assert_equal(float(self.reorg_node.erc20balanceof(self.contract_address, self.receiver)), 0)
+        assert_equal(float(self.node.erc20balanceof(self.contract_address, self.receiver)), 0)
 
 
         # Make sure that really bignums actually work
@@ -214,11 +214,11 @@ class RevoQRC20Test(BitcoinTestFramework):
         for n in self.nodes:
             assert_equal(n.getpeerinfo(), [])
 
-        self.node.qrc20transfer(self.contract_address, self.creator, self.receiver, f"{10**65}.00000000")
+        self.node.erc20transfer(self.contract_address, self.creator, self.receiver, f"{10**65}.00000000")
         self.node.generate(1)
         #sync_blocks(self.nodes)
         tip = self.node.getblock(self.node.getbestblockhash())
-        assert_equal(self.node.qrc20listtransactions(self.contract_address, self.receiver, 0, 0), 
+        assert_equal(self.node.erc20listtransactions(self.contract_address, self.receiver, 0, 0), 
             [{
                 'receiver': self.receiver, 
                 'sender': self.creator,
@@ -229,7 +229,7 @@ class RevoQRC20Test(BitcoinTestFramework):
                 'blocktime': tip['time'], 
                 'transactionHash': tip['tx'][1]
             }])
-        assert_equal(self.node.qrc20listtransactions(self.contract_address, self.creator, 0, 0), 
+        assert_equal(self.node.erc20listtransactions(self.contract_address, self.creator, 0, 0), 
             [{
                 'receiver': self.receiver, 
                 'sender': self.creator,
@@ -241,39 +241,39 @@ class RevoQRC20Test(BitcoinTestFramework):
                 'transactionHash': tip['tx'][1]
             }])
 
-        # Double spend the qrc20 transaction to clear it from the mempool and reorg to clear the state
+        # Double spend the erc20 transaction to clear it from the mempool and reorg to clear the state
         self.double_spend_tx(self.node, tip['tx'][1], self.creator, self.reorg_node)
         self.reorg_node.generate(2)
         self.connect_nodes(0, 1)
         self.sync_blocks(self.nodes)
-        assert_equal(self.node.qrc20listtransactions(self.contract_address, self.creator, 0, 0), [])
-        assert_equal(self.reorg_node.qrc20listtransactions(self.contract_address, self.creator, 0, 0), [])
-        assert_equal(self.reorg_node.qrc20balanceof(self.contract_address, self.creator), f"{10**65}.00000000")
-        assert_equal(self.node.qrc20balanceof(self.contract_address, self.creator), f"{10**65}.00000000")
-        assert_equal(float(self.reorg_node.qrc20balanceof(self.contract_address, self.receiver)), 0)
-        assert_equal(float(self.node.qrc20balanceof(self.contract_address, self.receiver)), 0)
+        assert_equal(self.node.erc20listtransactions(self.contract_address, self.creator, 0, 0), [])
+        assert_equal(self.reorg_node.erc20listtransactions(self.contract_address, self.creator, 0, 0), [])
+        assert_equal(self.reorg_node.erc20balanceof(self.contract_address, self.creator), f"{10**65}.00000000")
+        assert_equal(self.node.erc20balanceof(self.contract_address, self.creator), f"{10**65}.00000000")
+        assert_equal(float(self.reorg_node.erc20balanceof(self.contract_address, self.receiver)), 0)
+        assert_equal(float(self.node.erc20balanceof(self.contract_address, self.receiver)), 0)
 
         # Make sure that sending from an address that has no balance fails gracefully
-        assert_raises_rpc_error(-1, "Not enough token balance", self.reorg_node.qrc20transfer, self.contract_address, self.receiver, self.creator, "0.1")
+        assert_raises_rpc_error(-1, "Not enough token balance", self.reorg_node.erc20transfer, self.contract_address, self.receiver, self.creator, "0.1")
 
         # Make sure that sending from an address that we do not control fails gracefully
-        assert_raises_rpc_error(-4, "Private key not available", self.reorg_node.qrc20transfer, self.contract_address, self.creator, self.receiver, "0.1")
+        assert_raises_rpc_error(-4, "Private key not available", self.reorg_node.erc20transfer, self.contract_address, self.creator, self.receiver, "0.1")
 
         # Make sure that the allowance functionality works as intended
         self.approve_tx_receiver = self.node.getnewaddress()
-        self.node.qrc20approve(self.contract_address, self.creator, self.receiver, "0.1")
+        self.node.erc20approve(self.contract_address, self.creator, self.receiver, "0.1")
         self.node.generatetoaddress(1, self.creator)
         self.sync_blocks()
 
-        assert_equal(float(self.node.qrc20allowance(self.contract_address, self.creator, self.receiver)), 0.1)
-        assert_raises_rpc_error(-1, "Not enough token allowance", self.reorg_node.qrc20transferfrom, self.contract_address, self.creator, self.receiver, self.approve_tx_receiver, "0.10000001")
+        assert_equal(float(self.node.erc20allowance(self.contract_address, self.creator, self.receiver)), 0.1)
+        assert_raises_rpc_error(-1, "Not enough token allowance", self.reorg_node.erc20transferfrom, self.contract_address, self.creator, self.receiver, self.approve_tx_receiver, "0.10000001")
 
-        self.reorg_node.qrc20transferfrom(self.contract_address, self.creator, self.receiver, self.approve_tx_receiver, "0.01")
+        self.reorg_node.erc20transferfrom(self.contract_address, self.creator, self.receiver, self.approve_tx_receiver, "0.01")
         self.sync_all()
         self.node.generatetoaddress(1, self.creator)
         self.sync_blocks()
         tip = self.node.getblock(self.node.getbestblockhash())
-        assert_equal(self.reorg_node.qrc20listtransactions(self.contract_address, self.approve_tx_receiver, 0, 0), [{
+        assert_equal(self.reorg_node.erc20listtransactions(self.contract_address, self.approve_tx_receiver, 0, 0), [{
             'amount': '0.01000000',
             'blockHash': tip['hash'],
             'blockNumber': 2107,
@@ -284,7 +284,7 @@ class RevoQRC20Test(BitcoinTestFramework):
             'transactionHash': tip['tx'][1]
         }])
 
-        assert_equal(self.reorg_node.qrc20listtransactions(self.contract_address, self.creator, 0, 0), [{
+        assert_equal(self.reorg_node.erc20listtransactions(self.contract_address, self.creator, 0, 0), [{
             'amount': '-0.01000000',
             'blockHash': tip['hash'],
             'blockNumber': 2107,
@@ -295,15 +295,15 @@ class RevoQRC20Test(BitcoinTestFramework):
             'transactionHash': tip['tx'][1]
         }])
 
-        assert_raises_rpc_error(-1, "Not enough token allowance", self.reorg_node.qrc20transferfrom, self.contract_address, self.creator, self.receiver, self.approve_tx_receiver, "0.09000001")
+        assert_raises_rpc_error(-1, "Not enough token allowance", self.reorg_node.erc20transferfrom, self.contract_address, self.creator, self.receiver, self.approve_tx_receiver, "0.09000001")
 
-        self.reorg_node.qrc20transferfrom(self.contract_address, self.creator, self.receiver, self.approve_tx_receiver, "0.09000000")
+        self.reorg_node.erc20transferfrom(self.contract_address, self.creator, self.receiver, self.approve_tx_receiver, "0.09000000")
         self.reorg_node.generate(1)
         self.sync_blocks()
 
         tip = self.node.getblock(self.node.getbestblockhash())
         prevtip = self.node.getblock(tip['previousblockhash'])
-        assert_equal(self.reorg_node.qrc20listtransactions(self.contract_address, self.creator, 0, 0), [{
+        assert_equal(self.reorg_node.erc20listtransactions(self.contract_address, self.creator, 0, 0), [{
             'amount': '-0.01000000',
             'blockHash': prevtip['hash'],
             'blockNumber': 2107,
@@ -321,9 +321,9 @@ class RevoQRC20Test(BitcoinTestFramework):
             'sender': self.creator,
             'transactionHash': tip['tx'][1]
         }])
-        assert_equal(float(self.node.qrc20allowance(self.contract_address, self.creator, self.receiver)), 0)
-        assert_equal(self.reorg_node.qrc20balanceof(self.contract_address, self.creator), f"{10**65-1}.90000000")
-        assert_equal(self.node.qrc20balanceof(self.contract_address, self.approve_tx_receiver), f"0.10000000")
+        assert_equal(float(self.node.erc20allowance(self.contract_address, self.creator, self.receiver)), 0)
+        assert_equal(self.reorg_node.erc20balanceof(self.contract_address, self.creator), f"{10**65-1}.90000000")
+        assert_equal(self.node.erc20balanceof(self.contract_address, self.approve_tx_receiver), f"0.10000000")
 
 
 

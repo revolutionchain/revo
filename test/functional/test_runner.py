@@ -371,7 +371,7 @@ BASE_SCRIPTS = [
     'revo_pod.py',
     'revo_simple_delegation_contract.py',
     'revo_delegation_contract.py',
-    'revo_qrc20.py'
+    'revo_erc20.py'
 ]
 # scripts irreleveant for Revo
 DISABLED_SCRIPTS = [
