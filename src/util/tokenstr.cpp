@@ -21,13 +21,13 @@ std::string FormatToken(const unsigned int& decimals, const dev::s256& n)
     // localized number formatting.
     dev::s256 coin = powBase10(decimals);
     dev::s256 n_abs = (n > 0 ? n : -n);
-    dev::s256 quotient = n_abs/coin;
-    dev::s256 remainder = n_abs%coin;
+    dev::s256 quotient = (coin > 0) ? n_abs/coin : n_abs;
+    dev::s256 remainder = (coin > 0) ? n_abs%coin : 0;
     std::string strQuotient = quotient.str();
     std::string strRemainder = remainder.str();
     while(strRemainder.size() < decimals)
         strRemainder.insert(0, 1, '0');
-    std::string str = strprintf("%s.%s", strQuotient, strRemainder);
+    std::string str = (coin > 0) ? strprintf("%s.%s", strQuotient, strRemainder) : strQuotient;
 
     if (n < 0)
         str.insert((unsigned int)0, 1, '-');
